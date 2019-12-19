@@ -9,3 +9,5 @@
 	#endif // VD_BUILD_DLL
 
 #endif // VD_PLATFORM_WINDOWS
+
+#define BIT_SHIFT(x) (1 << x)
