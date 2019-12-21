@@ -4,6 +4,9 @@
     <Filter Include="Void">
       <UniqueIdentifier>{371E8E7C-2355-8F0D-CC41-7510B8570B0F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Void\Events">
+      <UniqueIdentifier>{3BC65A55-A77B-D34A-3070-CD219C24CA4E}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Void.h" />
@@ -16,13 +19,22 @@
     <ClInclude Include="Source\Void\EntryPoint.h">
       <Filter>Void</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Void\Events\ApplicationEvent.h">
+      <Filter>Void\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Events\Event.h">
+      <Filter>Void\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Events\KeyboardEvent.h">
+      <Filter>Void\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Events\MouseEvent.h">
+      <Filter>Void\Events</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Void\Log.h">
       <Filter>Void</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Void\Events\KeyboardEvent.h" />
-    <ClInclude Include="Source\Void\Events\Event.h" />
-    <ClInclude Include="Source\Void\Events\MouseEvent.h" />
-    <ClInclude Include="Source\Void\Events\ApplicationEvent.h" />
+    <ClInclude Include="Source\vdpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Void\Application.cpp">
@@ -31,5 +43,6 @@
     <ClCompile Include="Source\Void\Log.cpp">
       <Filter>Void</Filter>
     </ClCompile>
+    <ClCompile Include="Source\vdpch.cpp" />
   </ItemGroup>
 </Project>

@@ -2,9 +2,6 @@
 
 #include "Void/Core.h"
 
-#include "string"
-#include "functional"
-
 
 enum class EEventType : unsigned int
 {

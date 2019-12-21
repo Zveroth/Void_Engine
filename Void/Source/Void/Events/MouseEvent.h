@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include "sstream"
-
 
 class VD_API MouseMoveEvent : public Event
 {

@@ -8,8 +8,8 @@ extern Application* CreateApplication();
 int main(int argc, char** argv)
 {
 	Log::Initialize();
-	VD_CORE_ERROR("Ass");
-	VD_CLIENT_CRITICAL("Help");
+	VD_CORE_INFO("Core log working");
+	VD_INFO("Client log working");
 
 	Application* App = CreateApplication();
 	App->Run();

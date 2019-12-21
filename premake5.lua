@@ -18,6 +18,9 @@ project "Void"
 	targetdir("bin/" .. OutputDir .. "/%{prj.name}")
 	objdir("intermediates/" .. OutputDir .. "/%{prj.name}")
 
+	pchheader "vdpch.h"
+	pchsource "Void/Source/vdpch.cpp"
+
 	files
 	{
 		"%{prj.name}/Source/**.h",
