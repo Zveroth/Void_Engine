@@ -21,7 +21,7 @@ public:
 	}
 
 	EVENT_CLASS_TYPE(EEventType::WindowResize)
-	EVENT_CLASS_CATEGORY(EEventCategory::Application)
+	EVENT_CLASS_CATEGORY(EEventCategory::App)
 
 private:
 
@@ -38,5 +38,5 @@ public:
 	WindowCloseEvent() {}
 
 	EVENT_CLASS_TYPE(EEventType::WindowClose)
-	EVENT_CLASS_CATEGORY(EEventCategory::Application)
+	EVENT_CLASS_CATEGORY(EEventCategory::App)
 };

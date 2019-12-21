@@ -35,6 +35,8 @@
       <Filter>Void</Filter>
     </ClInclude>
     <ClInclude Include="Source\vdpch.h" />
+    <ClInclude Include="Source\Void\Window.h" />
+    <ClInclude Include="Source\Platform\Windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Void\Application.cpp">
@@ -44,5 +46,6 @@
       <Filter>Void</Filter>
     </ClCompile>
     <ClCompile Include="Source\vdpch.cpp" />
+    <ClCompile Include="Source\Platform\Windows\WindowsWindow.cpp" />
   </ItemGroup>
 </Project>

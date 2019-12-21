@@ -10,9 +10,14 @@ workspace "Void"
 
 OutputDir =  "%{cfg.system}_%{cfg.buildcfg}_%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "3rdParty/GLFW/include"
+
+include "3rdParty/GLFW"
+
 project "Void"
 	location "Void"
-	kind "sharedLib"
+	kind "SharedLib"
 	language "C++"
 
 	targetdir("bin/" .. OutputDir .. "/%{prj.name}")
@@ -30,7 +35,14 @@ project "Void"
 	includedirs
 	{
 		"%{prj.name}/Source",
-		"%{prj.name}/3rdParty/spdlog/include"
+		"%{prj.name}/3rdParty/spdlog/include",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"
@@ -51,7 +63,7 @@ project "Void"
 
 
 	filter "configurations:Debug"
-		defines "VD_DEBUG"
+		defines { "VD_DEBUG", "VD_ENABLE_ASSERTS" }
 		symbols "On"
 
 	filter "configurations:Release"
@@ -99,7 +111,7 @@ project "Sandbox"
 	}
 
 	filter "configurations:Debug"
-		defines "VD_DEBUG"
+		defines { "VD_DEBUG", "VD_ENABLE_ASSERTS" }
 		symbols "On"
 
 	filter "configurations:Release"

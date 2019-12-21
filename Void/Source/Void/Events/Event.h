@@ -14,7 +14,7 @@ enum class EEventType : unsigned int
 enum EEventCategory
 {
 	None = 0,
-	Application = BIT_SHIFT(0),
+	App = BIT_SHIFT(0),
 	Input = BIT_SHIFT(1),
 	Keyboard = BIT_SHIFT(2),
 	Mouse = BIT_SHIFT(3),

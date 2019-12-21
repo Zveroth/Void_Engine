@@ -5,9 +5,9 @@
 #include "Events/ApplicationEvent.h"
 #include "Log.h"
 
-Application::Application()
+Application::Application() : m_bRunning(true)
 {
-
+	m_Window = std::unique_ptr<Window>(Window::Create());
 }
 
 Application::~Application()
@@ -17,11 +17,8 @@ Application::~Application()
 
 void Application::Run()
 {
-	WindowResizeEvent E(1280, 720);
-	VD_INFO(E.ToString());
-
-	while (true)
+	while (m_bRunning)
 	{
-
+		m_Window->OnUpdate();
 	}
 }

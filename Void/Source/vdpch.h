@@ -14,6 +14,8 @@
 #include "unordered_set"
 
 
+#include "Void/Log.h"
+
 #ifdef VD_PLATFORM_WINDOWS
 	#include "Windows.h"
 #endif
