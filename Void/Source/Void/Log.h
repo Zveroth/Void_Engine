@@ -28,11 +28,13 @@ private:
 #define A 1
 #ifdef A
 
+#define VD_CORE_TRACE(...)		Log::GetCoreLogger()->trace(__VA_ARGS__)
 #define VD_CORE_INFO(...)		Log::GetCoreLogger()->info(__VA_ARGS__)
 #define VD_CORE_WARNING(...)	Log::GetCoreLogger()->warn(__VA_ARGS__)
 #define VD_CORE_ERROR(...)		Log::GetCoreLogger()->error(__VA_ARGS__)
 #define VD_CORE_CRITICAL(...)	Log::GetCoreLogger()->critical(__VA_ARGS__)
 
+#define VD_TRACE(...)			Log::GetClientLogger()->trace(__VA_ARGS__)
 #define VD_INFO(...)			Log::GetClientLogger()->info(__VA_ARGS__)
 #define VD_WARNING(...)			Log::GetClientLogger()->warn(__VA_ARGS__)
 #define VD_ERROR(...)			Log::GetClientLogger()->error(__VA_ARGS__)
@@ -40,11 +42,13 @@ private:
 
 #else
 
+#define VD_CORE_TRACE(...)
 #define VD_CORE_INFO(...)
 #define VD_CORE_WARNING(...)
 #define VD_CORE_ERROR(...)
 #define VD_CORE_CRITICAL(...)
 
+#define VD_TRACE(...)
 #define VD_INFO(...)
 #define VD_WARNING(...)
 #define VD_ERROR(...)

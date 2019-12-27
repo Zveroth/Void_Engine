@@ -45,8 +45,6 @@ public:
 		return (GetCategoryFlags() & Category);
 	}
 
-protected:
-
 	bool m_bHandled = false;
 };
 
@@ -64,9 +62,9 @@ public:
 		if (m_Event.GetEventType() == T::GetStaticType())
 		{
 			m_Event.m_bHandled = FunctionRef(*(T*)&m_Event);
-			return true
+			return true;
 		}
-		return false
+		return false;
 	}
 
 private:

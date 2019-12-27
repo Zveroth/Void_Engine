@@ -64,14 +64,17 @@ project "Void"
 
 	filter "configurations:Debug"
 		defines { "VD_DEBUG", "VD_ENABLE_ASSERTS" }
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "VD_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "VD_DISTRIBUTION"
+		buildoptions "/MD"
 		optimize "On"
 
 
@@ -112,12 +115,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines { "VD_DEBUG", "VD_ENABLE_ASSERTS" }
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "VD_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "VD_DISTRIBUTION"
+		buildoptions "/MD"
 		optimize "On"

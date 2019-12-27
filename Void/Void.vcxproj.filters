@@ -37,6 +37,8 @@
     <ClInclude Include="Source\vdpch.h" />
     <ClInclude Include="Source\Void\Window.h" />
     <ClInclude Include="Source\Platform\Windows\WindowsWindow.h" />
+    <ClInclude Include="Source\Void\Layer.h" />
+    <ClInclude Include="Source\Void\LayerStack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Void\Application.cpp">
@@ -47,5 +49,7 @@
     </ClCompile>
     <ClCompile Include="Source\vdpch.cpp" />
     <ClCompile Include="Source\Platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="Source\Void\Layer.cpp" />
+    <ClCompile Include="Source\Void\LayerStack.cpp" />
   </ItemGroup>
 </Project>

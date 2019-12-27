@@ -37,13 +37,14 @@ public:
 
 	MouseScrolledEvent(float XOffset, float YOffset) : m_XOffset(XOffset), m_YOffset(YOffset) {}
 
-	inline GetXOffset() const { return m_XOffset; }
-	inline GetYOffset() const { return m_YOffset; }
+	inline float GetXOffset() const { return m_XOffset; }
+	inline float GetYOffset() const { return m_YOffset; }
 
 	std::string ToString() const override
 	{
 		std::stringstream ss;
-		ss << "MouseScrolledEvent: " << GetXOffset() << ", " << GetYOffset;
+		ss << "MouseScrolledEvent: " << GetXOffset() << ", " << GetYOffset();
+		return ss.str();
 	}
 
 	EVENT_CLASS_TYPE(EEventType::MouseScrolled)
@@ -66,7 +67,7 @@ public:
 	EVENT_CLASS_CATEGORY(EEventCategory::Mouse | EEventCategory::Input)
 
 protected:
-	MouseButtonEvent(int Button) : m_Button(m_Button) {}
+	MouseButtonEvent(int Button) : m_Button(Button) {}
 
 	int m_Button;
 };
