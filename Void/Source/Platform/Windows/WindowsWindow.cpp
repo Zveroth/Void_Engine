@@ -5,6 +5,8 @@
 #include "Void/Events/MouseEvent.h"
 #include "Void/Events/KeyboardEvent.h"
 
+#include "glad/glad.h"
+
 
 static bool bGLFWInitialized = false;
 
@@ -63,7 +65,7 @@ void WindowWindow::Init(const WindowProperties& Properties)
 
 	if (!bGLFWInitialized)
 	{
-		VD_CORE_ASSERT(glfwInit(), "Couldn't initialize GLFW");
+		VD_CORE_ASSERT(glfwInit(), "Failed to initialize GLFW");
 
 		bGLFWInitialized = true;
 	}
@@ -72,6 +74,9 @@ void WindowWindow::Init(const WindowProperties& Properties)
 
 	m_Window = glfwCreateWindow(Properties.Width, Properties.Height, Properties.Title.c_str(), nullptr, nullptr);
 	glfwMakeContextCurrent(m_Window);
+
+	VD_CORE_ASSERT(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize GLAD");
+
 	glfwSetWindowUserPointer(m_Window, &m_Data);
 	SetVSync(true);
 

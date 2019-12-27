@@ -12,8 +12,10 @@ OutputDir =  "%{cfg.system}_%{cfg.buildcfg}_%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "3rdParty/GLFW/include"
+IncludeDir["GLAD"] = "3rdParty/GLAD/include"
 
 include "3rdParty/GLFW"
+include "3rdParty/GLAD"
 
 project "Void"
 	location "Void"
@@ -36,12 +38,14 @@ project "Void"
 	{
 		"%{prj.name}/Source",
 		"%{prj.name}/3rdParty/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.GLAD}"
 	}
 
 	links
 	{
 		"GLFW",
+		"GLAD",
 		"opengl32.lib"
 	}
 
@@ -53,7 +57,8 @@ project "Void"
 	defines
 	{
 		"VD_PLATFORM_WINDOWS",
-		"VD_BUILD_DLL"
+		"VD_BUILD_DLL",
+		"GLFW_INCLUDE_NONE"
 	}
 
 	postbuildcommands

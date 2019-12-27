@@ -5,6 +5,8 @@
 #include "Events/ApplicationEvent.h"
 #include "Log.h"
 
+
+
 Application::Application() : m_bRunning(true)
 {
 	m_Window = std::unique_ptr<Window>(Window::Create());

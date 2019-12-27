@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Void">
       <UniqueIdentifier>{371E8E7C-2355-8F0D-CC41-7510B8570B0F}</UniqueIdentifier>
     </Filter>
@@ -9,6 +15,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Platform\Windows\WindowsWindow.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Void.h" />
     <ClInclude Include="Source\Void\Application.h">
       <Filter>Void</Filter>
@@ -31,25 +40,36 @@
     <ClInclude Include="Source\Void\Events\MouseEvent.h">
       <Filter>Void\Events</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Void\Layer.h">
+      <Filter>Void</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\LayerStack.h">
+      <Filter>Void</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Void\Log.h">
       <Filter>Void</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Void\Window.h">
+      <Filter>Void</Filter>
+    </ClInclude>
     <ClInclude Include="Source\vdpch.h" />
-    <ClInclude Include="Source\Void\Window.h" />
-    <ClInclude Include="Source\Platform\Windows\WindowsWindow.h" />
-    <ClInclude Include="Source\Void\Layer.h" />
-    <ClInclude Include="Source\Void\LayerStack.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Void\Application.cpp">
+      <Filter>Void</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Void\Layer.cpp">
+      <Filter>Void</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Void\LayerStack.cpp">
       <Filter>Void</Filter>
     </ClCompile>
     <ClCompile Include="Source\Void\Log.cpp">
       <Filter>Void</Filter>
     </ClCompile>
     <ClCompile Include="Source\vdpch.cpp" />
-    <ClCompile Include="Source\Platform\Windows\WindowsWindow.cpp" />
-    <ClCompile Include="Source\Void\Layer.cpp" />
-    <ClCompile Include="Source\Void\LayerStack.cpp" />
   </ItemGroup>
 </Project>
