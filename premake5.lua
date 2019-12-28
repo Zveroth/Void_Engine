@@ -1,5 +1,6 @@
 workspace "Void"
 	architecture "x64"
+	startproject "Sandbox"
 
 	configurations
 	{
@@ -15,14 +16,19 @@ IncludeDir["GLFW"] = "3rdParty/GLFW/include"
 IncludeDir["GLAD"] = "3rdParty/GLAD/include"
 IncludeDir["ImGui"] = "3rdParty/ImGui"
 
-include "3rdParty/GLFW"
-include "3rdParty/GLAD"
-include "3rdParty/ImGui"
+group "Dependencies"
+	include "3rdParty/GLFW"
+	include "3rdParty/GLAD"
+	include "3rdParty/ImGui"
+
+
+group ""
 
 project "Void"
 	location "Void"
 	kind "SharedLib"
 	language "C++"
+	staticruntime "off"
 
 	targetdir("bin/" .. OutputDir .. "/%{prj.name}")
 	objdir("intermediates/" .. OutputDir .. "/%{prj.name}")
@@ -55,7 +61,6 @@ project "Void"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 	defines
@@ -73,17 +78,17 @@ project "Void"
 
 	filter "configurations:Debug"
 		defines { "VD_DEBUG", "VD_ENABLE_ASSERTS" }
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "VD_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "VD_DISTRIBUTION"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 
@@ -91,6 +96,7 @@ project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "off"
 
 	targetdir("bin/" .. OutputDir .. "/%{prj.name}")
 	objdir("intermediates/" .. OutputDir .. "/%{prj.name}")
@@ -114,7 +120,6 @@ project "Sandbox"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 	defines
@@ -124,15 +129,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines { "VD_DEBUG", "VD_ENABLE_ASSERTS" }
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "VD_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "VD_DISTRIBUTION"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"

@@ -21,7 +21,7 @@ public:
 	}
 
 	EVENT_CLASS_TYPE(EEventType::MouseMoved)
-	EVENT_CLASS_CATEGORY(EEventCategory::Mouse | EEventCategory::Input)
+	EVENT_CLASS_CATEGORY(EEventCategory::Mouse | EEventCategory::InputEvent)
 
 private:
 
@@ -48,7 +48,7 @@ public:
 	}
 
 	EVENT_CLASS_TYPE(EEventType::MouseScrolled)
-	EVENT_CLASS_CATEGORY(EEventCategory::Mouse | EEventCategory::Input)
+	EVENT_CLASS_CATEGORY(EEventCategory::Mouse | EEventCategory::InputEvent)
 
 private:
 
@@ -64,7 +64,7 @@ public:
 
 	inline int GetMouseButton() const { return m_Button; }
 
-	EVENT_CLASS_CATEGORY(EEventCategory::Mouse | EEventCategory::Input)
+	EVENT_CLASS_CATEGORY(EEventCategory::Mouse | EEventCategory::InputEvent)
 
 protected:
 	MouseButtonEvent(int Button) : m_Button(Button) {}

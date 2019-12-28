@@ -2,9 +2,8 @@
 
 #include "Void/Window.h"
 
-
-
 #include "GLFW/glfw3.h"
+
 
 class WindowWindow : public Window
 {
@@ -14,14 +13,16 @@ public:
 	WindowWindow(const WindowProperties& Properties);
 	virtual ~WindowWindow();
 
-	void OnUpdate() override;
+	virtual void OnUpdate() override;
 
-	inline unsigned int GetWidth() const override { return m_Data.Width; }
-	inline unsigned int GetHeight() const override { return m_Data.Height; }
+	inline virtual unsigned int GetWidth() const override { return m_Data.Width; }
+	inline virtual unsigned int GetHeight() const override { return m_Data.Height; }
 
-	inline void SetEventCallback(const std::function<void(Event&)>& Callback) override { m_Data.EventCallback = Callback; }
-	void SetVSync(bool bEnabled) override;
-	bool IsVSyncEnabled() const override;
+	inline virtual void SetEventCallback(const std::function<void(Event&)>& Callback) override { m_Data.EventCallback = Callback; }
+	void virtual SetVSync(bool bEnabled) override;
+	bool virtual IsVSyncEnabled() const override;
+
+	inline virtual void* GetNativeWindow() const override { return m_Window; };
 
 private:
 

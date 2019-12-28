@@ -10,7 +10,7 @@ public:
 
 	inline int GetKeyCode() const { return m_KeyCode; }
 
-	EVENT_CLASS_CATEGORY(EEventCategory::Keyboard | EEventCategory::Input);
+	EVENT_CLASS_CATEGORY(EEventCategory::Keyboard | EEventCategory::InputEvent);
 
 protected:
 

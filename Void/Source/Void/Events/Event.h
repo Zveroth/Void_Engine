@@ -15,7 +15,7 @@ enum EEventCategory
 {
 	None = 0,
 	App = BIT_SHIFT(0),
-	Input = BIT_SHIFT(1),
+	InputEvent = BIT_SHIFT(1),
 	Keyboard = BIT_SHIFT(2),
 	Mouse = BIT_SHIFT(3),
 	MouseButton = BIT_SHIFT(4)

@@ -2,10 +2,16 @@
 
 #include "Void/Layer.h"
 
-#include "Void/Events/ApplicationEvent.h"
-#include "Void/Events/KeyboardEvent.h"
-#include "Void/Events/MouseEvent.h"
 
+
+class MouseButtonPressedEvent;
+class MouseButtonReleasedEvent;
+class MouseMoveEvent;
+class MouseScrolledEvent;
+class KeyPressedEvent;
+class KeyReleasedEvent;
+class KeyTypedEvent;
+class WindowResizeEvent;
 
 
 class VD_API ImGuiLayer : public Layer

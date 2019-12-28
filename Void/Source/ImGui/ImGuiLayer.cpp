@@ -5,6 +5,9 @@
 #include "imgui.h"
 #include "Platform/OpenGL/imgui_impl_opengl3.h"
 
+#include "Void/Events/ApplicationEvent.h"
+#include "Void/Events/KeyboardEvent.h"
+#include "Void/Events/MouseEvent.h"
 
 #include "GLFW/glfw3.h"
 #include "glad/glad.h"
