@@ -8,8 +8,9 @@ public:
 
 	Sandbox()
 	{
-
+		PushOverlay(new ImGuiLayer());
 	}
+
 	~Sandbox()
 	{
 

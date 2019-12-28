@@ -53,6 +53,8 @@
       <Filter>Void</Filter>
     </ClInclude>
     <ClInclude Include="Source\vdpch.h" />
+    <ClInclude Include="Source\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="Source\Platform\OpenGL\imgui_impl_opengl3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Platform\Windows\WindowsWindow.cpp">
@@ -71,5 +73,7 @@
       <Filter>Void</Filter>
     </ClCompile>
     <ClCompile Include="Source\vdpch.cpp" />
+    <ClCompile Include="Source\ImGui\ImGuiLayer.cpp" />
+    <ClCompile Include="Source\Platform\OpenGL\imgui_impl_opengl3.cpp" />
   </ItemGroup>
 </Project>

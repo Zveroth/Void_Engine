@@ -35,8 +35,6 @@ void WindowWindow::OnUpdate()
 {
 	glfwPollEvents();
 
-	glClear(GL_COLOR_BUFFER_BIT);
-
 	glfwSwapBuffers(m_Window);
 }
 
@@ -61,7 +59,7 @@ void WindowWindow::Init(const WindowProperties& Properties)
 	m_Data.Width = Properties.Width;
 	m_Data.Height = Properties.Height;
 
-	VD_CORE_INFO("Createing window {0} ({1}, {2})", Properties.Title, Properties.Width, Properties.Height);
+	VD_CORE_TRACE("Createing window {0} ({1}, {2})", Properties.Title, Properties.Width, Properties.Height);
 
 	if (!bGLFWInitialized)
 	{
@@ -72,7 +70,7 @@ void WindowWindow::Init(const WindowProperties& Properties)
 
 	glfwSetErrorCallback(GLFWErrorCallback);
 
-	m_Window = glfwCreateWindow(Properties.Width, Properties.Height, Properties.Title.c_str(), nullptr, nullptr);
+	m_Window = glfwCreateWindow((int)Properties.Width, (int)Properties.Height, Properties.Title.c_str(), nullptr, nullptr);
 	glfwMakeContextCurrent(m_Window);
 
 	VD_CORE_ASSERT(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize GLAD");
@@ -80,7 +78,7 @@ void WindowWindow::Init(const WindowProperties& Properties)
 	glfwSetWindowUserPointer(m_Window, &m_Data);
 	SetVSync(true);
 
-	glClearColor(0.1, 0.1, 0.1, 1);
+	glClearColor(0.25, 0.25, 0.5, 1);
 
 	glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int Width, int Height)
 		{

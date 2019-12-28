@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>vdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>VD_PLATFORM_WINDOWS;VD_BUILD_DLL;GLFW_INCLUDE_NONE;VD_DEBUG;VD_ENABLE_ASSERTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>Source;3rdParty\spdlog\include;..\3rdParty\GLFW\include;..\3rdParty\GLAD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Source;3rdParty\spdlog\include;..\3rdParty\GLFW\include;..\3rdParty\GLAD\include;..\3rdParty\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -103,7 +103,7 @@
       <PrecompiledHeaderFile>vdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>VD_PLATFORM_WINDOWS;VD_BUILD_DLL;GLFW_INCLUDE_NONE;VD_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>Source;3rdParty\spdlog\include;..\3rdParty\GLFW\include;..\3rdParty\GLAD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Source;3rdParty\spdlog\include;..\3rdParty\GLFW\include;..\3rdParty\GLAD\include;..\3rdParty\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -130,7 +130,7 @@
       <PrecompiledHeaderFile>vdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>VD_PLATFORM_WINDOWS;VD_BUILD_DLL;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>Source;3rdParty\spdlog\include;..\3rdParty\GLFW\include;..\3rdParty\GLAD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Source;3rdParty\spdlog\include;..\3rdParty\GLFW\include;..\3rdParty\GLAD\include;..\3rdParty\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -145,6 +145,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="Source\Platform\OpenGL\imgui_impl_opengl3.h" />
     <ClInclude Include="Source\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="Source\Void.h" />
     <ClInclude Include="Source\Void\Application.h" />
@@ -161,6 +163,8 @@
     <ClInclude Include="Source\vdpch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\ImGui\ImGuiLayer.cpp" />
+    <ClCompile Include="Source\Platform\OpenGL\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Source\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="Source\Void\Application.cpp" />
     <ClCompile Include="Source\Void\Layer.cpp" />
@@ -176,6 +180,9 @@
     </ProjectReference>
     <ProjectReference Include="..\3rdParty\GLAD\GLAD.vcxproj">
       <Project>{5D4A857C-4981-860D-F26D-6C10DE83020F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\3rdParty\ImGui\ImGui.vcxproj">
+      <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
