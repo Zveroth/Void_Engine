@@ -7,7 +7,7 @@ enum class EEventType : unsigned int
 {
 	None = 0,
 	WindowClose, WindowResize, WindowFocus, WindowsLostFocus, WindowMoved,
-	KeyPressed, KeyReleased,
+	KeyPressed, KeyReleased, KeyTyped,
 	MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 };
 

@@ -170,6 +170,15 @@ void WindowWindow::Init(const WindowProperties& Properties)
 			Data.EventCallback(MoveEvent);
 		}
 	);
+
+	glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode)
+		{
+			WindowData& Data = *(WindowData*)glfwGetWindowUserPointer(window);
+			KeyTypedEvent TypeEvent(keycode);
+
+			Data.EventCallback(TypeEvent);
+		}
+	);
 }
 
 void WindowWindow::Shutdown()

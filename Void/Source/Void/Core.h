@@ -20,3 +20,5 @@
 
 
 #define BIT_SHIFT(x) (1 << x)
+
+#define VD_BIND_EVENT_FUN(x) std::bind(&x, this, std::placeholders::_1)
