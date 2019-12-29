@@ -24,9 +24,8 @@ private:
 
 
 
-//#ifdef VD_BUILD_DLL
-#define A 1
-#ifdef A
+
+#ifdef VD_DEBUG
 
 #define VD_CORE_TRACE(...)		Log::GetCoreLogger()->trace(__VA_ARGS__)
 #define VD_CORE_INFO(...)		Log::GetCoreLogger()->info(__VA_ARGS__)

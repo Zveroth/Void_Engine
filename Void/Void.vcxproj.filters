@@ -67,6 +67,8 @@
     <ClInclude Include="Source\vdpch.h" />
     <ClInclude Include="Source\Void\Input.h" />
     <ClInclude Include="Source\Platform\Windows\WindowsInput.h" />
+    <ClInclude Include="Source\Void\KeyCodes.h" />
+    <ClInclude Include="Source\Void\MouseButtonCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ImGui\ImGuiLayer.cpp">

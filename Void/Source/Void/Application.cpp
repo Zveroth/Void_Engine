@@ -8,6 +8,7 @@
 #include "glad/glad.h"
 
 #include "Input.h"
+#include "KeyCodes.h"
 
 
 Application* Application::s_Instance = nullptr;
@@ -34,9 +35,6 @@ void Application::Run()
 
 		for (Layer* layer : m_LayerStack)
 			layer->OnUpdate();
-
-		auto [x, y] = Input::GetMousePos();
-		VD_CORE_TRACE("{0}, {1}", x, y);
 
 		m_Window->OnUpdate();
 	}
