@@ -23,19 +23,19 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
@@ -54,25 +54,22 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
     <OutDir>..\bin\windows_Debug_x86_64\Void\</OutDir>
     <IntDir>..\intermediates\windows_Debug_x86_64\Void\</IntDir>
     <TargetName>Void</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
     <OutDir>..\bin\windows_Release_x86_64\Void\</OutDir>
     <IntDir>..\intermediates\windows_Release_x86_64\Void\</IntDir>
     <TargetName>Void</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution|x64'">
-    <LinkIncremental>true</LinkIncremental>
     <OutDir>..\bin\windows_Distribution_x86_64\Void\</OutDir>
     <IntDir>..\intermediates\windows_Distribution_x86_64\Void\</IntDir>
     <TargetName>Void</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -83,18 +80,16 @@
       <AdditionalIncludeDirectories>Source;3rdParty\spdlog\include;..\3rdParty\GLFW\include;..\3rdParty\GLAD\include;..\3rdParty\ImGui;..\3rdParty\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\windows_Debug_x86_64\Void\Void.lib</ImportLibrary>
     </Link>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\windows_Debug_x86_64\Void\Void.dll\ (xcopy /Q /E /Y /I ..\bin\windows_Debug_x86_64\Void\Void.dll ..\bin\windows_Debug_x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\windows_Debug_x86_64\Void\Void.dll ..\bin\windows_Debug_x86_64\Sandbox &gt; nul)</Command>
-    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -108,19 +103,17 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\windows_Release_x86_64\Void\Void.lib</ImportLibrary>
     </Link>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\windows_Release_x86_64\Void\Void.dll\ (xcopy /Q /E /Y /I ..\bin\windows_Release_x86_64\Void\Void.dll ..\bin\windows_Release_x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\windows_Release_x86_64\Void\Void.dll ..\bin\windows_Release_x86_64\Sandbox &gt; nul)</Command>
-    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution|x64'">
     <ClCompile>
@@ -130,22 +123,22 @@
       <PreprocessorDefinitions>VD_PLATFORM_WINDOWS;VD_BUILD_DLL;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>Source;3rdParty\spdlog\include;..\3rdParty\GLFW\include;..\3rdParty\GLAD\include;..\3rdParty\ImGui;..\3rdParty\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\windows_Distribution_x86_64\Void\Void.lib</ImportLibrary>
     </Link>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\windows_Distribution_x86_64\Void\Void.dll\ (xcopy /Q /E /Y /I ..\bin\windows_Distribution_x86_64\Void\Void.dll ..\bin\windows_Distribution_x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\windows_Distribution_x86_64\Void\Void.dll ..\bin\windows_Distribution_x86_64\Sandbox &gt; nul)</Command>
-    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="Source\ImGui\ImGuiLayer.h" />
     <ClInclude Include="Source\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="Source\Platform\Windows\WindowsWindow.h" />
+    <ClInclude Include="Source\Renderer\RenderContext.h" />
     <ClInclude Include="Source\Void.h" />
     <ClInclude Include="Source\Void\Application.h" />
     <ClInclude Include="Source\Void\Core.h" />
@@ -164,6 +157,7 @@
     <ClInclude Include="Source\vdpch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="Source\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="Source\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="Source\Platform\Windows\WindowsInput.cpp" />
@@ -190,4 +184,4 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-</Project> 
+</Project>

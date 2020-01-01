@@ -6,7 +6,7 @@
 
 
 
-class VD_API Layer
+class  Layer
 {
 
 public:

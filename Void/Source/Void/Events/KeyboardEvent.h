@@ -3,7 +3,7 @@
 #include "Event.h"
 
 
-class VD_API KeyEvent : public Event
+class  KeyEvent : public Event
 {
 
 public:
@@ -20,7 +20,7 @@ protected:
 };
 
 
-class VD_API KeyPressedEvent : public KeyEvent
+class  KeyPressedEvent : public KeyEvent
 {
 
 public:
@@ -43,7 +43,7 @@ private:
 	int m_RepeatCount;
 };
 
-class VD_API KeyReleasedEvent : public KeyEvent
+class  KeyReleasedEvent : public KeyEvent
 {
 	
 public:
@@ -60,7 +60,7 @@ public:
 	EVENT_CLASS_TYPE(EEventType::KeyReleased)
 };
 
-class VD_API KeyTypedEvent : public KeyEvent
+class  KeyTypedEvent : public KeyEvent
 {
 
 public:

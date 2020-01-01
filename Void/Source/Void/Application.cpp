@@ -30,6 +30,7 @@ Application::~Application()
 
 void Application::Run()
 {
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	while (m_bRunning)
 	{
 		glClear(GL_COLOR_BUFFER_BIT);

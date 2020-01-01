@@ -9,7 +9,7 @@
 #include "ImGui/ImGuiLayer.h"
 
 
-class VD_API Application
+class  Application
 {
 
 public:

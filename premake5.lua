@@ -27,9 +27,10 @@ group ""
 
 project "Void"
 	location "Void"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir("bin/" .. OutputDir .. "/%{prj.name}")
 	objdir("intermediates/" .. OutputDir .. "/%{prj.name}")
@@ -62,7 +63,6 @@ project "Void"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 	defines
@@ -72,21 +72,16 @@ project "Void"
 		"GLFW_INCLUDE_NONE"
 	}
 
-	postbuildcommands
-	{
-		("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. OutputDir .. "/Sandbox")
-	}
-
 
 	filter "configurations:Debug"
 		defines { "VD_DEBUG", "VD_ENABLE_ASSERTS" }
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "VD_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "VD_DISTRIBUTION"
@@ -98,7 +93,8 @@ project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir("bin/" .. OutputDir .. "/%{prj.name}")
 	objdir("intermediates/" .. OutputDir .. "/%{prj.name}")
@@ -123,7 +119,6 @@ project "Sandbox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 	defines
@@ -134,14 +129,14 @@ project "Sandbox"
 	filter "configurations:Debug"
 		defines { "VD_DEBUG", "VD_ENABLE_ASSERTS" }
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "VD_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "VD_DISTRIBUTION"
 		runtime "Release"
-		optimize "On"
+		optimize "on"

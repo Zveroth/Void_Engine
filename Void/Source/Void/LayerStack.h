@@ -5,7 +5,7 @@
 
 
 
-class VD_API LayerStack
+class  LayerStack
 {
 
 public:

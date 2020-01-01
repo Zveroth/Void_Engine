@@ -29,7 +29,7 @@ enum EEventCategory
 #define  EVENT_CLASS_CATEGORY(Category) virtual int GetCategoryFlags() const override { return Category; }
 
 
-class VD_API Event
+class  Event
 {
 	friend class EvenDispatcher;
 

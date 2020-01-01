@@ -1,6 +1,5 @@
 #include "Void.h"
 
-#include "imgui.h"
 
 class ExmpLayer : public Layer
 {
@@ -16,9 +15,7 @@ public:
 
 	virtual void OnImGuiRender() override
 	{
-		ImGui::Begin("Some random window");
-		ImGui::Text("A window");
-		ImGui::End();
+		
 	}
 
 	virtual void OnEvent(Event& e) override

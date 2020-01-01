@@ -5,7 +5,7 @@
 #include "Void/Events/MouseEvent.h"
 #include "Void/Events/KeyboardEvent.h"
 
-#include "glad/glad.h"
+#include "Platform/OpenGL/OpenGLContext.h"
 
 
 static bool bGLFWInitialized = false;
@@ -35,7 +35,7 @@ void WindowWindow::OnUpdate()
 {
 	glfwPollEvents();
 
-	glfwSwapBuffers(m_Window);
+	m_Context->SwapBuffers();
 }
 
 void WindowWindow::SetVSync(bool bEnabled)
@@ -71,14 +71,12 @@ void WindowWindow::Init(const WindowProperties& Properties)
 	glfwSetErrorCallback(GLFWErrorCallback);
 
 	m_Window = glfwCreateWindow((int)Properties.Width, (int)Properties.Height, Properties.Title.c_str(), nullptr, nullptr);
-	glfwMakeContextCurrent(m_Window);
 
-	VD_CORE_ASSERT(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize GLAD");
+	m_Context = new OpenGLContext(m_Window);
+	m_Context->Init();
 
 	glfwSetWindowUserPointer(m_Window, &m_Data);
 	SetVSync(true);
-
-	glClearColor(0.25, 0.25, 0.5, 1);
 
 	glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int Width, int Height)
 		{

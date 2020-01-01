@@ -6,7 +6,7 @@
 
 
 
-class VD_API Log
+class  Log
 {
 
 public:

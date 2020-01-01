@@ -3,7 +3,7 @@
 #include "Core.h"
 
 
-class VD_API Input
+class  Input
 {
 
 public:

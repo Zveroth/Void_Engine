@@ -71,6 +71,8 @@
       <Filter>Void</Filter>
     </ClInclude>
     <ClInclude Include="Source\vdpch.h" />
+    <ClInclude Include="Source\Renderer\RenderContext.h" />
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLContext.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ImGui\ImGuiBuild.cpp">
@@ -98,5 +100,6 @@
       <Filter>Void</Filter>
     </ClCompile>
     <ClCompile Include="Source\vdpch.cpp" />
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLContext.cpp" />
   </ItemGroup>
 </Project>

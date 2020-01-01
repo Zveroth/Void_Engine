@@ -3,7 +3,7 @@
 #include "Event.h"
 
 
-class VD_API WindowResizeEvent : public Event
+class WindowResizeEvent : public Event
 {
 
 public:
@@ -30,7 +30,7 @@ private:
 };
 
 
-class VD_API WindowCloseEvent : public Event
+class  WindowCloseEvent : public Event
 {
 
 public:

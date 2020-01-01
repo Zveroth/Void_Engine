@@ -3,7 +3,7 @@
 #include "Event.h"
 
 
-class VD_API MouseMoveEvent : public Event
+class  MouseMoveEvent : public Event
 {
 
 public:
@@ -30,7 +30,7 @@ private:
 };
 
 
-class VD_API MouseScrolledEvent : public Event
+class  MouseScrolledEvent : public Event
 {
 
 public:
@@ -57,7 +57,7 @@ private:
 };
 
 
-class VD_API MouseButtonEvent : public Event
+class  MouseButtonEvent : public Event
 {
 
 public:
@@ -72,7 +72,7 @@ protected:
 	int m_Button;
 };
 
-class VD_API MouseButtonPressedEvent : public MouseButtonEvent
+class  MouseButtonPressedEvent : public MouseButtonEvent
 {
 
 public:
@@ -89,7 +89,7 @@ public:
 	EVENT_CLASS_TYPE(EEventType::MouseButtonPressed)
 };
 
-class VD_API MouseButtonReleasedEvent : public MouseButtonEvent
+class  MouseButtonReleasedEvent : public MouseButtonEvent
 {
 
 public:

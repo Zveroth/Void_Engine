@@ -16,7 +16,7 @@ struct WindowProperties
 };
 
 
-class VD_API Window
+class  Window
 {
 
 public:

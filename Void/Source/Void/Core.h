@@ -2,11 +2,16 @@
 
 
 #ifdef VD_PLATFORM_WINDOWS
+
+#ifdef VD_DLL_LINK
 	#ifdef VD_BUILD_DLL
 		#define VD_API __declspec(dllexport)
 	#else
 		#define VD_API __declspec(dllimport)
 	#endif // VD_BUILD_DLL
+#else
+	#define VD_API
+#endif // VD_DLL_LINK
 
 #endif // VD_PLATFORM_WINDOWS
 
