@@ -8,6 +8,7 @@
 
 #include "ImGui/ImGuiLayer.h"
 
+class Shader;
 
 class  Application
 {
@@ -35,10 +36,14 @@ private:
 
 	std::unique_ptr<Window> m_Window;
 	ImGuiLayer* m_ImGuiLayer;
+	LayerStack m_LayerStack;
 
 	bool m_bRunning;
 
-	LayerStack m_LayerStack;
+	unsigned int m_VertexArray;
+	unsigned int m_VertexBuffer;
+	unsigned int m_IndexBuffer;
+	std::unique_ptr<Shader> m_Shader;
 };
 
 Application* CreateApplication();
