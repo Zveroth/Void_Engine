@@ -22,21 +22,14 @@ public:
 	ImGuiLayer();
 	~ImGuiLayer();
 
-	void OnAttach() override;
-	void OnDetach() override;
-	void OnUpdate() override;
-	void OnEvent(Event& e) override;
+	virtual void OnAttach() override;
+	virtual void OnDetach() override;
+	virtual void OnImGuiRender() override;
+
+	void Begin();
+	void End();
 
 private:
-
-	bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
-	bool OnMouseButtonReleased(MouseButtonReleasedEvent& e);
-	bool OnMouseMoved(MouseMoveEvent& e);
-	bool OnMouseScrolled(MouseScrolledEvent& e);
-	bool OnKeyPressed(KeyPressedEvent& e);
-	bool OnKeyReleased(KeyReleasedEvent& e);
-	bool OnKeyTyped(KeyTypedEvent& e);
-	bool OnWindowResized(WindowResizeEvent& e);
 
 	float m_Time;
 };

@@ -15,6 +15,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "3rdParty/GLFW/include"
 IncludeDir["GLAD"] = "3rdParty/GLAD/include"
 IncludeDir["ImGui"] = "3rdParty/ImGui"
+IncludeDir["glm"] = "3rdParty/glm"
 
 group "Dependencies"
 	include "3rdParty/GLFW"
@@ -48,7 +49,8 @@ project "Void"
 		"%{prj.name}/3rdParty/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLAD}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links
@@ -110,7 +112,9 @@ project "Sandbox"
 	includedirs
 	{
 		"Void/Source",
-		"Void/3rdParty/spdlog/include"
+		"Void/3rdParty/spdlog/include",
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links

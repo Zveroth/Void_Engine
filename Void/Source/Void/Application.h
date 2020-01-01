@@ -6,6 +6,8 @@
 #include "LayerStack.h"
 #include "Events/ApplicationEvent.h"
 
+#include "ImGui/ImGuiLayer.h"
+
 
 class VD_API Application
 {
@@ -32,6 +34,7 @@ private:
 	bool OnWindowClose(WindowCloseEvent& CloseEvent);
 
 	std::unique_ptr<Window> m_Window;
+	ImGuiLayer* m_ImGuiLayer;
 
 	bool m_bRunning;
 

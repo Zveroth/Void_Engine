@@ -24,5 +24,5 @@ public:
 private:
 
 	std::vector<Layer*> m_Layers;
-	std::vector<Layer*>::iterator m_LayerInsert;
+	unsigned int m_LayerInsert;
 };
