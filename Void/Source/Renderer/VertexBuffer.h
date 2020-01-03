@@ -43,9 +43,9 @@ struct BufferElement
 	ShaderDataType Type;
 	uint32_t Offset;
 	uint32_t Size;
-	bool Normalized;
+	bool bNormalized;
 
-	BufferElement(ShaderDataType type, const std::string& name, bool normalized = false) : Name(name), Type(type), Size(ShaderDataTypeSize(type)), Offset(0), Normalized(normalized) {}
+	BufferElement(ShaderDataType type, const std::string& name, bool normalized = false) : Name(name), Type(type), Size(ShaderDataTypeSize(type)), Offset(0), bNormalized(normalized) {}
 
 	uint32_t GetComponenetCount() const
 	{
@@ -78,7 +78,7 @@ class BufferLayout
 
 public:
 
-	BufferLayout() {}
+	BufferLayout() : m_Stride(0) {}
 
 	BufferLayout(const std::initializer_list<BufferElement>& elements) : m_Elements(elements) 
 	{
@@ -90,6 +90,8 @@ public:
 
 	std::vector<BufferElement>::iterator begin() { return m_Elements.begin(); }
 	std::vector<BufferElement>::iterator end() { return m_Elements.end(); }
+	std::vector<BufferElement>::const_iterator begin() const { return m_Elements.begin(); }
+	std::vector<BufferElement>::const_iterator end() const { return m_Elements.end(); }
 
 private:
 

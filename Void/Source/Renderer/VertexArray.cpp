@@ -1,12 +1,12 @@
 #include "vdpch.h"
-
-#include "IndexBuffer.h"
+#include "VertexArray.h"
 
 #include "Renderer.h"
-#include "Platform/OpenGL/OpenGLIndexBuffer.h"
+
+#include "Platform/OpenGL/OpenGLVertexArray.h"
 
 
-IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t count)
+VertexArray* VertexArray::Create()
 {
 	switch (Renderer::GetAPI())
 	{
@@ -17,10 +17,10 @@ IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t count)
 		return nullptr;
 
 	case RendererAPI::API::OpenGL:
-		return new OpenGLIndexBuffer(indices, count);
+		return new OpenGLVertexArray();
 		break;
 	}
 
-	VD_CORE_ASSERT(false, "Something went wrong when creating an index buffer!");
+	VD_CORE_ASSERT(false, "Something went wrong when creating a vertex array!");
 	return nullptr;
 }

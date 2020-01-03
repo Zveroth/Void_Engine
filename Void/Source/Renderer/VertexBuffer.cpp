@@ -12,11 +12,11 @@ VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size)
 	{
 	default:
 		break;
-	case RendererAPI::NONE:
+	case RendererAPI::API::NONE:
 		VD_CORE_ASSERT(false, "No renderer API is currently not supported!");
 		return nullptr;
 
-	case RendererAPI::OpenGL:
+	case RendererAPI::API::OpenGL:
 		return new OpenGLVertexBuffer(vertices, size);
 		break;
 	}

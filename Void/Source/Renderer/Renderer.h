@@ -1,11 +1,6 @@
 #pragma once
 
-
-enum class RendererAPI
-{
-	NONE = 0,
-	OpenGL
-};
+#include "RenderCommand.h"
 
 
 class Renderer
@@ -13,9 +8,10 @@ class Renderer
 
 public:
 
-	static inline RendererAPI GetAPI() { return s_RendererAPI; }
+	static inline RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
-private:
+	static void BeginScene();
+	static void EndScene();
 
-	static RendererAPI s_RendererAPI;
+	static void Submit(const std::shared_ptr<VertexArray>& vertexArray);
 };

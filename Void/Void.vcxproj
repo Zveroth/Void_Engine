@@ -134,10 +134,15 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="Source\Renderer\RenderCommand.h" />
     <ClInclude Include="Source\Platform\OpenGL\OpenGLIndexBuffer.h" />
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="Source\Platform\OpenGL\OpenGLVertexBuffer.h" />
     <ClInclude Include="Source\Renderer\IndexBuffer.h" />
     <ClInclude Include="Source\Renderer\Renderer.h" />
+    <ClInclude Include="Source\Renderer\RendererAPI.h" />
+    <ClInclude Include="Source\Renderer\VertexArray.h" />
     <ClInclude Include="Source\Renderer\VertexBuffer.h" />
     <ClInclude Include="Source\Renderer\Shader.h" />
     <ClInclude Include="Source\Platform\OpenGL\OpenGLContext.h" />
@@ -163,16 +168,21 @@
     <ClInclude Include="Source\vdpch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Platform\OpenGL\OpenGLIndexBffer.cpp" />
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="Source\Renderer\RenderCommand.cpp" />
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLIndexBuffer.cpp" />
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="Source\Platform\OpenGL\OpenGLVertexBuffer.cpp" />
     <ClCompile Include="Source\Renderer\IndexBuffer.cpp" />
     <ClCompile Include="Source\Renderer\Renderer.cpp" />
+    <ClCompile Include="Source\Renderer\RendererAPI.cpp" />
     <ClCompile Include="Source\Renderer\Shader.cpp" />
     <ClCompile Include="Source\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="Source\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="Source\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="Source\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="Source\Platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="Source\Renderer\VertexArray.cpp" />
     <ClCompile Include="Source\Renderer\VertexBuffer.cpp" />
     <ClCompile Include="Source\Void\Application.cpp" />
     <ClCompile Include="Source\Void\Layer.cpp" />
