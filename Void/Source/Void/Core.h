@@ -16,8 +16,8 @@
 #endif // VD_PLATFORM_WINDOWS
 
 #ifdef VD_ENABLE_ASSERTS
-	#define VD_ASSERT(x, ...) {if(!(x)) { VD_ERROR("Assertion failed: {0}", __VA_ARGS__); __debugbreak(); } }
-	#define VD_CORE_ASSERT(x, ...) {if(!(x)) { VD_CORE_ERROR("Assertion failed: {0}", __VA_ARGS__); __debugbreak(); } }
+	#define VD_ASSERT(x, ...) {if(!(x)) { VD_CRITICAL("Assertion failed: {0}", __VA_ARGS__); __debugbreak(); } }
+	#define VD_CORE_ASSERT(x, ...) {if(!(x)) { VD_CORE_CRITICAL("Assertion failed: {0}", __VA_ARGS__); __debugbreak(); } }
 #else
 	#define VD_ASSERT(x, ...) x
 	#define VD_CORE_ASSERT(x, ...) x

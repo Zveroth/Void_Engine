@@ -26,37 +26,47 @@ Application::Application() : m_bRunning(true)
 	glGenVertexArrays(1, &m_VertexArray);
 	glBindVertexArray(m_VertexArray);
 
-	glGenBuffers(1, &m_VertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
+	
 
-	float vertices[3 * 3] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		0.0f, 0.5f, 0.0f
+	float vertices[] = {
+		-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+		0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f
 	};
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+	BufferLayout layout = {
+		{ ShaderDataType::Vec3, "a_Position" },
+		{ ShaderDataType::Vec4, "a_Position" }
+	};
 
-	glGenBuffers(1, &m_IndexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer);
+	int index = 0;
+	for (const auto& element : layout)
+	{
+		glEnableVertexAttribArray(index);
+		glVertexAttribPointer(index, element.GetComponenetCount(), GL_FLOAT, GL_FALSE, layout.GetStride(), (const void*)element.Offset);
+		index++;
+	}
 
-	unsigned int indices[3] = {
+	uint32_t indices[3] = {
 		0, 1, 2
 	};
 
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	m_IndexBuffer.reset(IndexBuffer::Create(indices, 3));
 
 	std::string vertexSource = R"(
 		#version 330 core
 
 		layout(location = 0) in vec3 i_Position;
+		layout(location = 1) in vec4 a_Color;
+
+		out vec4 io_Color;
 
 		void main()
 		{
 			gl_Position = vec4(i_Position, 1.0);
+			io_Color = a_Color;
 		}
 	)";
 
@@ -65,9 +75,11 @@ Application::Application() : m_bRunning(true)
 
 		layout(location = 0) out vec4 o_Color;
 
+		in vec4 io_Color;
+
 		void main()
 		{
-			o_Color = vec4(0.5, 0.2, 0.8, 1.0);
+			o_Color = io_Color;
 		}
 	)";
 
@@ -90,7 +102,7 @@ void Application::Run()
 
 		glBindVertexArray(m_VertexArray);
 
-		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 		for (Layer* layer : m_LayerStack)
 			layer->OnUpdate();

@@ -31,7 +31,7 @@ Shader::Shader(std::string& vertexSource, std::string& fragmentSource)
 		// We don't need the shader anymore.
 		glDeleteShader(vertexShader);
 
-		VD_CORE_ERROR("{0}", infoLog.data());
+		VD_CORE_CRITICAL("{0}", infoLog.data());
 		VD_CORE_ASSERT(false, "Vertex shader compilation failed!");
 	}
 
@@ -61,7 +61,7 @@ Shader::Shader(std::string& vertexSource, std::string& fragmentSource)
 		// Either of them. Don't leak shaders.
 		glDeleteShader(vertexShader);
 
-		VD_CORE_ERROR("{0}", infoLog.data());
+		VD_CORE_CRITICAL("{0}", infoLog.data());
 		VD_CORE_ASSERT(false, "Fragment shader compilation failed!");
 	}
 
@@ -95,7 +95,7 @@ Shader::Shader(std::string& vertexSource, std::string& fragmentSource)
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
 
-		VD_CORE_ERROR("{0}", infoLog.data());
+		VD_CORE_CRITICAL("{0}", infoLog.data());
 		VD_CORE_ASSERT(false, "Shader linking failed!");
 	}
 

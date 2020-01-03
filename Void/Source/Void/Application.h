@@ -8,6 +8,9 @@
 
 #include "ImGui/ImGuiLayer.h"
 
+#include "Renderer/VertexBuffer.h"
+#include "Renderer/IndexBuffer.h"
+
 class Shader;
 
 class  Application
@@ -41,9 +44,9 @@ private:
 	bool m_bRunning;
 
 	unsigned int m_VertexArray;
-	unsigned int m_VertexBuffer;
-	unsigned int m_IndexBuffer;
 	std::unique_ptr<Shader> m_Shader;
+	std::unique_ptr <VertexBuffer> m_VertexBuffer;
+	std::unique_ptr <IndexBuffer> m_IndexBuffer;
 };
 
 Application* CreateApplication();

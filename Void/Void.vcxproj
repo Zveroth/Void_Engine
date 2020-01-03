@@ -134,6 +134,11 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLIndexBuffer.h" />
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLVertexBuffer.h" />
+    <ClInclude Include="Source\Renderer\IndexBuffer.h" />
+    <ClInclude Include="Source\Renderer\Renderer.h" />
+    <ClInclude Include="Source\Renderer\VertexBuffer.h" />
     <ClInclude Include="Source\Renderer\Shader.h" />
     <ClInclude Include="Source\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="Source\ImGui\ImGuiLayer.h" />
@@ -158,12 +163,17 @@
     <ClInclude Include="Source\vdpch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLIndexBffer.cpp" />
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLVertexBuffer.cpp" />
+    <ClCompile Include="Source\Renderer\IndexBuffer.cpp" />
+    <ClCompile Include="Source\Renderer\Renderer.cpp" />
     <ClCompile Include="Source\Renderer\Shader.cpp" />
     <ClCompile Include="Source\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="Source\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="Source\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="Source\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="Source\Platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="Source\Renderer\VertexBuffer.cpp" />
     <ClCompile Include="Source\Void\Application.cpp" />
     <ClCompile Include="Source\Void\Layer.cpp" />
     <ClCompile Include="Source\Void\LayerStack.cpp" />
