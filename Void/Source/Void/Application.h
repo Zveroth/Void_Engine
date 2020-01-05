@@ -8,10 +8,6 @@
 
 #include "ImGui/ImGuiLayer.h"
 
-#include "Renderer/VertexBuffer.h"
-#include "Renderer/IndexBuffer.h"
-#include "Renderer/VertexArray.h"
-
 class Shader;
 
 class  Application
@@ -43,14 +39,6 @@ private:
 	LayerStack m_LayerStack;
 
 	bool m_bRunning;
-
-	std::shared_ptr<Shader> m_Shader;
-	std::shared_ptr<VertexBuffer> m_VertexBuffer;
-	std::shared_ptr<IndexBuffer> m_IndexBuffer;
-	std::shared_ptr<VertexArray> m_VertexArray;
-
-	std::shared_ptr<Shader> m_SquareShader;
-	std::shared_ptr<VertexArray> m_SquareVertexArray;
 };
 
 Application* CreateApplication();

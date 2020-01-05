@@ -1,7 +1,11 @@
 #include "vdpch.h"
 #include "Shader.h"
 
+#include "glm/gtc/type_ptr.hpp"
+
 #include "glad/glad.h"
+
+#include "chrono"
 
 Shader::Shader(std::string& vertexSource, std::string& fragmentSource)
 {
@@ -112,4 +116,22 @@ Shader::~Shader()
 void Shader::Bind() const
 {
 	glUseProgram(m_RendererID);
+}
+
+void Shader::UploadUniform(const std::string& Name, const glm::mat4& Matrix)
+{
+	glUniformMatrix4fv(GetUniformLocation(Name), 1, GL_FALSE, glm::value_ptr(Matrix));
+}
+
+int Shader::GetUniformLocation(const std::string& Name)
+{
+	if (m_UniformCache.find(Name) != m_UniformCache.end())
+		return m_UniformCache[Name];
+
+	int Location = glGetUniformLocation(m_RendererID, Name.c_str());
+	if (Location == -1)
+		VD_CORE_ERROR("Uniform {0} doesn't exist!", Name);
+
+	m_UniformCache[Name] = Location;
+	return Location;
 }
