@@ -30,8 +30,4 @@ private:
 
 	glm::vec3 m_Position;
 	glm::vec3 m_Rotation; //this should be a quaterion but god knows how to use them
-
-	//glm::vec3 m_CameraFront;
-	//glm::vec3 m_CameraUp;
-	//glm::vec3 m_CameraRight;
 };

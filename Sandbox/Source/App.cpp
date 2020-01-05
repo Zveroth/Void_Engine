@@ -1,15 +1,8 @@
 #include "Void.h"
 
 
-#include "Renderer/VertexBuffer.h"
-#include "Renderer/IndexBuffer.h"
-#include "Renderer/VertexArray.h"
-
-#include "Renderer/Shader.h"
-#include "Renderer/Renderer.h"
-#include "Renderer/RenderCommand.h"
-
 #include "Renderer/OrthoCamera.h"
+#include "imgui.h"
 
 class ExmpLayer : public Layer
 {
@@ -111,9 +104,10 @@ public:
 		m_Camera.SetPosition(glm::vec3(1.0f, 0.0f, 5.0f));
 	}
 
-	virtual void OnUpdate() override
+	virtual void OnUpdate(const float& DeltaTime) override
 	{
-		m_Rotation += 1.0f;
+		VD_TRACE("{0}", DeltaTime);
+		m_Rotation += 90.0f * DeltaTime;
 		m_Camera.SetRotation(glm::vec3(0.0f, 0.0f, m_Rotation));
 
 		Renderer::BeginScene(m_Camera);
@@ -126,7 +120,9 @@ public:
 
 	virtual void OnImGuiRender() override
 	{
-		
+		ImGui::Begin("Framerate");
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		ImGui::End();
 	}
 
 	virtual void OnEvent(Event& e) override

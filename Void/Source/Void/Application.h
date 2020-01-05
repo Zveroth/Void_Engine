@@ -5,6 +5,7 @@
 #include "Window.h"
 #include "LayerStack.h"
 #include "Events/ApplicationEvent.h"
+#include "Core/Time.h"
 
 #include "ImGui/ImGuiLayer.h"
 
@@ -39,6 +40,8 @@ private:
 	LayerStack m_LayerStack;
 
 	bool m_bRunning;
+
+	Time m_Time;
 };
 
 Application* CreateApplication();

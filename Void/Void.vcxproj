@@ -154,6 +154,7 @@
     <ClInclude Include="Source\Void.h" />
     <ClInclude Include="Source\Void\Application.h" />
     <ClInclude Include="Source\Void\Core.h" />
+    <ClInclude Include="Source\Void\Core\Time.h" />
     <ClInclude Include="Source\Void\EntryPoint.h" />
     <ClInclude Include="Source\Void\Events\ApplicationEvent.h" />
     <ClInclude Include="Source\Void\Events\Event.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="Source\Renderer\VertexArray.cpp" />
     <ClCompile Include="Source\Renderer\VertexBuffer.cpp" />
     <ClCompile Include="Source\Void\Application.cpp" />
+    <ClCompile Include="Source\Void\Core\Time.cpp" />
     <ClCompile Include="Source\Void\Layer.cpp" />
     <ClCompile Include="Source\Void\LayerStack.cpp" />
     <ClCompile Include="Source\Void\Log.cpp" />

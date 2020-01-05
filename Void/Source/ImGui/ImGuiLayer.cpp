@@ -14,7 +14,7 @@
 #include "glad/glad.h"
 
 
-ImGuiLayer::ImGuiLayer() : Layer("ImGuiLayer"), m_Time(0.0f)
+ImGuiLayer::ImGuiLayer() : Layer("ImGuiLayer")
 {
 
 }
