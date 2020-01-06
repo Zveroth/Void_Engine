@@ -3,6 +3,9 @@
 
 #include "Renderer/OrthoCamera.h"
 #include "imgui.h"
+#include "glm/gtc/matrix_transform.hpp"
+
+#include "Platform/OpenGL/OpenGLShader.h"
 
 class ExmpLayer : public Layer
 {
@@ -46,6 +49,7 @@ public:
 		layout(location = 0) in vec3 i_Position;
 		layout(location = 1) in vec4 a_Color;
 
+		uniform mat4 u_Model;
 		uniform mat4 u_View;
 		uniform mat4 u_Projection;
 
@@ -53,7 +57,7 @@ public:
 
 		void main()
 		{
-			gl_Position = u_Projection * u_View * vec4(i_Position, 1.0);
+			gl_Position = u_Projection * u_View * u_Model * vec4(i_Position, 1.0);
 			io_Color = a_Color;
 		}
 	)";
@@ -71,7 +75,7 @@ public:
 		}
 	)";
 
-		m_Shader = std::make_unique<Shader>(vertexSource, fragmentSource);
+		m_Shader.reset(Shader::Create(vertexSource, fragmentSource));
 
 		m_SquareVertexArray.reset(VertexArray::Create());
 
@@ -106,13 +110,17 @@ public:
 
 	virtual void OnUpdate(const float& DeltaTime) override
 	{
-		VD_TRACE("{0}", DeltaTime);
 		m_Rotation += 90.0f * DeltaTime;
-		m_Camera.SetRotation(glm::vec3(0.0f, 0.0f, m_Rotation));
 
 		Renderer::BeginScene(m_Camera);
 
+		glm::mat4 Model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0));
+		Model = glm::rotate(Model, glm::radians(m_Rotation), glm::vec3(0, 0, 1));
+		std::static_pointer_cast<OpenGLShader>(m_Shader)->UploadUniform("u_Model", Model);
 		Renderer::Submit(m_SquareVertexArray, m_Shader);
+		
+		Model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0));
+		std::static_pointer_cast<OpenGLShader>(m_Shader)->UploadUniform("u_Model", Model);
 		Renderer::Submit(m_VertexArray, m_Shader);
 
 		Renderer::EndScene();
@@ -121,7 +129,7 @@ public:
 	virtual void OnImGuiRender() override
 	{
 		ImGui::Begin("Framerate");
-		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		ImGui::End();
 	}
 
@@ -132,12 +140,12 @@ public:
 
 private:
 
-	std::shared_ptr<Shader> m_Shader;
-	std::shared_ptr<VertexBuffer> m_VertexBuffer;
-	std::shared_ptr<IndexBuffer> m_IndexBuffer;
-	std::shared_ptr<VertexArray> m_VertexArray;
+	Ref<Shader> m_Shader;
+	Ref<VertexBuffer> m_VertexBuffer;
+	Ref<IndexBuffer> m_IndexBuffer;
+	Ref<VertexArray> m_VertexArray;
 
-	std::shared_ptr<VertexArray> m_SquareVertexArray;
+	Ref<VertexArray> m_SquareVertexArray;
 
 	OrthographicCamera m_Camera;
 

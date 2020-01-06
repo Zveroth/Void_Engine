@@ -2,6 +2,7 @@
 #include "Time.h"
 
 
+std::chrono::time_point<std::chrono::high_resolution_clock> Time::m_TimePoint;
 
 void Time::Init()
 {

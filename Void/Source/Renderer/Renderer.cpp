@@ -1,6 +1,7 @@
 #include "vdpch.h"
 #include "Renderer.h"
 
+#include "Platform/OpenGL/OpenGLShader.h"
 
 
 Renderer::SceneData* Renderer::s_SceneData = new Renderer::SceneData;
@@ -16,11 +17,11 @@ void Renderer::EndScene()
 
 }
 
-void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader)
+void Renderer::Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader)
 {
 	shader->Bind();
-	shader->UploadUniform(std::string("u_View"), s_SceneData->ViewMatrix);
-	shader->UploadUniform(std::string("u_Projection"), s_SceneData->ProjectionMatrix);
+	std::static_pointer_cast<OpenGLShader>(shader)->UploadUniform(std::string("u_View"), s_SceneData->ViewMatrix);
+	std::static_pointer_cast<OpenGLShader>(shader)->UploadUniform(std::string("u_Projection"), s_SceneData->ProjectionMatrix);
 
 	vertexArray->Bind();
 	RenderCommand::DrawIndexed(vertexArray);

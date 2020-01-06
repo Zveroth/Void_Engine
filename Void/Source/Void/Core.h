@@ -1,5 +1,6 @@
 #pragma once
 
+#include "memory"
 
 #ifdef VD_PLATFORM_WINDOWS
 
@@ -27,3 +28,10 @@
 #define BIT_SHIFT(x) (1 << x)
 
 #define VD_BIND_EVENT_FUN(x) std::bind(&x, this, std::placeholders::_1)
+
+
+template <typename T>
+using Ref = std::shared_ptr<T>;
+
+template <typename T>
+using SRef = std::unique_ptr<T>;

@@ -4,7 +4,7 @@
 #include "Log.h"
 #include "Input.h"
 #include "KeyCodes.h"
-
+#include "Core/Time.h"
 
 #include "Renderer/Shader.h"
 #include "Renderer/Renderer.h"
@@ -34,13 +34,13 @@ void Application::Run()
 {
 	RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
-	m_Time.Init();
+	Time::Init();
 
 	while (m_bRunning)
 	{
 		RenderCommand::Clear();
 
-		float DeltaTime = m_Time.GetFrameTime();
+		float DeltaTime = Time::GetFrameTime();
 
 		for (Layer* layer : m_LayerStack)
 			layer->OnUpdate(DeltaTime);
