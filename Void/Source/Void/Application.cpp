@@ -21,6 +21,8 @@ Application::Application() : m_bRunning(true)
 	m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 	//m_Window->SetVSync(false);
 
+	Renderer::Init();
+
 	m_ImGuiLayer = new ImGuiLayer();
 	PushOverlay(m_ImGuiLayer);
 }

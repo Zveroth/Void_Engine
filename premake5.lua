@@ -41,13 +41,16 @@ project "Void"
 	files
 	{
 		"%{prj.name}/Source/**.h",
-		"%{prj.name}/Source/**.cpp"
+		"%{prj.name}/Source/**.cpp",
+		"%{prj.name}/3rdParty/stb_image/**.h",
+		"%{prj.name}/3rdParty/stb_image/**.cpp"
 	}
 
 	includedirs
 	{
 		"%{prj.name}/Source",
 		"%{prj.name}/3rdParty/spdlog/include",
+		"%{prj.name}/3rdParty/stb_image",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLAD}",
 		"%{IncludeDir.ImGui}",

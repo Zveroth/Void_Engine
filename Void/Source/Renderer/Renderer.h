@@ -12,6 +12,8 @@ public:
 
 	static inline RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
+	static void Init();
+
 	static void BeginScene(OrthographicCamera& Camera);
 	static void EndScene();
 

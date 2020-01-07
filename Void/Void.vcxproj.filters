@@ -1,133 +1,237 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ImGui">
-      <UniqueIdentifier>{C0FF640D-2C14-8DBE-F595-301E616989EF}</UniqueIdentifier>
+    <Filter Include="3rdParty">
+      <UniqueIdentifier>{1E6D62C3-0A3A-BDCE-3353-AB761F7FF25C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Platform">
-      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    <Filter Include="3rdParty\stb_image">
+      <UniqueIdentifier>{389BA67C-247F-67D2-8DDF-612579E25154}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Platform\Windows">
-      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
+    <Filter Include="Source">
+      <UniqueIdentifier>{56EB95D1-428D-C0A7-2B48-D4FB178947F8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Void">
-      <UniqueIdentifier>{371E8E7C-2355-8F0D-CC41-7510B8570B0F}</UniqueIdentifier>
+    <Filter Include="Source\ImGui">
+      <UniqueIdentifier>{000933F2-EC6B-C296-95F1-FA4C81338E19}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Void\Events">
-      <UniqueIdentifier>{3BC65A55-A77B-D34A-3070-CD219C24CA4E}</UniqueIdentifier>
+    <Filter Include="Source\Platform">
+      <UniqueIdentifier>{6A48A913-D6D3-16D8-DFE4-99CC4BEF72D8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Platform\OpenGL">
+      <UniqueIdentifier>{5E160775-4A10-30C7-337D-C6D71F169633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Platform\Windows">
+      <UniqueIdentifier>{A4BC056E-10F4-4D05-19FE-B12885B474FE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Renderer">
+      <UniqueIdentifier>{BC4F86EE-28DB-F3B2-31EC-76A79DF64FB3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Void">
+      <UniqueIdentifier>{77FF1F0F-E3B4-9804-6CA9-92DBD85D8F08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Void\Core">
+      <UniqueIdentifier>{2F660647-1B5F-2599-4491-0A1E30E904A5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Void\Events">
+      <UniqueIdentifier>{7BBF5A27-67A3-1B7D-D003-16D0BC0606FF}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="3rdParty\stb_image\stb_image.h">
+      <Filter>3rdParty\stb_image</Filter>
+    </ClInclude>
     <ClInclude Include="Source\ImGui\ImGuiLayer.h">
-      <Filter>ImGui</Filter>
+      <Filter>Source\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLContext.h">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLIndexBuffer.h">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLShader.h">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLTexture.h">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLVertexArray.h">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLVertexBuffer.h">
+      <Filter>Source\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="Source\Platform\Windows\WindowsInput.h">
-      <Filter>Platform\Windows</Filter>
+      <Filter>Source\Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Source\Platform\Windows\WindowsWindow.h">
-      <Filter>Platform\Windows</Filter>
+      <Filter>Source\Platform\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Void.h" />
+    <ClInclude Include="Source\Renderer\IndexBuffer.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\OrthoCamera.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\RenderCommand.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\RenderContext.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\Renderer.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\RendererAPI.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\Shader.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\Texture.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\VertexArray.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\VertexBuffer.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void.h">
+      <Filter>Source</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Void\Application.h">
-      <Filter>Void</Filter>
+      <Filter>Source\Void</Filter>
     </ClInclude>
     <ClInclude Include="Source\Void\Core.h">
-      <Filter>Void</Filter>
+      <Filter>Source\Void</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\Time.h">
+      <Filter>Source\Void\Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Void\EntryPoint.h">
-      <Filter>Void</Filter>
+      <Filter>Source\Void</Filter>
     </ClInclude>
     <ClInclude Include="Source\Void\Events\ApplicationEvent.h">
-      <Filter>Void\Events</Filter>
+      <Filter>Source\Void\Events</Filter>
     </ClInclude>
     <ClInclude Include="Source\Void\Events\Event.h">
-      <Filter>Void\Events</Filter>
+      <Filter>Source\Void\Events</Filter>
     </ClInclude>
     <ClInclude Include="Source\Void\Events\KeyboardEvent.h">
-      <Filter>Void\Events</Filter>
+      <Filter>Source\Void\Events</Filter>
     </ClInclude>
     <ClInclude Include="Source\Void\Events\MouseEvent.h">
-      <Filter>Void\Events</Filter>
+      <Filter>Source\Void\Events</Filter>
     </ClInclude>
     <ClInclude Include="Source\Void\Input.h">
-      <Filter>Void</Filter>
+      <Filter>Source\Void</Filter>
     </ClInclude>
     <ClInclude Include="Source\Void\KeyCodes.h">
-      <Filter>Void</Filter>
+      <Filter>Source\Void</Filter>
     </ClInclude>
     <ClInclude Include="Source\Void\Layer.h">
-      <Filter>Void</Filter>
+      <Filter>Source\Void</Filter>
     </ClInclude>
     <ClInclude Include="Source\Void\LayerStack.h">
-      <Filter>Void</Filter>
+      <Filter>Source\Void</Filter>
     </ClInclude>
     <ClInclude Include="Source\Void\Log.h">
-      <Filter>Void</Filter>
+      <Filter>Source\Void</Filter>
     </ClInclude>
     <ClInclude Include="Source\Void\MouseButtonCodes.h">
-      <Filter>Void</Filter>
+      <Filter>Source\Void</Filter>
     </ClInclude>
     <ClInclude Include="Source\Void\Window.h">
-      <Filter>Void</Filter>
+      <Filter>Source\Void</Filter>
     </ClInclude>
-    <ClInclude Include="Source\vdpch.h" />
-    <ClInclude Include="Source\Renderer\RenderContext.h" />
-    <ClInclude Include="Source\Platform\OpenGL\OpenGLContext.h" />
-    <ClInclude Include="Source\Renderer\Shader.h" />
-    <ClInclude Include="Source\Renderer\VertexBuffer.h" />
-    <ClInclude Include="Source\Renderer\IndexBuffer.h" />
-    <ClInclude Include="Source\Platform\OpenGL\OpenGLVertexBuffer.h" />
-    <ClInclude Include="Source\Platform\OpenGL\OpenGLIndexBuffer.h" />
-    <ClInclude Include="Source\Renderer\Renderer.h" />
-    <ClInclude Include="Source\Renderer\VertexArray.h" />
-    <ClInclude Include="Source\Platform\OpenGL\OpenGLVertexArray.h" />
-    <ClInclude Include="Source\Renderer\RendererAPI.h" />
-    <ClInclude Include="Source\Renderer\RenderCommand.h" />
-    <ClInclude Include="Source\Platform\OpenGL\OpenGLRendererAPI.h" />
-    <ClInclude Include="Source\Renderer\OrthoCamera.h" />
-    <ClInclude Include="Source\Void\Core\Time.h" />
-    <ClInclude Include="Source\Platform\OpenGL\OpenGLShader.h" />
+    <ClInclude Include="Source\vdpch.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="3rdParty\stb_image\stb_image.cpp">
+      <Filter>3rdParty\stb_image</Filter>
+    </ClCompile>
     <ClCompile Include="Source\ImGui\ImGuiBuild.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Source\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Source\ImGui\ImGuiLayer.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Source\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLIndexBuffer.cpp">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLVertexBuffer.cpp">
+      <Filter>Source\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="Source\Platform\Windows\WindowsInput.cpp">
-      <Filter>Platform\Windows</Filter>
+      <Filter>Source\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="Source\Platform\Windows\WindowsWindow.cpp">
-      <Filter>Platform\Windows</Filter>
+      <Filter>Source\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\IndexBuffer.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\OrthoCamera.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\RenderCommand.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\Renderer.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\RendererAPI.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\Shader.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\Texture.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\VertexArray.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\VertexBuffer.cpp">
+      <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Source\Void\Application.cpp">
-      <Filter>Void</Filter>
+      <Filter>Source\Void</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Void\Core\Time.cpp">
+      <Filter>Source\Void\Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Void\Layer.cpp">
-      <Filter>Void</Filter>
+      <Filter>Source\Void</Filter>
     </ClCompile>
     <ClCompile Include="Source\Void\LayerStack.cpp">
-      <Filter>Void</Filter>
+      <Filter>Source\Void</Filter>
     </ClCompile>
     <ClCompile Include="Source\Void\Log.cpp">
-      <Filter>Void</Filter>
+      <Filter>Source\Void</Filter>
     </ClCompile>
-    <ClCompile Include="Source\vdpch.cpp" />
-    <ClCompile Include="Source\Platform\OpenGL\OpenGLContext.cpp" />
-    <ClCompile Include="Source\Renderer\Shader.cpp" />
-    <ClCompile Include="Source\Renderer\VertexBuffer.cpp" />
-    <ClCompile Include="Source\Renderer\IndexBuffer.cpp" />
-    <ClCompile Include="Source\Platform\OpenGL\OpenGLVertexBuffer.cpp" />
-    <ClCompile Include="Source\Renderer\Renderer.cpp" />
-    <ClCompile Include="Source\Renderer\VertexArray.cpp" />
-    <ClCompile Include="Source\Platform\OpenGL\OpenGLVertexArray.cpp" />
-    <ClCompile Include="Source\Platform\OpenGL\OpenGLIndexBuffer.cpp" />
-    <ClCompile Include="Source\Renderer\RendererAPI.cpp" />
-    <ClCompile Include="Source\Renderer\RenderCommand.cpp" />
-    <ClCompile Include="Source\Platform\OpenGL\OpenGLRendererAPI.cpp" />
-    <ClCompile Include="Source\Renderer\OrthoCamera.cpp" />
-    <ClCompile Include="Source\Void\Core\Time.cpp" />
-    <ClCompile Include="Source\Platform\OpenGL\OpenGLShader.cpp" />
+    <ClCompile Include="Source\vdpch.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

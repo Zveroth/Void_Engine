@@ -16,112 +16,89 @@ public:
 
 	virtual void OnAttach() override
 	{
-		m_VertexArray.reset(VertexArray::Create());
-
-		float vertices[] = {
-			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-			0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-			0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f
-		};
-
-		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-
-
-		BufferLayout layout = {
-			{ ShaderDataType::Vec3, "a_Position" },
-			{ ShaderDataType::Vec4, "a_Position" }
-		};
-
-		m_VertexBuffer->SetLayout(layout);
-		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
-
-
-		uint32_t indices[3] = {
-			0, 1, 2
-		};
-
-		m_IndexBuffer.reset(IndexBuffer::Create(indices, 3));
-		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-
 		std::string vertexSource = R"(
 		#version 330 core
 
 		layout(location = 0) in vec3 i_Position;
-		layout(location = 1) in vec4 a_Color;
+		layout(location = 1) in vec2 i_TexCoord;
 
 		uniform mat4 u_Model;
 		uniform mat4 u_View;
 		uniform mat4 u_Projection;
 
-		out vec4 io_Color;
+		out vec2 io_TexCoord;
 
 		void main()
 		{
 			gl_Position = u_Projection * u_View * u_Model * vec4(i_Position, 1.0);
-			io_Color = a_Color;
+			io_TexCoord = i_TexCoord;
 		}
-	)";
+		)";
 
 		std::string fragmentSource = R"(
 		#version 330 core
 
 		layout(location = 0) out vec4 o_Color;
 
-		in vec4 io_Color;
+		in vec2 io_TexCoord;
+
+		uniform sampler2D u_Texture;
 
 		void main()
 		{
-			o_Color = io_Color;
+			o_Color = texture(u_Texture, io_TexCoord);
 		}
-	)";
+		)";
 
 		m_Shader.reset(Shader::Create(vertexSource, fragmentSource));
 
 		m_SquareVertexArray.reset(VertexArray::Create());
 
-		float Svertices[] = {
-			-0.75f, -0.75f, 0.0f, 1.0f, 0.2f, 0.3f, 1.0f,
-			0.75f, -0.75f, 0.0f, 0.3f, 0.2f, 1.0f, 1.0f,
-			0.75f, 0.75f, 0.0f, 0.2f, 1.0f, 0.3f, 1.0f,
-			-0.75f, 0.75f, 0.0f, 0.3f, 0.2f, 1.0f, 1.0f
+		float vertices[] = {
+			-0.75f, -0.75f, 0.0f, 0.0f, 0.0f,
+			0.75f, -0.75f, 0.0f, 1.0f, 0.0f,
+			0.75f, 0.75f, 0.0f, 1.0f, 1.0f,
+			-0.75f, 0.75f, 0.0f, 0.f, 1.0f
 		};
 
-		std::shared_ptr<VertexBuffer> Svb;
-		Svb.reset(VertexBuffer::Create(Svertices, sizeof(Svertices)));
+		Ref<VertexBuffer> SVertexBuffer;
+		SVertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
-		Svb->SetLayout({
-			{ ShaderDataType::Vec3, "a_Position" },
-			{ ShaderDataType::Vec4, "a_Color" }
+		SVertexBuffer->SetLayout({
+			{ ShaderDataType::Vec3, "i_Position" },
+			{ ShaderDataType::Vec2, "i_TexCoord" }
 			});
-		m_SquareVertexArray->AddVertexBuffer(Svb);
+		m_SquareVertexArray->AddVertexBuffer(SVertexBuffer);
 
 
-		uint32_t sindices[6] = {
+		uint32_t indices[6] = {
 			0, 1, 2,
 			2, 3, 0
 		};
 
-		std::shared_ptr<IndexBuffer> Sib;
-		Sib.reset(IndexBuffer::Create(sindices, 6));
-		m_SquareVertexArray->SetIndexBuffer(Sib);
+		std::shared_ptr<IndexBuffer> SIndexBuffer;
+		SIndexBuffer.reset(IndexBuffer::Create(indices, 6));
+		m_SquareVertexArray->SetIndexBuffer(SIndexBuffer);
 
 		m_Camera.SetPosition(glm::vec3(1.0f, 0.0f, 5.0f));
+
+		m_TestTexture = Texture2D::Create("Assets/Textures/test.png");
+		m_TestTexture->Bind();
 	}
 
 	virtual void OnUpdate(const float& DeltaTime) override
 	{
-		m_Rotation += 90.0f * DeltaTime;
+		//m_Rotation += 90.0f * DeltaTime;
 
 		Renderer::BeginScene(m_Camera);
 
+
+		std::static_pointer_cast<OpenGLShader>(m_Shader)->Bind();
 		glm::mat4 Model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0));
 		Model = glm::rotate(Model, glm::radians(m_Rotation), glm::vec3(0, 0, 1));
 		std::static_pointer_cast<OpenGLShader>(m_Shader)->UploadUniform("u_Model", Model);
+		std::static_pointer_cast<OpenGLShader>(m_Shader)->UploadUniform("u_Texture", 0);
 		Renderer::Submit(m_SquareVertexArray, m_Shader);
-		
-		Model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0));
-		std::static_pointer_cast<OpenGLShader>(m_Shader)->UploadUniform("u_Model", Model);
-		Renderer::Submit(m_VertexArray, m_Shader);
 
 		Renderer::EndScene();
 	}
@@ -141,9 +118,8 @@ public:
 private:
 
 	Ref<Shader> m_Shader;
-	Ref<VertexBuffer> m_VertexBuffer;
-	Ref<IndexBuffer> m_IndexBuffer;
-	Ref<VertexArray> m_VertexArray;
+
+	Ref<Texture2D> m_TestTexture;
 
 	Ref<VertexArray> m_SquareVertexArray;
 
