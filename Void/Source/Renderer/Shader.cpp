@@ -5,7 +5,26 @@
 #include "Platform/OpenGL/OpenGLShader.h"
 
 
-Shader* Shader::Create(std::string& vertexSource, std::string& fragmentSource)
+Shader* Shader::Create(const std::string& FilePath)
+{
+	switch (Renderer::GetAPI())
+	{
+	default:
+		break;
+	case RendererAPI::API::NONE:
+		VD_CORE_ASSERT(false, "No renderer API is currently not supported!");
+		return nullptr;
+
+	case RendererAPI::API::OpenGL:
+		return new OpenGLShader(FilePath);
+		break;
+	}
+
+	VD_CORE_ASSERT(false, "Something went wrong when creating a shader!");
+	return nullptr;
+}
+
+Shader* Shader::Create(const std::string& vertexSource, const std::string& fragmentSource)
 {
 	switch (Renderer::GetAPI())
 	{
