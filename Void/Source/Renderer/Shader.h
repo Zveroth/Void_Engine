@@ -7,8 +7,31 @@ class Shader
 
 public:
 
+	virtual ~Shader() {}
+
 	virtual void Bind() const = 0;
 
-	static Shader* Create(const std::string& FilePath);
-	static Shader* Create(const std::string& vertexSource, const std::string& fragmentSource);
+	virtual const std::string& GetName() const = 0;
+
+	static Ref<Shader> Create(const std::string& FilePath);
+	static Ref<Shader> Create(const std::string& Name, const std::string& vertexSource, const std::string& fragmentSource);
+};
+
+class ShaderLibrary
+{
+
+public:
+
+	void Add(const Ref<Shader>& shader);
+	void Add(const Ref<Shader>& shader, const std::string& Name);
+	Ref<Shader> Load(const std::string& FilePath);
+	Ref<Shader> Load(const std::string& FilePath, const std::string& Name);
+
+	Ref<Shader> Get(const std::string& Name);
+
+	bool Exists(const std::string& Name);
+
+private:
+
+	std::unordered_map<std::string, Ref<Shader>> m_Shaders;
 };

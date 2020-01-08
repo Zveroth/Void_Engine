@@ -16,7 +16,7 @@ public:
 
 	virtual void OnAttach() override
 	{
-		m_Shader.reset(Shader::Create("Assets/Shaders/TextureShader.glsl"));
+		Ref<Shader> TexShader = m_ShaderLibrary.Load("Assets/Shaders/TextureShader.glsl");
 
 		m_SquareVertexArray.reset(VertexArray::Create());
 
@@ -58,13 +58,13 @@ public:
 
 		Renderer::BeginScene(m_Camera);
 
-
-		std::static_pointer_cast<OpenGLShader>(m_Shader)->Bind();
+		Ref<Shader> TexShader = m_ShaderLibrary.Get("TextureShader");
+		std::static_pointer_cast<OpenGLShader>(TexShader)->Bind();
 		glm::mat4 Model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0));
 		Model = glm::rotate(Model, glm::radians(m_Rotation), glm::vec3(0, 0, 1));
-		std::static_pointer_cast<OpenGLShader>(m_Shader)->UploadUniform("u_Model", Model);
-		std::static_pointer_cast<OpenGLShader>(m_Shader)->UploadUniform("u_Texture", 0);
-		Renderer::Submit(m_SquareVertexArray, m_Shader);
+		std::static_pointer_cast<OpenGLShader>(TexShader)->UploadUniform("u_Model", Model);
+		std::static_pointer_cast<OpenGLShader>(TexShader)->UploadUniform("u_Texture", 0);
+		Renderer::Submit(m_SquareVertexArray, TexShader);
 
 		Renderer::EndScene();
 	}
@@ -83,7 +83,7 @@ public:
 
 private:
 
-	Ref<Shader> m_Shader;
+	ShaderLibrary m_ShaderLibrary;
 
 	Ref<Texture2D> m_TestTexture;
 

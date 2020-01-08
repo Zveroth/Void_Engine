@@ -13,11 +13,13 @@ class OpenGLShader : public Shader
 
 public:
 
-	OpenGLShader(const std::string& vertexSource, const std::string& fragmentSource);
+	OpenGLShader(const std::string& Name, const std::string& vertexSource, const std::string& fragmentSource);
 	OpenGLShader(const std::string& FilePath);
 	~OpenGLShader();
 
 	virtual void Bind() const override;
+
+	virtual const std::string& GetName() const override { return m_Name; }
 
 	void UploadUniform(const std::string& Name, const glm::mat4& Matrix);
 	void UploadUniform(const std::string& Name, const glm::mat3& Matrix);
@@ -37,5 +39,7 @@ private:
 
 	uint32_t m_RendererID;
 	std::unordered_map<std::string, int> m_UniformCache;
+
+	std::string m_Name;
 };
 

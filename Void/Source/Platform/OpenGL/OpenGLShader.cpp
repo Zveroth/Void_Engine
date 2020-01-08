@@ -13,23 +13,31 @@ OpenGLShader::OpenGLShader(const std::string& FilePath)
 	std::string Source = ReadShaderSource(FilePath);
 	auto ShaderSources = Preprocess(Source);
 	Compile(ShaderSources);
-	VD_CORE_TRACE("Shader created from file: {0}", FilePath);
+
+	size_t LastSlash = FilePath.find_last_of("/\\");//Find last of ANY of these characters
+	LastSlash = (LastSlash == std::string::npos) ? 0 : LastSlash + 1;
+	size_t LastDot = FilePath.rfind('.');//Find last of exactly this character
+	size_t Count = (LastDot == std::string::npos) ? FilePath.size() - LastSlash : LastDot - LastSlash;
+	m_Name = FilePath.substr(LastSlash, Count);
+	
+	VD_CORE_TRACE("Shader {0} created from file: {1}", m_Name, FilePath);
 }
 
-OpenGLShader::OpenGLShader(const std::string& vertexSource, const std::string& fragmentSource)
+OpenGLShader::OpenGLShader(const std::string& Name, const std::string& vertexSource, const std::string& fragmentSource)
+	: m_Name(Name)
 {
 	std::unordered_map<GLenum, std::string> Sources;
 	Sources[GL_VERTEX_SHADER] = vertexSource;
 	Sources[GL_FRAGMENT_SHADER] = fragmentSource;
 	Compile(Sources);
-	VD_CORE_TRACE("Shader created from strings");
+	VD_CORE_TRACE("Shader {0} created from strings", Name);
 }
 
 std::string OpenGLShader::ReadShaderSource(const std::string& FilePath)
 {
 	std::string Result;
 
-	std::ifstream File(FilePath, std::ios::in, std::ios::binary);
+	std::ifstream File(FilePath, std::ios::in | std::ios::binary);
 	if (File)
 	{
 		File.seekg(0, std::ios::end);
@@ -84,7 +92,10 @@ void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& Shader
 {
 	GLenum program = glCreateProgram();
 
-	std::vector<GLenum> ShaderIDs(ShaderSources.size());
+	VD_ASSERT(ShaderSources.size() <= 2, "Void currently supports a maximum of 2 shaders!");
+	std::array<GLenum, 2> ShaderIDs;//Allocated on the stack
+	int glShaderIDIndex = 0;
+
 	for (auto& KeyValue : ShaderSources)
 	{
 		GLenum Type = KeyValue.first;
@@ -117,7 +128,7 @@ void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& Shader
 		}
 
 		glAttachShader(program, CompiledShader);
-		ShaderIDs.push_back(CompiledShader);
+		ShaderIDs[glShaderIDIndex++] = CompiledShader;
 	}
 
 	// Link our program
