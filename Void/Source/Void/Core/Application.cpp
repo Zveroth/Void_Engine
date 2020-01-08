@@ -4,7 +4,7 @@
 #include "Log.h"
 #include "Input.h"
 #include "KeyCodes.h"
-#include "Core/Time.h"
+#include "Time.h"
 
 #include "Renderer/Shader.h"
 #include "Renderer/Renderer.h"

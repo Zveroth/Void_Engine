@@ -59,7 +59,7 @@ void WindowWindow::Init(const WindowProperties& Properties)
 	m_Data.Width = Properties.Width;
 	m_Data.Height = Properties.Height;
 
-	VD_CORE_TRACE("Createing window {0} ({1}, {2})", Properties.Title, Properties.Width, Properties.Height);
+	VD_CORE_TRACE("Creating windows window {0} ({1}, {2})", Properties.Title, Properties.Width, Properties.Height);
 
 	if (!bGLFWInitialized)
 	{

@@ -13,6 +13,7 @@ OpenGLShader::OpenGLShader(const std::string& FilePath)
 	std::string Source = ReadShaderSource(FilePath);
 	auto ShaderSources = Preprocess(Source);
 	Compile(ShaderSources);
+	VD_CORE_TRACE("Shader created from file: {0}", FilePath);
 }
 
 OpenGLShader::OpenGLShader(const std::string& vertexSource, const std::string& fragmentSource)
@@ -21,6 +22,7 @@ OpenGLShader::OpenGLShader(const std::string& vertexSource, const std::string& f
 	Sources[GL_VERTEX_SHADER] = vertexSource;
 	Sources[GL_FRAGMENT_SHADER] = fragmentSource;
 	Compile(Sources);
+	VD_CORE_TRACE("Shader created from strings");
 }
 
 std::string OpenGLShader::ReadShaderSource(const std::string& FilePath)

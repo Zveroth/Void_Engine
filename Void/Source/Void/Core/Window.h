@@ -2,7 +2,7 @@
 
 #include "vdpch.h"
 
-#include "Void/Core.h"
+#include "Void/Core/Core.h"
 #include "Void/Events/Event.h"
 
 struct WindowProperties

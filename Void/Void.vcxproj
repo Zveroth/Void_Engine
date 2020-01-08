@@ -156,21 +156,21 @@
     <ClInclude Include="Source\Renderer\VertexArray.h" />
     <ClInclude Include="Source\Renderer\VertexBuffer.h" />
     <ClInclude Include="Source\Void.h" />
-    <ClInclude Include="Source\Void\Application.h" />
-    <ClInclude Include="Source\Void\Core.h" />
+    <ClInclude Include="Source\Void\Core\Application.h" />
+    <ClInclude Include="Source\Void\Core\Core.h" />
     <ClInclude Include="Source\Void\Core\Time.h" />
     <ClInclude Include="Source\Void\EntryPoint.h" />
     <ClInclude Include="Source\Void\Events\ApplicationEvent.h" />
     <ClInclude Include="Source\Void\Events\Event.h" />
     <ClInclude Include="Source\Void\Events\KeyboardEvent.h" />
     <ClInclude Include="Source\Void\Events\MouseEvent.h" />
-    <ClInclude Include="Source\Void\Input.h" />
-    <ClInclude Include="Source\Void\KeyCodes.h" />
-    <ClInclude Include="Source\Void\Layer.h" />
-    <ClInclude Include="Source\Void\LayerStack.h" />
-    <ClInclude Include="Source\Void\Log.h" />
-    <ClInclude Include="Source\Void\MouseButtonCodes.h" />
-    <ClInclude Include="Source\Void\Window.h" />
+    <ClInclude Include="Source\Void\Core\Input.h" />
+    <ClInclude Include="Source\Void\Core\KeyCodes.h" />
+    <ClInclude Include="Source\Void\Core\Layer.h" />
+    <ClInclude Include="Source\Void\Core\LayerStack.h" />
+    <ClInclude Include="Source\Void\Core\Log.h" />
+    <ClInclude Include="Source\Void\Core\MouseButtonCodes.h" />
+    <ClInclude Include="Source\Void\Core\Window.h" />
     <ClInclude Include="Source\vdpch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -195,11 +195,11 @@
     <ClCompile Include="Source\Renderer\Texture.cpp" />
     <ClCompile Include="Source\Renderer\VertexArray.cpp" />
     <ClCompile Include="Source\Renderer\VertexBuffer.cpp" />
-    <ClCompile Include="Source\Void\Application.cpp" />
+    <ClCompile Include="Source\Void\Core\Application.cpp" />
     <ClCompile Include="Source\Void\Core\Time.cpp" />
-    <ClCompile Include="Source\Void\Layer.cpp" />
-    <ClCompile Include="Source\Void\LayerStack.cpp" />
-    <ClCompile Include="Source\Void\Log.cpp" />
+    <ClCompile Include="Source\Void\Core\Layer.cpp" />
+    <ClCompile Include="Source\Void\Core\LayerStack.cpp" />
+    <ClCompile Include="Source\Void\Core\Log.cpp" />
     <ClCompile Include="Source\vdpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

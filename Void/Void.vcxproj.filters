@@ -102,12 +102,6 @@
     <ClInclude Include="Source\Void.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Void\Application.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Void\Core.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Void\Core\Time.h">
       <Filter>Source\Void\Core</Filter>
     </ClInclude>
@@ -126,29 +120,35 @@
     <ClInclude Include="Source\Void\Events\MouseEvent.h">
       <Filter>Source\Void\Events</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Void\Input.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Void\KeyCodes.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Void\Layer.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Void\LayerStack.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Void\Log.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Void\MouseButtonCodes.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Void\Window.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
     <ClInclude Include="Source\vdpch.h">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\Application.h">
+      <Filter>Source\Void</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\Core.h">
+      <Filter>Source\Void</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\Input.h">
+      <Filter>Source\Void</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\KeyCodes.h">
+      <Filter>Source\Void</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\Layer.h">
+      <Filter>Source\Void</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\LayerStack.h">
+      <Filter>Source\Void</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\Log.h">
+      <Filter>Source\Void</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\MouseButtonCodes.h">
+      <Filter>Source\Void</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\Window.h">
+      <Filter>Source\Void</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -215,23 +215,23 @@
     <ClCompile Include="Source\Renderer\VertexBuffer.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Void\Application.cpp">
-      <Filter>Source\Void</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Void\Core\Time.cpp">
       <Filter>Source\Void\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Void\Layer.cpp">
-      <Filter>Source\Void</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Void\LayerStack.cpp">
-      <Filter>Source\Void</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Void\Log.cpp">
-      <Filter>Source\Void</Filter>
-    </ClCompile>
     <ClCompile Include="Source\vdpch.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Void\Core\Application.cpp">
+      <Filter>Source\Void</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Void\Core\Layer.cpp">
+      <Filter>Source\Void</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Void\Core\LayerStack.cpp">
+      <Filter>Source\Void</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Void\Core\Log.cpp">
+      <Filter>Source\Void</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
