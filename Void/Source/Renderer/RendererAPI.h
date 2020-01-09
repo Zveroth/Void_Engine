@@ -21,6 +21,8 @@ public:
 
 	virtual void DrawIndexed(const Ref<VertexArray>& vertexArray) = 0;
 
+	virtual void SetViewport(uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height) = 0;
+
 	inline static API GetAPI() { return s_API; }
 
 private:

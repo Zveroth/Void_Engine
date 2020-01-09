@@ -33,12 +33,14 @@ private:
 	static Application* s_Instance;
 
 	bool OnWindowClose(WindowCloseEvent& CloseEvent);
+	bool OnWindowResize(WindowResizeEvent& ResizeEvent);
 
 	std::unique_ptr<Window> m_Window;
 	ImGuiLayer* m_ImGuiLayer;
 	LayerStack m_LayerStack;
 
 	bool m_bRunning;
+	bool m_bMinimized;
 };
 
 Application* CreateApplication();

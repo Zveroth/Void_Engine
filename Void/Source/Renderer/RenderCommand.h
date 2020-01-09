@@ -29,6 +29,11 @@ public:
 		s_RendererAPI->SetClearColor(color);
 	}
 
+	inline static void SetViewport(uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height)
+	{
+		s_RendererAPI->SetViewport(X, Y, Width, Height);
+	}
+
 private:
 
 	static RendererAPI* s_RendererAPI;

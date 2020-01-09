@@ -23,9 +23,12 @@
 
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderCommand.h"
+
+#include "Renderer/OrthoCamera.h"
 //--	Rendering
 
 //		Misc
 #include "Void/Core/Log.h"
 #include "Void/Core/Time.h"
+#include "Void/Misc/OrthoCameraController.h"
 //--	Misc

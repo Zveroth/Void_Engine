@@ -12,7 +12,7 @@
 
 Application* Application::s_Instance = nullptr;
 
-Application::Application() : m_bRunning(true)
+Application::Application() : m_bRunning(true) , m_bMinimized(false)
 {
 	VD_CORE_ASSERT(!s_Instance, "Application already exists!");
 	s_Instance = this;
@@ -42,10 +42,13 @@ void Application::Run()
 	{
 		RenderCommand::Clear();
 
-		float DeltaTime = Time::GetFrameTime();
+		if (!m_bMinimized)
+		{
+			float DeltaTime = Time::GetFrameTime();
 
-		for (Layer* layer : m_LayerStack)
-			layer->OnUpdate(DeltaTime);
+			for (Layer* layer : m_LayerStack)
+				layer->OnUpdate(DeltaTime);
+		}
 
 		m_ImGuiLayer->Begin();
 		for (Layer* layer : m_LayerStack)
@@ -60,6 +63,7 @@ void Application::OnEvent(Event& e)
 {
 	EventDispatcher Dispatcher(e);
 	Dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
+	Dispatcher.Dispatch<WindowResizeEvent>(std::bind(&Application::OnWindowResize, this, std::placeholders::_1));
 
 	for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 	{
@@ -73,6 +77,20 @@ bool Application::OnWindowClose(WindowCloseEvent& CloseEvent)
 {
 	m_bRunning = false;
 	return true;
+}
+
+bool Application::OnWindowResize(WindowResizeEvent& ResizeEvent)
+{
+	if (ResizeEvent.GetWidth() == 0 || ResizeEvent.GetHeight() == 0)
+	{
+		m_bMinimized = true;
+		return false;
+	}
+
+	m_bMinimized = false;
+	Renderer::OnWindowResize(ResizeEvent.GetWidth(), ResizeEvent.GetHeight());
+
+	return false;
 }
 
 void Application::PushLayer(Layer* layer)

@@ -14,4 +14,6 @@ public:
 	virtual void SetClearColor(const glm::vec4& color) override;
 
 	virtual void DrawIndexed(const Ref<VertexArray>& vertexArray) override;
+
+	virtual void SetViewport(uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height) override;
 };

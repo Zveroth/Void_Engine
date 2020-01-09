@@ -150,6 +150,7 @@
     <ClInclude Include="Source\Void\Core\Window.h">
       <Filter>Source\Void</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Void\Misc\OrthoCameraController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3rdParty\stb_image\stb_image.cpp">
@@ -233,5 +234,6 @@
     <ClCompile Include="Source\Void\Core\Log.cpp">
       <Filter>Source\Void</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Void\Misc\OrthoCameraController.cpp" />
   </ItemGroup>
 </Project>

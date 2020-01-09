@@ -1,7 +1,6 @@
 #include "Void.h"
 
 
-#include "Renderer/OrthoCamera.h"
 #include "imgui.h"
 #include "glm/gtc/matrix_transform.hpp"
 
@@ -12,7 +11,7 @@ class ExmpLayer : public Layer
 
 public:
 
-	ExmpLayer() : Layer("ExampleLayer"), m_Camera(1.6f * -2.0f, 1.6f * 2.0f, 0.9f * -2.0f, 0.9f * 2.0f), m_Rotation(0.0f) {}
+	ExmpLayer() : Layer("ExampleLayer"), m_CameraController(16.0f/ 9.0f), m_Rotation(0.0f) {}
 
 	virtual void OnAttach() override
 	{
@@ -46,7 +45,7 @@ public:
 		SIndexBuffer.reset(IndexBuffer::Create(indices, 6));
 		m_SquareVertexArray->SetIndexBuffer(SIndexBuffer);
 
-		m_Camera.SetPosition(glm::vec3(1.0f, 0.0f, 5.0f));
+		//m_CameraController.SetPosition(glm::vec3(1.0f, 0.0f, 5.0f));
 
 		m_TestTexture = Texture2D::Create("Assets/Textures/test.png");
 		m_TestTexture->Bind();
@@ -54,9 +53,9 @@ public:
 
 	virtual void OnUpdate(const float& DeltaTime) override
 	{
-		//m_Rotation += 90.0f * DeltaTime;
+		m_CameraController.OnUpdate(DeltaTime);
 
-		Renderer::BeginScene(m_Camera);
+		Renderer::BeginScene(m_CameraController.GetCamera());
 
 		Ref<Shader> TexShader = m_ShaderLibrary.Get("TextureShader");
 		std::static_pointer_cast<OpenGLShader>(TexShader)->Bind();
@@ -78,7 +77,7 @@ public:
 
 	virtual void OnEvent(Event& e) override
 	{
-		
+		m_CameraController.OnEvent(e);
 	}
 
 private:
@@ -89,7 +88,7 @@ private:
 
 	Ref<VertexArray> m_SquareVertexArray;
 
-	OrthographicCamera m_Camera;
+	OrthographicCameraController m_CameraController;
 
 	float m_Rotation;
 };

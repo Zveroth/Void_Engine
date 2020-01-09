@@ -10,7 +10,8 @@ class OrthographicCamera
 
 public:
 
-	OrthographicCamera(float Left, float Right, float Bottom, float Top, float NearPlane = 0.1f, float FarPlane = 100.0f);
+	OrthographicCamera(float Left, float Right, float Bottom, float Top, float NearPlane = -1.0f, float FarPlane = 1.0f);
+	void SetProjection(float Left, float Right, float Bottom, float Top, float NearPlane = -1.0f, float FarPlane = 1.0f);
 
 	void SetPosition(const glm::vec3& Position);
 	void SetRotation(const glm::vec3& Rotation);
