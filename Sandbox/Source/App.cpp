@@ -1,5 +1,5 @@
 #include "Void.h"
-
+#include "Void/EntryPoint.h"
 
 #include "imgui.h"
 #include "glm/gtc/matrix_transform.hpp"
@@ -93,6 +93,49 @@ private:
 	float m_Rotation;
 };
 
+class Render2DLayer : public Layer
+{
+public:
+
+	Render2DLayer() : Layer("Render2DLayer"), m_CameraController(16.0f / 9.0f), m_Rotation(0.0f) {}
+
+	virtual void OnAttach() override
+	{
+
+	}
+
+	virtual void OnUpdate(const float& DeltaTime) override
+	{
+		m_CameraController.OnUpdate(DeltaTime);
+
+		Renderer2D::BeginScene(m_CameraController.GetCamera());
+
+		Renderer2D::DrawQuad({ -0.1f, 0.0f }, { 0.5f, 0.5f }, { 0.3f, 0.3f, 0.6f, 1.0f });
+		Renderer2D::DrawQuad({ 0.2f, 0.3f }, { 0.3f, 0.3f }, { 0.4f, 0.7f, 0.1f, 1.0f });
+		Renderer2D::DrawQuad({ 0.1f, -0.1f }, { 0.5f, 0.5f }, { 1.0f, 0.0f, 0.0f, 0.25f });
+
+		Renderer2D::EndScene();
+	}
+
+	virtual void OnImGuiRender() override
+	{
+		ImGui::Begin("Framerate");
+		ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		ImGui::End();
+	}
+
+	virtual void OnEvent(Event& e) override
+	{
+		m_CameraController.OnEvent(e);
+	}
+
+private:
+
+	OrthographicCameraController m_CameraController;
+
+	float m_Rotation;
+};
+
 class Sandbox : public Application
 {
 
@@ -100,7 +143,8 @@ public:
 
 	Sandbox()
 	{
-		PushLayer(new ExmpLayer());
+		//PushLayer(new ExmpLayer());
+		PushLayer(new Render2DLayer());
 	}
 
 	~Sandbox()

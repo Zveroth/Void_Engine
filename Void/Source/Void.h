@@ -2,7 +2,6 @@
 
 
 #include "Void/Core/Application.h"
-#include "Void/EntryPoint.h"
 
 #include "Void/Core/Layer.h"
 #include "ImGui/ImGuiLayer.h"
@@ -22,6 +21,7 @@
 #include "Renderer/Texture.h"
 
 #include "Renderer/Renderer.h"
+#include "Renderer/Renderer2D.h"
 #include "Renderer/RenderCommand.h"
 
 #include "Renderer/OrthoCamera.h"

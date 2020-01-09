@@ -208,6 +208,41 @@ void OpenGLShader::UploadUniform(const std::string& Name, int Value)
 	glUniform1i(GetUniformLocation(Name), Value);
 }
 
+void OpenGLShader::SetUniform(const std::string& Name, const glm::mat4& Matrix)
+{
+	UploadUniform(Name, Matrix);
+}
+
+void OpenGLShader::SetUniform(const std::string& Name, const glm::mat3& Matrix)
+{
+	UploadUniform(Name, Matrix);
+}
+
+void OpenGLShader::SetUniform(const std::string& Name, const glm::vec4& Vector)
+{
+	UploadUniform(Name, Vector);
+}
+
+void OpenGLShader::SetUniform(const std::string& Name, const glm::vec3& Vector)
+{
+	UploadUniform(Name, Vector);
+}
+
+void OpenGLShader::SetUniform(const std::string& Name, const glm::vec2& Vector)
+{
+	UploadUniform(Name, Vector);
+}
+
+void OpenGLShader::SetUniform(const std::string& Name, float Value)
+{
+	UploadUniform(Name, Value);
+}
+
+void OpenGLShader::SetUniform(const std::string& Name, int Value)
+{
+	UploadUniform(Name, Value);
+}
+
 int OpenGLShader::GetUniformLocation(const std::string& Name)
 {
 	if (m_UniformCache.find(Name) != m_UniformCache.end())
