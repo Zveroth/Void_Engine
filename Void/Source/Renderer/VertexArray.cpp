@@ -6,7 +6,7 @@
 #include "Platform/OpenGL/OpenGLVertexArray.h"
 
 
-VertexArray* VertexArray::Create()
+Ref<VertexArray> VertexArray::Create()
 {
 	switch (Renderer::GetAPI())
 	{
@@ -17,7 +17,7 @@ VertexArray* VertexArray::Create()
 		return nullptr;
 
 	case RendererAPI::API::OpenGL:
-		return new OpenGLVertexArray();
+		return std::make_shared<OpenGLVertexArray>();
 		break;
 	}
 

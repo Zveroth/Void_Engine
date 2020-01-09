@@ -17,7 +17,7 @@ public:
 	{
 		Ref<Shader> TexShader = m_ShaderLibrary.Load("Assets/Shaders/TextureShader.glsl");
 
-		m_SquareVertexArray.reset(VertexArray::Create());
+		m_SquareVertexArray = VertexArray::Create();
 
 		float vertices[] = {
 			-0.75f, -0.75f, 0.0f, 0.0f, 0.0f,
@@ -27,7 +27,7 @@ public:
 		};
 
 		Ref<VertexBuffer> SVertexBuffer;
-		SVertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		SVertexBuffer = VertexBuffer::Create(vertices, sizeof(vertices));
 
 		SVertexBuffer->SetLayout({
 			{ ShaderDataType::Vec3, "i_Position" },

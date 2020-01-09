@@ -6,7 +6,7 @@
 #include "Platform/OpenGL/OpenGLVertexBuffer.h"
 
 
-VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size)
+Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
 {
 	switch (Renderer::GetAPI())
 	{
@@ -17,7 +17,7 @@ VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size)
 		return nullptr;
 
 	case RendererAPI::API::OpenGL:
-		return new OpenGLVertexBuffer(vertices, size);
+		return std::make_shared<OpenGLVertexBuffer>(vertices, size);
 		break;
 	}
 
