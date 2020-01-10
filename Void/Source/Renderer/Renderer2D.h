@@ -1,6 +1,7 @@
 #pragma once
 
 #include "OrthoCamera.h"
+#include "Texture.h"
 
 
 
@@ -17,5 +18,6 @@ public:
 
 	static void DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const glm::vec4& Color);
 	static void DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const glm::vec4& Color);
-
+	static void DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const Ref<Texture2D>& texture);
+	static void DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const Ref<Texture2D>& texture);
 };

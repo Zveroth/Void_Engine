@@ -32,6 +32,8 @@
 
 template <typename T>
 using Ref = std::shared_ptr<T>;
+#define CreateRef std::make_shared
 
 template <typename T>
 using SRef = std::unique_ptr<T>;
+#define CreateSRef std::make_unique

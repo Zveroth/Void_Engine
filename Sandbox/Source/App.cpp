@@ -101,7 +101,7 @@ public:
 
 	virtual void OnAttach() override
 	{
-
+		m_Texture = Texture2D::Create("Assets/Textures/test.png");
 	}
 
 	virtual void OnUpdate(const float& DeltaTime) override
@@ -111,8 +111,8 @@ public:
 		Renderer2D::BeginScene(m_CameraController.GetCamera());
 
 		Renderer2D::DrawQuad({ -0.1f, 0.0f }, { 0.5f, 0.5f }, { 0.3f, 0.3f, 0.6f, 1.0f });
-		Renderer2D::DrawQuad({ 0.2f, 0.3f }, { 0.3f, 0.3f }, { 0.4f, 0.7f, 0.1f, 1.0f });
 		Renderer2D::DrawQuad({ 0.1f, -0.1f }, { 0.5f, 0.5f }, { 1.0f, 0.0f, 0.0f, 0.25f });
+		Renderer2D::DrawQuad({ 0.2f, 0.3f , 1.0f}, { 0.3f, 0.3f }, m_Texture);
 
 		Renderer2D::EndScene();
 	}
@@ -131,8 +131,9 @@ public:
 
 private:
 
-	OrthographicCameraController m_CameraController;
+	Ref<Texture2D> m_Texture;
 
+	OrthographicCameraController m_CameraController;
 	float m_Rotation;
 };
 
