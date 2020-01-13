@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "KeyCodes.h"
 #include "Time.h"
+#include "Void/Utility/RandomGenerator.h"
 
 #include "Renderer/Shader.h"
 #include "Renderer/Renderer.h"
@@ -22,6 +23,8 @@ Application::Application() : m_bRunning(true) , m_bMinimized(false)
 	//m_Window->SetVSync(false);
 
 	Renderer::Init();
+
+	Random::Init();
 
 	m_ImGuiLayer = new ImGuiLayer();
 	PushOverlay(m_ImGuiLayer);

@@ -106,6 +106,8 @@ public:
 
 	virtual void OnUpdate(const float& DeltaTime) override
 	{
+		VD_TRACE("{0}", Random::Float());
+
 		m_CameraController.OnUpdate(DeltaTime);
 
 		Renderer2D::BeginScene(m_CameraController.GetCamera());

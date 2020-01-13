@@ -152,6 +152,7 @@
     </ClInclude>
     <ClInclude Include="Source\Void\Misc\OrthoCameraController.h" />
     <ClInclude Include="Source\Renderer\Renderer2D.h" />
+    <ClInclude Include="Source\Void\Utility\RandomGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3rdParty\stb_image\stb_image.cpp">
@@ -237,5 +238,6 @@
     </ClCompile>
     <ClCompile Include="Source\Void\Misc\OrthoCameraController.cpp" />
     <ClCompile Include="Source\Renderer\Renderer2D.cpp" />
+    <ClCompile Include="Source\Void\Utility\RandomGenerator.cpp" />
   </ItemGroup>
 </Project>

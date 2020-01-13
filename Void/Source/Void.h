@@ -31,4 +31,5 @@
 #include "Void/Core/Log.h"
 #include "Void/Core/Time.h"
 #include "Void/Misc/OrthoCameraController.h"
+#include "Void/Utility/RandomGenerator.h"
 //--	Misc
