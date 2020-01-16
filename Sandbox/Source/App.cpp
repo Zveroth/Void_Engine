@@ -110,9 +110,16 @@ public:
 
 		Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-		for(float X = -120.0f; X <= 120.0f; X += 1.0f)
-			for (float Y = -120.0f; Y <= 120.0f; Y += 1.0f)
+		unsigned int Counter = 0;
+		for (float X = -150.0f; X <= 159.0f; X += 1.0f)
+		{
+			for (float Y = -150.0f; Y <= 159.0f; Y += 1.0f)
+			{
+				Counter++;
 				Renderer2D::DrawQuad({ 0.03f * X, 0.03f * Y }, { 0.01f, 0.01f }, { 0.3f, 0.3f, 0.6f, 1.0f });
+			}
+		}
+		VD_TRACE("Counter: {0}", Counter);
 
 		Renderer2D::EndScene();
 
