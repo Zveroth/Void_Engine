@@ -23,5 +23,6 @@
     <None Include="Assets\Shaders\TextureShader.glsl" />
     <None Include="Assets\Shaders\FlatColorShader.glsl" />
     <None Include="Assets\Shaders\Shader2D.glsl" />
+    <None Include="Assets\Shaders\BatchShader.glsl" />
   </ItemGroup>
 </Project>

@@ -15,6 +15,7 @@ public:
 
 	static void BeginScene(const OrthographicCamera& Camera);
 	static void EndScene();
+	static void Flush();
 
 	static void DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const glm::vec4& Color);
 	static void DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const glm::vec4& Color);

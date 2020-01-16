@@ -41,8 +41,8 @@ public:
 			2, 3, 0
 		};
 
-		std::shared_ptr<IndexBuffer> SIndexBuffer;
-		SIndexBuffer.reset(IndexBuffer::Create(indices, 6));
+		Ref<IndexBuffer> SIndexBuffer;
+		SIndexBuffer = IndexBuffer::Create(indices, 6);
 		m_SquareVertexArray->SetIndexBuffer(SIndexBuffer);
 
 		//m_CameraController.SetPosition(glm::vec3(1.0f, 0.0f, 5.0f));
@@ -106,17 +106,17 @@ public:
 
 	virtual void OnUpdate(const float& DeltaTime) override
 	{
-		VD_TRACE("{0}", Random::Float());
-
 		m_CameraController.OnUpdate(DeltaTime);
 
 		Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-		Renderer2D::DrawQuad({ -0.1f, 0.0f }, { 0.5f, 0.5f }, { 0.3f, 0.3f, 0.6f, 1.0f });
-		Renderer2D::DrawQuad({ 0.1f, -0.1f }, { 0.5f, 0.5f }, { 1.0f, 0.0f, 0.0f, 0.25f });
-		Renderer2D::DrawQuad({ 0.2f, 0.3f , 1.0f}, { 0.3f, 0.3f }, m_Texture);
+		for(float X = -120.0f; X <= 120.0f; X += 1.0f)
+			for (float Y = -120.0f; Y <= 120.0f; Y += 1.0f)
+				Renderer2D::DrawQuad({ 0.03f * X, 0.03f * Y }, { 0.01f, 0.01f }, { 0.3f, 0.3f, 0.6f, 1.0f });
 
 		Renderer2D::EndScene();
+
+		Renderer2D::Flush();
 	}
 
 	virtual void OnImGuiRender() override

@@ -20,7 +20,7 @@ Application::Application() : m_bRunning(true) , m_bMinimized(false)
 
 	m_Window = std::unique_ptr<Window>(Window::Create());
 	m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
-	//m_Window->SetVSync(false);
+	m_Window->SetVSync(false);
 
 	Renderer::Init();
 
