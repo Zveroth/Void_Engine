@@ -21,6 +21,9 @@ public:
 	virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffers() const override { return m_VertexBuffers; }
 	virtual const Ref<IndexBuffer>& GetIndexBuffer() const override { return m_IndexBuffer; }
 
+	virtual void* MapVertexBuffer() override;
+	virtual void UnmapVertexBuffer() override;
+
 private:
 
 	std::vector<Ref<VertexBuffer>> m_VertexBuffers;

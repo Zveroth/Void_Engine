@@ -6,7 +6,7 @@
 #include "Platform/OpenGL/OpenGLIndexBuffer.h"
 
 
-IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t count)
+Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count)
 {
 	switch (Renderer::GetAPI())
 	{
@@ -17,7 +17,7 @@ IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t count)
 		return nullptr;
 
 	case RendererAPI::API::OpenGL:
-		return new OpenGLIndexBuffer(indices, count);
+		return CreateRef<OpenGLIndexBuffer>(indices, count);
 		break;
 	}
 

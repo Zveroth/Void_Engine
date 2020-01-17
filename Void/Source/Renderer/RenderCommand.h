@@ -19,6 +19,11 @@ public:
 		s_RendererAPI->DrawIndexed(vertexArray);
 	}
 
+	inline static void DrawIndexed(const Ref<VertexArray>& vertexArray, unsigned int NumOfIndices)
+	{
+		s_RendererAPI->DrawIndexed(vertexArray, NumOfIndices);
+	}
+
 	inline static void Clear()
 	{
 		s_RendererAPI->Clear();
