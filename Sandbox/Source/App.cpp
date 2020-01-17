@@ -97,7 +97,7 @@ class Render2DLayer : public Layer
 {
 public:
 
-	Render2DLayer() : Layer("Render2DLayer"), m_CameraController(16.0f / 9.0f), m_Rotation(0.0f) {}
+	Render2DLayer() : Layer("Render2DLayer"), m_CameraController(16.0f / 9.0f), m_Rotation(0.0f), m_SpriteCount(100.0f) {}
 
 	virtual void OnAttach() override
 	{
@@ -110,16 +110,13 @@ public:
 
 		Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-		unsigned int Counter = 0;
-		for (float X = -150.0f; X <= 159.0f; X += 1.0f)
+		for (float X = -(m_SpriteCount / 2.0f) + 1.0f; X <= (m_SpriteCount / 2.0f); X += 1.0f)
 		{
-			for (float Y = -150.0f; Y <= 159.0f; Y += 1.0f)
+			for (float Y = -(m_SpriteCount / 2.0f) + 1.0f; Y <= (m_SpriteCount / 2.0f); Y += 1.0f)
 			{
-				Counter++;
-				Renderer2D::DrawQuad({ 0.03f * X, 0.03f * Y }, { 0.01f, 0.01f }, { 0.3f, 0.3f, 0.6f, 1.0f });
+				Renderer2D::DrawQuad({ 0.03f * X, 0.03f * Y }, { 0.01f, 0.01f }, { (X + (m_SpriteCount / 2.0f)) / m_SpriteCount , (Y + (m_SpriteCount / 2.0f)) / m_SpriteCount, 0.0f, 1.0f });
 			}
 		}
-		VD_TRACE("Counter: {0}", Counter);
 
 		Renderer2D::EndScene();
 
@@ -130,6 +127,10 @@ public:
 	{
 		ImGui::Begin("Framerate");
 		ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		ImGui::End();
+
+		ImGui::Begin("Batch rendering");
+		ImGui::DragFloat("Sprite count", &m_SpriteCount, 1.0f, 2.0f, 1000.0f);
 		ImGui::End();
 	}
 
@@ -144,6 +145,8 @@ private:
 
 	OrthographicCameraController m_CameraController;
 	float m_Rotation;
+
+	float m_SpriteCount;
 };
 
 class Sandbox : public Application

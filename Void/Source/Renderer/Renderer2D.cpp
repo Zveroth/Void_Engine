@@ -2,38 +2,21 @@
 #include "Renderer2D.h"
 
 #include "RenderCommand.h"
-#include "Shader.h"
-#include "VertexArray.h"
 
 
 #include "glm/gtc/matrix_transform.hpp"
 
-#include "glad/glad.h"
-
 
 #define MAX_SPRITES 100000
-#define SPRITE_SIZE sizeof(float) * 3 * 4
+#define SPRITE_SIZE sizeof(VertexBufferData) * 4
 #define MAX_BUFFER_SIZE SPRITE_SIZE * MAX_SPRITES
 #define MAX_INDICES_BUFFER MAX_SPRITES * 6
 
 
-struct Renderer2DData
-{
-	Ref<VertexArray> vertexArray;
-	Ref<Shader> Shader2D;
-};
+VertexBufferData* Renderer2D::s_Bufferptr = nullptr;
+unsigned int Renderer2D::s_IndicesCount = 0;
+Renderer2DData* Renderer2D::s_Data = nullptr;
 
-struct VertexBufferData
-{
-	glm::vec3 Position;
-};
-
-static VertexBufferData* Bufferptr = nullptr;
-static unsigned int IndicesCount = 0;
-
-static unsigned int FrameRemapCounter = 0;
-
-static Renderer2DData* s_Data = nullptr;
 
 void Renderer2D::Init()
 {
@@ -44,7 +27,8 @@ void Renderer2D::Init()
 	SVertexBuffer = VertexBuffer::Create(nullptr, MAX_BUFFER_SIZE);
 
 	SVertexBuffer->SetLayout({
-		{ ShaderDataType::Vec3, "i_Position" }
+		{	ShaderDataType::Vec3, "i_Position"	},
+		{	ShaderDataType::Vec4, "_Color"		}
 		});
 	s_Data->vertexArray->AddVertexBuffer(SVertexBuffer);
 
@@ -84,21 +68,18 @@ void Renderer2D::BeginScene(const OrthographicCamera& Camera)
 	s_Data->Shader2D->SetUniform("u_View", Camera.GetViewMatrix());
 	s_Data->Shader2D->SetUniform("u_Projection", Camera.GetProjectionMatrix());
 
-	IndicesCount = 0;
-	Bufferptr = (VertexBufferData*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
-
-	FrameRemapCounter = 0;
+	s_IndicesCount = 0;
+	s_Bufferptr = (VertexBufferData*)s_Data->vertexArray->MapVertexBuffer();
 }
 
 void Renderer2D::EndScene()
 {
-	glUnmapBuffer(GL_ARRAY_BUFFER);
-	VD_CORE_TRACE("Remaps: {0}", FrameRemapCounter);
+	s_Data->vertexArray->UnmapVertexBuffer();
 }
 
 void Renderer2D::Flush()
 {
-	glDrawElements(GL_TRIANGLES, IndicesCount, GL_UNSIGNED_INT, nullptr);
+	RenderCommand::DrawIndexed(s_Data->vertexArray, s_IndicesCount);
 }
 
 void Renderer2D::DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const glm::vec4& Color)
@@ -108,36 +89,30 @@ void Renderer2D::DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, con
 
 void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const glm::vec4& Color)
 {
+	s_Bufferptr->Position = Position + glm::vec3(-Extent.x, Extent.y , 0.0f);
+	s_Bufferptr->Color = Color;
+	s_Bufferptr++;
+	
+	s_Bufferptr->Position = Position + glm::vec3(-Extent.x, -Extent.y, 0.0f);
+	s_Bufferptr->Color = Color;
+	s_Bufferptr++;
+	
+	s_Bufferptr->Position = Position + glm::vec3(Extent.x, -Extent.y, 0.0f);
+	s_Bufferptr->Color = Color;
+	s_Bufferptr++;
+	
+	s_Bufferptr->Position = Position + glm::vec3(Extent.x, Extent.y, 0.0f);
+	s_Bufferptr->Color = Color;
+	s_Bufferptr++;
 
-	Bufferptr->Position.x = Position.x - Extent.x;
-	Bufferptr->Position.y = Position.y + Extent.y;
-	Bufferptr->Position.z = Position.z;
-	Bufferptr++;
+	s_IndicesCount += 6;
 
-	Bufferptr->Position.x = Position.x - Extent.x;
-	Bufferptr->Position.y = Position.y - Extent.y;
-	Bufferptr->Position.z = Position.z;
-	Bufferptr++;
-
-	Bufferptr->Position.x = Position.x + Extent.x;
-	Bufferptr->Position.y = Position.y - Extent.y;
-	Bufferptr->Position.z = Position.z;
-	Bufferptr++;
-
-	Bufferptr->Position.x = Position.x + Extent.x;
-	Bufferptr->Position.y = Position.y + Extent.y;
-	Bufferptr->Position.z = Position.z;
-	Bufferptr++;
-
-	IndicesCount += 6;
-
-	if (IndicesCount == MAX_INDICES_BUFFER)
+	if (s_IndicesCount == MAX_INDICES_BUFFER)
 	{
-		FrameRemapCounter++;
-		glUnmapBuffer(GL_ARRAY_BUFFER);
+		s_Data->vertexArray->UnmapVertexBuffer();
 		Flush();
-		IndicesCount = 0;
-		Bufferptr = (VertexBufferData*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+		s_IndicesCount = 0;
+		s_Bufferptr = (VertexBufferData*)s_Data->vertexArray->MapVertexBuffer();
 	}
 }
 

@@ -28,6 +28,11 @@ void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray)
 	glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 }
 
+void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray, unsigned int NumOfIndices)
+{
+	glDrawElements(GL_TRIANGLES, NumOfIndices, GL_UNSIGNED_INT, nullptr);
+}
+
 void OpenGLRendererAPI::SetViewport(uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height)
 {
 	glViewport(X, Y, Width, Height);

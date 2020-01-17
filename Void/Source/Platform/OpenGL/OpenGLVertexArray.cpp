@@ -51,3 +51,13 @@ void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
 	indexBuffer->Bind();
 	m_IndexBuffer = indexBuffer;
 }
+
+void* OpenGLVertexArray::MapVertexBuffer()
+{
+	return glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+}
+
+void OpenGLVertexArray::UnmapVertexBuffer()
+{
+	glUnmapBuffer(GL_ARRAY_BUFFER);
+}
