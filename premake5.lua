@@ -51,6 +51,7 @@ project "Void"
 		"%{prj.name}/Source",
 		"%{prj.name}/3rdParty/spdlog/include",
 		"%{prj.name}/3rdParty/stb_image",
+		"%{prj.name}/3rdParty/assimp/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLAD}",
 		"%{IncludeDir.ImGui}",
@@ -71,7 +72,6 @@ project "Void"
 	defines
 	{
 		"VD_PLATFORM_WINDOWS",
-		"VD_BUILD_DLL",
 		"GLFW_INCLUDE_NONE"
 	}
 
@@ -116,9 +116,15 @@ project "Sandbox"
 		"%{IncludeDir.glm}"
 	}
 
+	libdirs
+	{
+		"%{prj.name}/../Void/3rdParty/assimp/lib"
+	}
+
 	links
 	{
-		"Void"
+		"Void",
+		"assimp-vc142-mt.lib"
 	}
 
 	filter "system:windows"
@@ -127,6 +133,11 @@ project "Sandbox"
 	defines
 	{
 		"VD_PLATFORM_WINDOWS"
+	}
+
+	postbuildcommands
+	{
+		("{COPY} ../Void/3rdParty/assimp/lib/assimp-vc142-mt.dll ../bin/" .. OutputDir .. "/Sandbox")
 	}
 
 	filter "configurations:Debug"

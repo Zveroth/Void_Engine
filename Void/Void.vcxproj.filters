@@ -34,6 +34,12 @@
     <Filter Include="Source\Void\Events">
       <UniqueIdentifier>{7BBF5A27-67A3-1B7D-D003-16D0BC0606FF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Void\Misc">
+      <UniqueIdentifier>{92C80B47-7EC1-2A99-A7F3-0F1E934B0AA5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Void\Utility">
+      <UniqueIdentifier>{BA44F3DD-26A6-D0EB-AF13-179E1B7407AB}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rdParty\stb_image\stb_image.h">
@@ -84,6 +90,9 @@
     <ClInclude Include="Source\Renderer\Renderer.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Renderer\Renderer2D.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Renderer\RendererAPI.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
@@ -102,7 +111,34 @@
     <ClInclude Include="Source\Void.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Void\Core\Application.h">
+      <Filter>Source\Void\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\Core.h">
+      <Filter>Source\Void\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\Input.h">
+      <Filter>Source\Void\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\KeyCodes.h">
+      <Filter>Source\Void\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\Layer.h">
+      <Filter>Source\Void\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\LayerStack.h">
+      <Filter>Source\Void\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\Log.h">
+      <Filter>Source\Void\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\MouseButtonCodes.h">
+      <Filter>Source\Void\Core</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Void\Core\Time.h">
+      <Filter>Source\Void\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Core\Window.h">
       <Filter>Source\Void\Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Void\EntryPoint.h">
@@ -120,39 +156,15 @@
     <ClInclude Include="Source\Void\Events\MouseEvent.h">
       <Filter>Source\Void\Events</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Void\Misc\OrthoCameraController.h">
+      <Filter>Source\Void\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Void\Utility\RandomGenerator.h">
+      <Filter>Source\Void\Utility</Filter>
+    </ClInclude>
     <ClInclude Include="Source\vdpch.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Void\Core\Application.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Void\Core\Core.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Void\Core\Input.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Void\Core\KeyCodes.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Void\Core\Layer.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Void\Core\LayerStack.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Void\Core\Log.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Void\Core\MouseButtonCodes.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Void\Core\Window.h">
-      <Filter>Source\Void</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Void\Misc\OrthoCameraController.h" />
-    <ClInclude Include="Source\Renderer\Renderer2D.h" />
-    <ClInclude Include="Source\Void\Utility\RandomGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3rdParty\stb_image\stb_image.cpp">
@@ -203,6 +215,9 @@
     <ClCompile Include="Source\Renderer\Renderer.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Renderer\Renderer2D.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Renderer\RendererAPI.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
@@ -218,26 +233,29 @@
     <ClCompile Include="Source\Renderer\VertexBuffer.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Void\Core\Application.cpp">
+      <Filter>Source\Void\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Void\Core\Layer.cpp">
+      <Filter>Source\Void\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Void\Core\LayerStack.cpp">
+      <Filter>Source\Void\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Void\Core\Log.cpp">
+      <Filter>Source\Void\Core</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Void\Core\Time.cpp">
       <Filter>Source\Void\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Void\Misc\OrthoCameraController.cpp">
+      <Filter>Source\Void\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Void\Utility\RandomGenerator.cpp">
+      <Filter>Source\Void\Utility</Filter>
     </ClCompile>
     <ClCompile Include="Source\vdpch.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Void\Core\Application.cpp">
-      <Filter>Source\Void</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Void\Core\Layer.cpp">
-      <Filter>Source\Void</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Void\Core\LayerStack.cpp">
-      <Filter>Source\Void</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Void\Core\Log.cpp">
-      <Filter>Source\Void</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Void\Misc\OrthoCameraController.cpp" />
-    <ClCompile Include="Source\Renderer\Renderer2D.cpp" />
-    <ClCompile Include="Source\Void\Utility\RandomGenerator.cpp" />
   </ItemGroup>
 </Project>

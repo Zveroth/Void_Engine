@@ -11,6 +11,8 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderCommand.h"
 
+#include "assimp/Importer.hpp"
+
 Application* Application::s_Instance = nullptr;
 
 Application::Application() : m_bRunning(true) , m_bMinimized(false)
@@ -28,6 +30,8 @@ Application::Application() : m_bRunning(true) , m_bMinimized(false)
 
 	m_ImGuiLayer = new ImGuiLayer();
 	PushOverlay(m_ImGuiLayer);
+
+	Assimp::Importer importer;
 }
 
 Application::~Application()
