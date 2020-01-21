@@ -25,6 +25,7 @@
 #include "Renderer/RenderCommand.h"
 
 #include "Renderer/OrthoCamera.h"
+#include "Renderer/PerspectiveCamera.h"
 //--	Rendering
 
 //		Misc

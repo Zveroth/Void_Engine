@@ -6,6 +6,11 @@
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
+
+#define ASP_RAT (16.0f / 9.0f)
+
+
+
 class ExmpLayer : public Layer
 {
 
@@ -97,18 +102,21 @@ class Render2DLayer : public Layer
 {
 public:
 
-	Render2DLayer() : Layer("Render2DLayer"), m_CameraController(16.0f / 9.0f), m_Rotation(0.0f), m_SpriteCount(100.0f) {}
+	Render2DLayer() : Layer("Render2DLayer"), m_Camera(16.0f / 9.0f, 60.0f),
+		//m_CameraController(16.0f / 9.0f)
+		m_Rotation(0.0f), m_SpriteCount(100.0f) {}
 
 	virtual void OnAttach() override
 	{
 		m_Texture = Texture2D::Create("Assets/Textures/test.png");
+		m_Camera.SetPosition({ 0.0f, 0.0f, 5.0f });
 	}
 
 	virtual void OnUpdate(const float& DeltaTime) override
 	{
-		m_CameraController.OnUpdate(DeltaTime);
+		//m_CameraController.OnUpdate(DeltaTime);
 
-		Renderer2D::BeginScene(m_CameraController.GetCamera());
+		Renderer2D::BeginScene(m_Camera);
 
 		for (float X = -(m_SpriteCount / 2.0f) + 1.0f; X <= (m_SpriteCount / 2.0f); X += 1.0f)
 		{
@@ -136,14 +144,15 @@ public:
 
 	virtual void OnEvent(Event& e) override
 	{
-		m_CameraController.OnEvent(e);
+		//m_CameraController.OnEvent(e);
 	}
 
 private:
 
 	Ref<Texture2D> m_Texture;
 
-	OrthographicCameraController m_CameraController;
+	//OrthographicCameraController m_CameraController;
+	PerspectiveCamera m_Camera;
 	float m_Rotation;
 
 	float m_SpriteCount;

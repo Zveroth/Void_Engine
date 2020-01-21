@@ -62,7 +62,7 @@ void Renderer2D::Shutdown()
 		delete s_Data;
 }
 
-void Renderer2D::BeginScene(const OrthographicCamera& Camera)
+void Renderer2D::BeginScene(const Camera& Camera)
 {
 	s_Data->Shader2D->Bind();
 	s_Data->Shader2D->SetUniform("u_View", Camera.GetViewMatrix());

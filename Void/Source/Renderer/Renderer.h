@@ -16,7 +16,7 @@ public:
 
 	static void OnWindowResize(uint32_t Width, uint32_t Height);
 
-	static void BeginScene(OrthographicCamera& Camera);
+	static void BeginScene(const Camera& Camera);
 	static void EndScene();
 
 	static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader);

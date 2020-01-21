@@ -26,7 +26,7 @@ public:
 	static void Init();
 	static void Shutdown();
 
-	static void BeginScene(const OrthographicCamera& Camera);
+	static void BeginScene(const Camera& Camera);
 	static void EndScene();
 	static void Flush();
 
