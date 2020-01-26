@@ -112,6 +112,7 @@ project "Sandbox"
 	{
 		"Void/Source",
 		"Void/3rdParty/spdlog/include",
+		"Void/3rdParty/assimp/include",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}"
 	}
