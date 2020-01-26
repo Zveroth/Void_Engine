@@ -147,6 +147,8 @@
     <ClInclude Include="Source\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="Source\Renderer\Camera.h" />
     <ClInclude Include="Source\Renderer\IndexBuffer.h" />
+    <ClInclude Include="Source\Renderer\Mesh.h" />
+    <ClInclude Include="Source\Renderer\Model.h" />
     <ClInclude Include="Source\Renderer\OrthoCamera.h" />
     <ClInclude Include="Source\Renderer\PerspectiveCamera.h" />
     <ClInclude Include="Source\Renderer\RenderCommand.h" />
@@ -193,6 +195,8 @@
     <ClCompile Include="Source\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="Source\Renderer\Camera.cpp" />
     <ClCompile Include="Source\Renderer\IndexBuffer.cpp" />
+    <ClCompile Include="Source\Renderer\Mesh.cpp" />
+    <ClCompile Include="Source\Renderer\Model.cpp" />
     <ClCompile Include="Source\Renderer\OrthoCamera.cpp" />
     <ClCompile Include="Source\Renderer\PerspectiveCamera.cpp" />
     <ClCompile Include="Source\Renderer\RenderCommand.cpp" />

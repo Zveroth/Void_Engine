@@ -4,8 +4,6 @@
 #include "imgui.h"
 #include "glm/gtc/matrix_transform.hpp"
 
-#include "Platform/OpenGL/OpenGLShader.h"
-
 
 #define ASP_RAT (16.0f / 9.0f)
 
@@ -63,11 +61,11 @@ public:
 		Renderer::BeginScene(m_CameraController.GetCamera());
 
 		Ref<Shader> TexShader = m_ShaderLibrary.Get("TextureShader");
-		std::static_pointer_cast<OpenGLShader>(TexShader)->Bind();
+		TexShader->Bind();
 		glm::mat4 Model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0));
 		Model = glm::rotate(Model, glm::radians(m_Rotation), glm::vec3(0, 0, 1));
-		std::static_pointer_cast<OpenGLShader>(TexShader)->UploadUniform("u_Model", Model);
-		std::static_pointer_cast<OpenGLShader>(TexShader)->UploadUniform("u_Texture", 0);
+		TexShader->SetUniform("u_Model", Model);
+		TexShader->SetUniform("u_Texture", 0);
 		Renderer::Submit(m_SquareVertexArray, TexShader);
 
 		Renderer::EndScene();
@@ -158,6 +156,50 @@ private:
 	float m_SpriteCount;
 };
 
+class ModelTestLayer : public Layer
+{
+public:
+
+	ModelTestLayer() : Layer("Render2DLayer"), m_Camera(16.0f / 9.0f, 60.0f) {}
+
+	virtual void OnAttach() override
+	{
+		m_Camera.SetPosition({ 0.0f, 0.0f, 5.0f });
+
+		m_TestModel = CreateRef<Model>("Assets/Models/nanosuit/nanosuit.obj");
+		m_ModelShader = Shader::Create("Assets/Shaders/ModelShader.glsl");
+	}
+
+	virtual void OnUpdate(const float& DeltaTime) override
+	{
+		Renderer::BeginScene(m_Camera);
+
+		m_TestModel->Draw(m_ModelShader);
+
+		Renderer::EndScene();
+	}
+
+	virtual void OnImGuiRender() override
+	{
+		ImGui::Begin("Framerate");
+		ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		ImGui::End();
+	}
+
+	virtual void OnEvent(Event& e) override
+	{
+		
+	}
+
+private:
+
+	Ref<Shader> m_ModelShader;
+	Ref<Model> m_TestModel;
+
+	PerspectiveCamera m_Camera;
+
+};
+
 class Sandbox : public Application
 {
 
@@ -166,7 +208,8 @@ public:
 	Sandbox()
 	{
 		//PushLayer(new ExmpLayer());
-		PushLayer(new Render2DLayer());
+		//PushLayer(new Render2DLayer());
+		PushLayer(new ModelTestLayer());
 	}
 
 	~Sandbox()

@@ -3,9 +3,6 @@
 
 #include "Renderer2D.h"
 
-#include "Platform/OpenGL/OpenGLShader.h"
-
-
 Renderer::SceneData* Renderer::s_SceneData = new Renderer::SceneData;
 
 void Renderer::Init()
@@ -33,8 +30,8 @@ void Renderer::EndScene()
 void Renderer::Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader)
 {
 	shader->Bind();
-	std::static_pointer_cast<OpenGLShader>(shader)->UploadUniform(std::string("u_View"), s_SceneData->ViewMatrix);
-	std::static_pointer_cast<OpenGLShader>(shader)->UploadUniform(std::string("u_Projection"), s_SceneData->ProjectionMatrix);
+	shader->SetUniform(std::string("u_View"), s_SceneData->ViewMatrix);
+	shader->SetUniform(std::string("u_Projection"), s_SceneData->ProjectionMatrix);
 
 	vertexArray->Bind();
 	RenderCommand::DrawIndexed(vertexArray);

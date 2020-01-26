@@ -167,6 +167,8 @@
     </ClInclude>
     <ClInclude Include="Source\Renderer\Camera.h" />
     <ClInclude Include="Source\Renderer\PerspectiveCamera.h" />
+    <ClInclude Include="Source\Renderer\Model.h" />
+    <ClInclude Include="Source\Renderer\Mesh.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3rdParty\stb_image\stb_image.cpp">
@@ -261,5 +263,7 @@
     </ClCompile>
     <ClCompile Include="Source\Renderer\Camera.cpp" />
     <ClCompile Include="Source\Renderer\PerspectiveCamera.cpp" />
+    <ClCompile Include="Source\Renderer\Model.cpp" />
+    <ClCompile Include="Source\Renderer\Mesh.cpp" />
   </ItemGroup>
 </Project>

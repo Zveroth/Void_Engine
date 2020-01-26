@@ -16,7 +16,7 @@ Ref<Shader> Shader::Create(const std::string& FilePath)
 		return nullptr;
 
 	case RendererAPI::API::OpenGL:
-		return std::make_shared<OpenGLShader>(FilePath);
+		return CreateRef<OpenGLShader>(FilePath);
 		break;
 	}
 
