@@ -22,6 +22,7 @@ public:
 	virtual void SetUniform(const std::string& Name, const glm::vec2& Vector) = 0;
 	virtual void SetUniform(const std::string& Name, float Value) = 0;
 	virtual void SetUniform(const std::string& Name, int Value) = 0;
+	virtual void SetUniform(const std::string& Name, int* Values, uint32_t Count) = 0;
 
 	static Ref<Shader> Create(const std::string& FilePath);
 	static Ref<Shader> Create(const std::string& Name, const std::string& vertexSource, const std::string& fragmentSource);

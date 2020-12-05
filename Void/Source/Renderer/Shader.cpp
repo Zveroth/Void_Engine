@@ -73,7 +73,7 @@ Ref<Shader> ShaderLibrary::Load(const std::string& FilePath, const std::string& 
 
 Ref<Shader> ShaderLibrary::Get(const std::string& Name)
 {
-	VD_CORE_ASSERT(Exists(Name), "Requested shader doesn\'t exist exists!");
+	VD_CORE_ASSERT(Exists(Name), "Requested shader doesn't exist exists!");
 	return m_Shaders[Name];
 }
 

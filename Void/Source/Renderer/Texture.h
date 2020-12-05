@@ -17,6 +17,8 @@ public:
 	virtual void Bind(unsigned int Slot = 0) const = 0;
 
 	virtual void SetData(void* Data, uint32_t size) = 0;
+
+	virtual bool operator==(const Texture& other) const = 0;
 };
 
 class Texture2D : public Texture

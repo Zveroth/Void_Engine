@@ -23,6 +23,11 @@ public:
 
 	virtual void SetData(void* Data, uint32_t size) override;
 
+	virtual bool operator==(const Texture& other) const override
+	{
+		return m_RendererID == ((OpenGLTexture2D&)other).m_RendererID;
+	}
+
 private:
 
 	std::string m_Path;

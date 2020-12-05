@@ -28,6 +28,7 @@ public:
 	void UploadUniform(const std::string& Name, const glm::vec2& Vector);
 	void UploadUniform(const std::string& Name, float Value);
 	void UploadUniform(const std::string& Name, int Value);
+	void UploadUniform(const std::string& Name, int* Values, uint32_t Count);
 
 	virtual void SetUniform(const std::string& Name, const glm::mat4& Matrix) override;
 	virtual void SetUniform(const std::string& Name, const glm::mat3& Matrix) override;
@@ -36,6 +37,7 @@ public:
 	virtual void SetUniform(const std::string& Name, const glm::vec2& Vector) override;
 	virtual void SetUniform(const std::string& Name, float Value) override;
 	virtual void SetUniform(const std::string& Name, int Value) override;
+	virtual void SetUniform(const std::string& Name, int* Values, uint32_t Count) override;
 
 private:
 

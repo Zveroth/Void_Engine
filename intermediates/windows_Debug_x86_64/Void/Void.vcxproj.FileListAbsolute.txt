@@ -1,0 +1,2 @@
+E:\SmallProjects\VoidEngine\Void\bin\windows_Debug_x86_64\Void\Void.pdb
+E:\SmallProjects\VoidEngine\Void\intermediates\windows_Debug_x86_64\Void\Void.pdb

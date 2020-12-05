@@ -1,0 +1,2 @@
+E:\SmallProjects\VoidEngine\Void\3rdParty\GLFW\bin\windows_Debug_x86_64\GLFW\GLFW.pdb
+E:\SmallProjects\VoidEngine\Void\3rdParty\GLFW\intermediates\windows_Debug_x86_64\GLFW\GLFW.pdb

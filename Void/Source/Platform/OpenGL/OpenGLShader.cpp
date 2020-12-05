@@ -208,6 +208,11 @@ void OpenGLShader::UploadUniform(const std::string& Name, int Value)
 	glUniform1i(GetUniformLocation(Name), Value);
 }
 
+void OpenGLShader::UploadUniform(const std::string& Name, int* Values, uint32_t Count)
+{
+	glUniform1iv(GetUniformLocation(Name), Count, Values);
+}
+
 void OpenGLShader::SetUniform(const std::string& Name, const glm::mat4& Matrix)
 {
 	UploadUniform(Name, Matrix);
@@ -241,6 +246,11 @@ void OpenGLShader::SetUniform(const std::string& Name, float Value)
 void OpenGLShader::SetUniform(const std::string& Name, int Value)
 {
 	UploadUniform(Name, Value);
+}
+
+void OpenGLShader::SetUniform(const std::string& Name, int* Values, uint32_t Count)
+{
+	UploadUniform(Name, Values, Count);
 }
 
 int OpenGLShader::GetUniformLocation(const std::string& Name)

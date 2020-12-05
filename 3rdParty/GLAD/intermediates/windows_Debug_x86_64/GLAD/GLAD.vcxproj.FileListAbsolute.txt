@@ -1,0 +1,2 @@
+E:\SmallProjects\VoidEngine\Void\3rdParty\GLAD\bin\windows_Debug_x86_64\GLAD\GLAD.pdb
+E:\SmallProjects\VoidEngine\Void\3rdParty\GLAD\intermediates\windows_Debug_x86_64\GLAD\GLAD.pdb

@@ -87,8 +87,8 @@ Ref<Mesh> Model::ProcessMesh(aiMesh* PMesh, const aiScene* Scene)
 		std::vector<TextureInfo> DiffuseMaps = LoadMaterialTextures(Material, aiTextureType_DIFFUSE, "Diffuse");
 		Textures.insert(Textures.end(), DiffuseMaps.begin(), DiffuseMaps.end());
 
-		//std::vector<TextureInfo> SpecularMaps = LoadMaterialTextures(Material, aiTextureType_SPECULAR, "Specular");
-		//Textures.insert(Textures.end(), SpecularMaps.begin(), SpecularMaps.end());
+		std::vector<TextureInfo> SpecularMaps = LoadMaterialTextures(Material, aiTextureType_SPECULAR, "Specular");
+		Textures.insert(Textures.end(), SpecularMaps.begin(), SpecularMaps.end());
 
 		/*std::vector<TextureInfo> NormalMaps = LoadMaterialTextures(Material, aiTextureType_NORMAL, "Normal");
 		Textures.insert(Textures.end(), NormalMaps.begin(), NormalMaps.end());
