@@ -47,20 +47,22 @@ void Application::Run()
 
 	while (m_bRunning)
 	{
-		RenderCommand::Clear();
 
 		if (!m_bMinimized)
 		{
+			RenderCommand::Clear();
+
 			float DeltaTime = Time::GetFrameTime();
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate(DeltaTime);
-		}
 
-		m_ImGuiLayer->Begin();
-		for (Layer* layer : m_LayerStack)
-			layer->OnImGuiRender();
-		m_ImGuiLayer->End();
+
+			m_ImGuiLayer->Begin();
+			for (Layer* layer : m_LayerStack)
+				layer->OnImGuiRender();
+			m_ImGuiLayer->End();
+		}
 
 		m_Window->OnUpdate();
 	}

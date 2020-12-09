@@ -9,6 +9,7 @@
 
 
 Renderer2D::BatchData Renderer2D::s_Data;
+Renderer2D::BatchStats Renderer2D::s_Stats;
 
 void Renderer2D::Init()
 {
@@ -20,7 +21,8 @@ void Renderer2D::Init()
 		{	ShaderDataType::Vec3, "i_Position"	},
 		{	ShaderDataType::Vec4, "i_Color"		},
 		{	ShaderDataType::Vec2, "i_TexCoord"	},
-		{	ShaderDataType::Float, "i_TexIndex"	}
+		{	ShaderDataType::Float, "i_TexIndex"	},
+		{	ShaderDataType::Float, "i_TexTiling"	}
 		});
 	s_Data.vertexArray->AddVertexBuffer(s_Data.vertexBuffer);
 
@@ -57,6 +59,11 @@ void Renderer2D::Init()
 	s_Data.Shader2D->SetUniform("u_Textures", Samplers, s_Data.MaxTextureSlots);
 
 	s_Data.CachedTextures[0] = s_Data.WhiteTexture;
+
+	s_Data.VertexPositions[0] = {	-1.0f,	-1.0f,	0.0f,	1.0f	};
+	s_Data.VertexPositions[1] = {	1.0f,	-1.0f,	0.0f,	1.0f	};
+	s_Data.VertexPositions[2] = {	1.0f,	1.0f,	0.0f,	1.0f	};
+	s_Data.VertexPositions[3] = {	-1.0f,	1.0f,	0.0f,	1.0f	};
 }
 
 void Renderer2D::Shutdown()
@@ -89,6 +96,8 @@ void Renderer2D::Flush()
 	s_Data.vertexBuffer->SetData(s_Data.BufferStart, s_Data.GetDataSize());
 
 	RenderCommand::DrawIndexed(s_Data.vertexArray, s_Data.IndicesCount);
+
+	s_Stats.DrawCalls++;
 }
 
 void Renderer2D::StartBatch()
@@ -104,12 +113,12 @@ void Renderer2D::NextBatch()
 	StartBatch();
 }
 
-void Renderer2D::DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const glm::vec4& Color)
+void Renderer2D::DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, float Rotation, const glm::vec4& Color)
 {
-	DrawQuad( { Position.x, Position.y, 0.0f }, Extent, Color);
+	DrawQuad( { Position.x, Position.y, 0.0f }, Extent, Rotation, Color);
 }
 
-void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const glm::vec4& Color)
+void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, float Rotation, const glm::vec4& Color)
 {
 	constexpr glm::vec2 TextureCoords[] = {
 		{ 0.0f, 0.0f },
@@ -123,49 +132,31 @@ void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, con
 	if (s_Data.IsBatchFull())
 		NextBatch();
 
-	s_Data.BufferCurrent->Position = Position + glm::vec3(-Extent.x, Extent.y, 0.0f);
-	s_Data.BufferCurrent->Color = Color;
-	s_Data.BufferCurrent->TexCoord = TextureCoords[0];
-	s_Data.BufferCurrent->TexIndex = WhiteTextureIndex;
-	s_Data.BufferCurrent++;
+	glm::mat4 Transform = glm::translate(glm::mat4(1.0f), Position)
+		* glm::rotate(glm::mat4(1.0f), glm::radians(Rotation), { 0.0f, 0.0f, 1.0f })
+		* glm::scale(glm::mat4(1.0f), { Extent.x, Extent.y, 1.0f });
 
-	s_Data.BufferCurrent->Position = Position + glm::vec3(-Extent.x, -Extent.y, 0.0f);
-	s_Data.BufferCurrent->Color = Color;
-	s_Data.BufferCurrent->TexCoord = TextureCoords[1];
-	s_Data.BufferCurrent->TexIndex = WhiteTextureIndex;
-	s_Data.BufferCurrent++;
-
-	s_Data.BufferCurrent->Position = Position + glm::vec3(Extent.x, -Extent.y, 0.0f);
-	s_Data.BufferCurrent->Color = Color;
-	s_Data.BufferCurrent->TexCoord = TextureCoords[2];
-	s_Data.BufferCurrent->TexIndex = WhiteTextureIndex;
-	s_Data.BufferCurrent++;
-
-	s_Data.BufferCurrent->Position = Position + glm::vec3(Extent.x, Extent.y, 0.0f);
-	s_Data.BufferCurrent->Color = Color;
-	s_Data.BufferCurrent->TexCoord = TextureCoords[3];
-	s_Data.BufferCurrent->TexIndex = WhiteTextureIndex;
-	s_Data.BufferCurrent++;
+	for (uint8_t I = 0; I < 4; I++)
+	{
+		s_Data.BufferCurrent->Position = Transform * s_Data.VertexPositions[I];
+		s_Data.BufferCurrent->Color = Color;
+		s_Data.BufferCurrent->TexCoord = TextureCoords[I];
+		s_Data.BufferCurrent->TexIndex = WhiteTextureIndex;
+		s_Data.BufferCurrent->TexTiling = 1.0f;
+		s_Data.BufferCurrent++;
+	}
 
 	s_Data.IndicesCount += 6;
+
+	s_Stats.QuadCount++;
 }
 
-void Renderer2D::DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const Ref<Texture2D>& texture)
+void Renderer2D::DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, float Rotation, const Ref<Texture2D>& texture, float TexTiling, const glm::vec4& Tint)
 {
-	DrawQuad({ Position.x, Position.y, 0.0f }, Extent, texture);
+	DrawQuad({ Position.x, Position.y, 0.0f }, Extent, Rotation, texture, TexTiling, Tint);
 }
 
-void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const Ref<Texture2D>& texture)
-{
-	DrawQuad(Position, Extent, texture, { 1.0f, 1.0f, 1.0f, 1.0 });
-}
-
-void Renderer2D::DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const Ref<Texture2D>& texture, const glm::vec4& Tint)
-{
-	DrawQuad({ Position.x, Position.y, 0.0f }, Extent, texture, Tint);
-}
-
-void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const Ref<Texture2D>& texture, const glm::vec4& Tint)
+void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, float Rotation, const Ref<Texture2D>& texture, float TexTiling, const glm::vec4& Tint)
 {
 	constexpr glm::vec2 TextureCoords[] = {
 		{ 0.0f, 0.0f },
@@ -198,29 +189,119 @@ void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, con
 		s_Data.CurrentTextureIndex++;
 	}
 
-	s_Data.BufferCurrent->Position = Position + glm::vec3(-Extent.x, Extent.y, 0.0f);
-	s_Data.BufferCurrent->Color = Tint;
-	s_Data.BufferCurrent->TexCoord = TextureCoords[0];
-	s_Data.BufferCurrent->TexIndex = TextureIndex;
-	s_Data.BufferCurrent++;
+	glm::mat4 Transform = glm::translate(glm::mat4(1.0f), Position)
+		* glm::rotate(glm::mat4(1.0f), glm::radians(Rotation), {0.0f, 0.0f, 1.0f})
+		* glm::scale(glm::mat4(1.0f), {Extent.x, Extent.y, 1.0f});
 
-	s_Data.BufferCurrent->Position = Position + glm::vec3(-Extent.x, -Extent.y, 0.0f);
-	s_Data.BufferCurrent->Color = Tint;
-	s_Data.BufferCurrent->TexCoord = TextureCoords[1];
-	s_Data.BufferCurrent->TexIndex = TextureIndex;
-	s_Data.BufferCurrent++;
-
-	s_Data.BufferCurrent->Position = Position + glm::vec3(Extent.x, -Extent.y, 0.0f);
-	s_Data.BufferCurrent->Color = Tint;
-	s_Data.BufferCurrent->TexCoord = TextureCoords[2];
-	s_Data.BufferCurrent->TexIndex = TextureIndex;
-	s_Data.BufferCurrent++;
-
-	s_Data.BufferCurrent->Position = Position + glm::vec3(Extent.x, Extent.y, 0.0f);
-	s_Data.BufferCurrent->Color = Tint;
-	s_Data.BufferCurrent->TexCoord = TextureCoords[3];
-	s_Data.BufferCurrent->TexIndex = TextureIndex;
-	s_Data.BufferCurrent++;
+	for (uint8_t I = 0; I < 4; I++)
+	{
+		s_Data.BufferCurrent->Position = Transform * s_Data.VertexPositions[I];
+		s_Data.BufferCurrent->Color = Tint;
+		s_Data.BufferCurrent->TexCoord = TextureCoords[I];
+		s_Data.BufferCurrent->TexIndex = TextureIndex;
+		s_Data.BufferCurrent->TexTiling = TexTiling;
+		s_Data.BufferCurrent++;
+	}
 
 	s_Data.IndicesCount += 6;
+
+	s_Stats.QuadCount++;
+}
+
+void Renderer2D::DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const glm::vec4& Color)
+{
+	DrawQuad({ Position.x, Position.y, 0.0f }, Extent, Color);
+}
+
+void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const glm::vec4& Color)
+{
+	constexpr glm::vec2 TextureCoords[] = {
+		{ 0.0f, 0.0f },
+		{ 1.0f, 0.0f },
+		{ 1.0f, 1.0f },
+		{ 0.0f, 1.0f }
+	};
+
+	constexpr float WhiteTextureIndex = 0.0f;
+
+	if (s_Data.IsBatchFull())
+		NextBatch();
+
+	glm::mat4 Transform = glm::translate(glm::mat4(1.0f), Position)
+		* glm::scale(glm::mat4(1.0f), { Extent.x, Extent.y, 1.0f });
+
+	for (uint8_t I = 0; I < 4; I++)
+	{
+		s_Data.BufferCurrent->Position = Transform * s_Data.VertexPositions[I];
+		s_Data.BufferCurrent->Color = Color;
+		s_Data.BufferCurrent->TexCoord = TextureCoords[I];
+		s_Data.BufferCurrent->TexIndex = WhiteTextureIndex;
+		s_Data.BufferCurrent->TexTiling = 1.0f;
+		s_Data.BufferCurrent++;
+	}
+
+	s_Data.IndicesCount += 6;
+
+	s_Stats.QuadCount++;
+}
+
+void Renderer2D::DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const Ref<Texture2D>& texture, float TexTiling, const glm::vec4& Tint)
+{
+	DrawQuad({ Position.x, Position.y, 0.0f }, Extent, texture, TexTiling, Tint);
+}
+
+void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const Ref<Texture2D>& texture, float TexTiling, const glm::vec4& Tint)
+{
+	constexpr glm::vec2 TextureCoords[] = {
+		{ 0.0f, 0.0f },
+		{ 1.0f, 0.0f },
+		{ 1.0f, 1.0f },
+		{ 0.0f, 1.0f }
+	};
+
+	if (s_Data.IsBatchFull())
+		NextBatch();
+
+	float TextureIndex = 0.0f;
+
+	for (uint8_t I = 1; I < s_Data.CurrentTextureIndex; I++)
+	{
+		if (*s_Data.CachedTextures[I] == *texture)
+		{
+			TextureIndex = I;
+			break;
+		}
+	}
+
+	if (TextureIndex == 0.0f)
+	{
+		if (s_Data.IsTextureCacheFull())
+			NextBatch();
+
+		TextureIndex = (float)s_Data.CurrentTextureIndex;
+		s_Data.CachedTextures[s_Data.CurrentTextureIndex] = texture;
+		s_Data.CurrentTextureIndex++;
+	}
+
+	glm::mat4 Transform = glm::translate(glm::mat4(1.0f), Position)
+		* glm::scale(glm::mat4(1.0f), { Extent.x, Extent.y, 1.0f });
+
+	for (uint8_t I = 0; I < 4; I++)
+	{
+		s_Data.BufferCurrent->Position = Transform * s_Data.VertexPositions[I];
+		s_Data.BufferCurrent->Color = Tint;
+		s_Data.BufferCurrent->TexCoord = TextureCoords[I];
+		s_Data.BufferCurrent->TexIndex = TextureIndex;
+		s_Data.BufferCurrent->TexTiling = TexTiling;
+		s_Data.BufferCurrent++;
+	}
+
+	s_Data.IndicesCount += 6;
+
+	s_Stats.QuadCount++;
+}
+
+void Renderer2D::ResetStats()
+{
+	memset(&s_Stats, 0, sizeof(BatchStats));
 }

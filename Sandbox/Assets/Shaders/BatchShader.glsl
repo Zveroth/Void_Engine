@@ -5,6 +5,7 @@ layout(location = 0) in vec3 i_Position;
 layout(location = 1) in vec4 i_Color;
 layout(location = 2) in vec2 i_TexCoord;
 layout(location = 3) in float i_TexIndex;
+layout(location = 4) in float i_TexTiling;
 
 uniform mat4 u_View;
 uniform mat4 u_Projection;
@@ -12,6 +13,7 @@ uniform mat4 u_Projection;
 out vec4 io_Color;
 out vec2 io_TexCoord;
 out float io_TexIndex;
+out float io_TexTiling;
 
 void main()
 {
@@ -20,6 +22,7 @@ void main()
 	io_Color = i_Color;
 	io_TexCoord = i_TexCoord;
 	io_TexIndex = i_TexIndex;
+	io_TexTiling = i_TexTiling;
 }
 
 
@@ -31,10 +34,11 @@ layout(location = 0) out vec4 o_Color;
 in vec4 io_Color;
 in vec2 io_TexCoord;
 in float io_TexIndex;
+in float io_TexTiling;
 
 uniform sampler2D u_Textures[32];
 
 void main()
 {
-	o_Color = io_Color * texture(u_Textures[int(io_TexIndex)], io_TexCoord);
+	o_Color = io_Color * texture(u_Textures[int(io_TexIndex)], io_TexCoord * io_TexTiling);
 }

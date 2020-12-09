@@ -17,22 +17,16 @@ class Renderer2D
 
 public:
 
-	static void Init();
-	static void Shutdown();
+	struct BatchStats
+	{
+		uint32_t DrawCalls = 0;
+		uint32_t QuadCount = 0;
 
-	static void BeginScene(const Camera& Camera);
-	static void EndScene();
-	static void Flush();
+		uint32_t GetVertexCount() { return QuadCount * 4; }
+		uint32_t GetIndexCount() { return QuadCount * 6; }
+	};
 
-	static void StartBatch();
-	static void NextBatch();
-
-	static void DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const glm::vec4& Color);
-	static void DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const glm::vec4& Color);
-	static void DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const Ref<Texture2D>& texture);
-	static void DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const Ref<Texture2D>& texture);
-	static void DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const Ref<Texture2D>& texture, const glm::vec4& Tint);
-	static void DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const Ref<Texture2D>& texture, const glm::vec4& Tint);
+private:
 
 	struct QuadVertex
 	{
@@ -40,11 +34,12 @@ public:
 		glm::vec4 Color;
 		glm::vec2 TexCoord;
 		float TexIndex;
+		float TexTiling;
 	};
 
 	struct BatchData
 	{
-		static const uint32_t MaxQuads = 10000;
+		static const uint32_t MaxQuads = 1000;
 		static const uint32_t MaxVertices = MaxQuads * 4;
 		static const uint32_t MaxIndices = MaxQuads * 6;
 		static const uint32_t MaxTextureSlots = 32;
@@ -62,12 +57,41 @@ public:
 		uint8_t CurrentTextureIndex;
 		Ref<Texture2D> WhiteTexture;
 
+		glm::vec4 VertexPositions[4];
+
 		uint32_t GetDataSize() { return (uint8_t*)BufferCurrent - (uint8_t*)BufferStart; }
 		bool IsBatchFull() { return IndicesCount >= MaxIndices; }
 		bool IsTextureCacheFull() { return CurrentTextureIndex >= MaxTextureSlots; }
 	};
 
+public:
+
+	static void Init();
+	static void Shutdown();
+
+	static void BeginScene(const Camera& Camera);
+	static void EndScene();
+
+	static void DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const glm::vec4& Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	static void DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const glm::vec4& Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	static void DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, float Rotation, const glm::vec4& Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	static void DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, float Rotation, const glm::vec4& Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+	static void DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const Ref<Texture2D>& texture, float TexTiling = 1.0f, const glm::vec4& Tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	static void DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const Ref<Texture2D>& texture, float TexTiling = 1.0f, const glm::vec4& Tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	static void DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, float Rotation, const Ref<Texture2D>& texture, float TexTiling = 1.0f, const glm::vec4& Tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	static void DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, float Rotation, const Ref<Texture2D>& texture, float TexTiling = 1.0f, const glm::vec4& Tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+	static void ResetStats();
+	static BatchStats GetStats() { return s_Stats; }
+
 private:
 
+	static void Flush();
+
+	static void StartBatch();
+	static void NextBatch();
+
 	static BatchData s_Data;
+	static BatchStats s_Stats;
 };
