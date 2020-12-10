@@ -19,6 +19,8 @@
 
 #include "Renderer/Shader.h"
 #include "Renderer/Texture.h"
+#include "Renderer/TextureAtlas.h"
+#include "Renderer/SubTexture2D.h"
 
 #include "Renderer/Renderer.h"
 #include "Renderer/Renderer2D.h"

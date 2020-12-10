@@ -2,6 +2,7 @@
 
 #include "OrthoCamera.h"
 #include "Texture.h"
+#include "SubTexture2D.h"
 #include "VertexArray.h"
 #include "Shader.h"
 
@@ -39,7 +40,7 @@ private:
 
 	struct BatchData
 	{
-		static const uint32_t MaxQuads = 1000;
+		static const uint32_t MaxQuads = 10000;
 		static const uint32_t MaxVertices = MaxQuads * 4;
 		static const uint32_t MaxIndices = MaxQuads * 6;
 		static const uint32_t MaxTextureSlots = 32;
@@ -82,6 +83,11 @@ public:
 	static void DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, float Rotation, const Ref<Texture2D>& texture, float TexTiling = 1.0f, const glm::vec4& Tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	static void DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, float Rotation, const Ref<Texture2D>& texture, float TexTiling = 1.0f, const glm::vec4& Tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
+	static void DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const SubTexture2D& SubTexture, const glm::vec4& Tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	static void DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const SubTexture2D& SubTexture, const glm::vec4& Tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	static void DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, float Rotation, const SubTexture2D& SubTexture, const glm::vec4& Tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	static void DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, float Rotation, const SubTexture2D& SubTexture, const glm::vec4& Tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
 	static void ResetStats();
 	static BatchStats GetStats() { return s_Stats; }
 
@@ -91,6 +97,8 @@ private:
 
 	static void StartBatch();
 	static void NextBatch();
+
+	static void SetNextQuadData(const glm::mat4& Transform, const glm::vec4& Color, const std::array<glm::vec2, 4>& TextureCoords, float TextureIndex, float TextureTiling);
 
 	static BatchData s_Data;
 	static BatchStats s_Stats;

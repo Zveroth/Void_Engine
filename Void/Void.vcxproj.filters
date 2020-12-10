@@ -177,6 +177,8 @@
     <ClInclude Include="Source\vdpch.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Renderer\TextureAtlas.h" />
+    <ClInclude Include="Source\Renderer\SubTexture2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3rdParty\stb_image\stb_image.cpp">
@@ -281,5 +283,7 @@
     <ClCompile Include="Source\vdpch.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Renderer\TextureAtlas.cpp" />
+    <ClCompile Include="Source\Renderer\SubTexture2D.cpp" />
   </ItemGroup>
 </Project>

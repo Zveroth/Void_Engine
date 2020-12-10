@@ -10,11 +10,14 @@ class Render2DLayer : public Layer
 {
 public:
 
-	Render2DLayer() : Layer("Render2DLayer"), CameraController(16.0f / 9.0f), m_SpriteCount(100.0f), m_Rotation(0.0f) {}
+	Render2DLayer() : Layer("Render2DLayer"), CameraController(16.0f / 9.0f), m_SpriteCount(1000.0f), m_Rotation(0.0f), XY(0, 0) {}
 
 	virtual void OnAttach() override
 	{
 		m_Texture = Texture2D::Create("Assets/Textures/test.png");
+		m_Atlas = CreateRef<TextureAtlas>(m_Texture, 2);
+
+		m_SubTexture.SetSourceAtlas(m_Atlas, { 0, 0 });
 	}
 
 	virtual void OnUpdate(const float& DeltaTime) override
@@ -26,7 +29,7 @@ public:
 		Renderer2D::ResetStats();
 		Renderer2D::BeginScene(CameraController.GetCamera());
 
-		if (Switcher)
+		/*if (Switcher)
 		{
 			for (float X = -(m_SpriteCount / 2.0f) + 1.0f; X <= (m_SpriteCount / 2.0f); X += 1.0f)
 			{
@@ -45,8 +48,10 @@ public:
 					Renderer2D::DrawQuad({ 0.03f * X, 0.03f * Y }, { 0.015f, 0.015f }, { (X + (m_SpriteCount / 2.0f)) / m_SpriteCount , (Y + (m_SpriteCount / 2.0f)) / m_SpriteCount, 0.0f, 1.0f });
 				}
 			}
-		}
+		}*/
 
+		Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 1.0f, 1.0f }, m_SubTexture);
+		Renderer2D::DrawQuad({ 1.0f, 0.0f }, { 1.0f, 1.0f }, m_Texture);
 
 		Renderer2D::EndScene();
 	}
@@ -66,7 +71,9 @@ public:
 		ImGui::End();
 
 		ImGui::Begin("Details");
-		ImGui::Checkbox("Switcher", &Switcher);
+		//ImGui::Checkbox("Switcher", &Switcher);
+		ImGui::InputInt("X: ", &XY.x);
+		ImGui::InputInt("Y: ", &XY.y);
 		ImGui::End();
 	}
 
@@ -83,6 +90,10 @@ private:
 	float m_Rotation;
 
 	Ref<Texture2D> m_Texture;
+	Ref<TextureAtlas> m_Atlas;
+	SubTexture2D m_SubTexture;
+
+	glm::vec<2, int> XY;
 };
 
 class Sandbox : public Application
