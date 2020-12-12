@@ -4,14 +4,9 @@
 
 
 
-class MouseButtonPressedEvent;
-class MouseButtonReleasedEvent;
-class MouseMoveEvent;
-class MouseScrolledEvent;
-class KeyPressedEvent;
-class KeyReleasedEvent;
-class KeyTypedEvent;
-class WindowResizeEvent;
+#include "Void/Events/ApplicationEvent.h"
+#include "Void/Events/KeyboardEvent.h"
+#include "Void/Events/MouseEvent.h"
 
 
 class  ImGuiLayer : public Layer
@@ -19,13 +14,18 @@ class  ImGuiLayer : public Layer
 
 public:
 
-	ImGuiLayer();
-	~ImGuiLayer();
+	ImGuiLayer() : Layer("ImGuiLayer") {}
 
 	virtual void OnAttach() override;
 	virtual void OnDetach() override;
-	virtual void OnImGuiRender() override;
+	virtual void OnEvent(Event& e) override;
+
+	void SetConsumeEvents(bool Consume) { m_bConsumeEvents = Consume; }
 
 	void Begin();
 	void End();
+
+private:
+
+	bool m_bConsumeEvents = true;
 };

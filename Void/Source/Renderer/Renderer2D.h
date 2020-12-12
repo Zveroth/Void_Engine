@@ -60,7 +60,7 @@ private:
 
 		glm::vec4 VertexPositions[4];
 
-		uint32_t GetDataSize() { return (uint8_t*)BufferCurrent - (uint8_t*)BufferStart; }
+		uint32_t GetDataSize() { return (uint32_t)((uint8_t*)BufferCurrent - (uint8_t*)BufferStart); }
 		bool IsBatchFull() { return IndicesCount >= MaxIndices; }
 		bool IsTextureCacheFull() { return CurrentTextureIndex >= MaxTextureSlots; }
 	};

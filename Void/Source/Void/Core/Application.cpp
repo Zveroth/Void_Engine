@@ -15,12 +15,12 @@
 
 Application* Application::s_Instance = nullptr;
 
-Application::Application() : m_bRunning(true) , m_bMinimized(false)
+Application::Application(const std::string& Name) : m_bRunning(true) , m_bMinimized(false)
 {
 	VD_CORE_ASSERT(!s_Instance, "Application already exists!");
 	s_Instance = this;
 
-	m_Window = std::unique_ptr<Window>(Window::Create());
+	m_Window = std::unique_ptr<Window>(Window::Create(Name));
 	m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 	m_Window->SetVSync(false);
 
@@ -30,8 +30,6 @@ Application::Application() : m_bRunning(true) , m_bMinimized(false)
 
 	m_ImGuiLayer = new ImGuiLayer();
 	PushOverlay(m_ImGuiLayer);
-
-	Assimp::Importer importer;
 }
 
 Application::~Application()
@@ -50,8 +48,6 @@ void Application::Run()
 
 		if (!m_bMinimized)
 		{
-			RenderCommand::Clear();
-
 			float DeltaTime = Time::GetFrameTime();
 
 			for (Layer* layer : m_LayerStack)
@@ -76,9 +72,9 @@ void Application::OnEvent(Event& e)
 
 	for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 	{
-		(*--it)->OnEvent(e);
 		if (e.m_bHandled)
 			break;
+		(*--it)->OnEvent(e);
 	}
 }
 
@@ -112,4 +108,9 @@ void Application::PushOverlay(Layer* overlay)
 {
 	m_LayerStack.PushOverlay(overlay);
 	overlay->OnAttach();
+}
+
+void Application::Exit()
+{
+	m_bRunning = false;
 }

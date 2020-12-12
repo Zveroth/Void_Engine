@@ -8,6 +8,8 @@ class RendererAPI
 {
 public:
 
+	virtual ~RendererAPI() = default;
+
 	enum class API
 	{
 		NONE = 0,

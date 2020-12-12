@@ -51,6 +51,9 @@
     <ClInclude Include="Source\Platform\OpenGL\OpenGLContext.h">
       <Filter>Source\Platform\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLFramebuffer.h">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Platform\OpenGL\OpenGLIndexBuffer.h">
       <Filter>Source\Platform\OpenGL</Filter>
     </ClInclude>
@@ -69,13 +72,13 @@
     <ClInclude Include="Source\Platform\OpenGL\OpenGLVertexBuffer.h">
       <Filter>Source\Platform\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Platform\Windows\WindowsInput.h">
-      <Filter>Source\Platform\Windows</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Platform\Windows\WindowsWindow.h">
       <Filter>Source\Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Source\Renderer\Camera.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\Framebuffer.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Source\Renderer\IndexBuffer.h">
@@ -111,7 +114,13 @@
     <ClInclude Include="Source\Renderer\Shader.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Renderer\SubTexture2D.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Renderer\Texture.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\TextureAtlas.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Source\Renderer\VertexArray.h">
@@ -177,8 +186,6 @@
     <ClInclude Include="Source\vdpch.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Renderer\TextureAtlas.h" />
-    <ClInclude Include="Source\Renderer\SubTexture2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3rdParty\stb_image\stb_image.cpp">
@@ -191,6 +198,9 @@
       <Filter>Source\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Source\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLFramebuffer.cpp">
       <Filter>Source\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="Source\Platform\OpenGL\OpenGLIndexBuffer.cpp">
@@ -218,6 +228,9 @@
       <Filter>Source\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="Source\Renderer\Camera.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\Framebuffer.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Source\Renderer\IndexBuffer.cpp">
@@ -250,7 +263,13 @@
     <ClCompile Include="Source\Renderer\Shader.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Renderer\SubTexture2D.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Renderer\Texture.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\TextureAtlas.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Source\Renderer\VertexArray.cpp">
@@ -283,7 +302,5 @@
     <ClCompile Include="Source\vdpch.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Renderer\TextureAtlas.cpp" />
-    <ClCompile Include="Source\Renderer\SubTexture2D.cpp" />
   </ItemGroup>
 </Project>

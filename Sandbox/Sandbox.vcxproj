@@ -140,6 +140,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\SandboxLayer.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="Source\App.cpp" />
   </ItemGroup>
   <ItemGroup>

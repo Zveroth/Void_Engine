@@ -14,15 +14,6 @@
 #include "glad/glad.h"
 
 
-ImGuiLayer::ImGuiLayer() : Layer("ImGuiLayer")
-{
-
-}
-
-ImGuiLayer::~ImGuiLayer()
-{
-
-}
 
 void ImGuiLayer::OnAttach()
 {
@@ -64,9 +55,14 @@ void ImGuiLayer::OnDetach()
 	ImGui::DestroyContext();
 }
 
-void ImGuiLayer::OnImGuiRender()
+void ImGuiLayer::OnEvent(Event& e)
 {
-
+	if (m_bConsumeEvents)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		e.m_bHandled |= e.IsInCategory(EEventCategory::Mouse) & io.WantCaptureMouse;
+		e.m_bHandled |= e.IsInCategory(EEventCategory::Keyboard) & io.WantCaptureKeyboard;
+	}
 }
 
 void ImGuiLayer::Begin()

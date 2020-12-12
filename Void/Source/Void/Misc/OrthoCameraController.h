@@ -18,6 +18,8 @@ public:
 
 	OrthographicCamera& GetCamera() { return m_Camera; }
 
+	void UpdateAspectRatio(float Width, float Height);
+
 private:
 
 	bool OnMouseScrolled(MouseScrolledEvent& e);

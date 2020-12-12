@@ -8,10 +8,10 @@
 struct WindowProperties
 {
 	std::string Title;
-	unsigned int Width;
-	unsigned int Height;
+	uint32_t Width;
+	uint32_t Height;
 
-	WindowProperties(const std::string& title = "Void Enigne", unsigned int width = 1280, unsigned int height = 720)
+	WindowProperties(const std::string& title = "Void Enigne", uint32_t width = 1280, uint32_t height = 720)
 		: Title(title), Width(width), Height(height) {}
 };
 
@@ -25,8 +25,8 @@ public:
 
 	virtual void OnUpdate() = 0;
 
-	virtual unsigned int GetWidth() const = 0;
-	virtual unsigned int GetHeight() const = 0;
+	virtual uint32_t GetWidth() const = 0;
+	virtual uint32_t GetHeight() const = 0;
 
 	virtual void SetEventCallback(const std::function<void(Event&)>& Callback) = 0;
 	virtual void SetVSync(bool bEnabled) = 0;

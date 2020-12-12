@@ -1,6 +1,6 @@
 workspace "Void"
 	architecture "x64"
-	startproject "Sandbox"
+	startproject "VoidEditor"
 
 	configurations
 	{
@@ -94,6 +94,71 @@ project "Void"
 
 project "Sandbox"
 	location "Sandbox"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
+
+	targetdir("bin/" .. OutputDir .. "/%{prj.name}")
+	objdir("intermediates/" .. OutputDir .. "/%{prj.name}")
+
+	files
+	{
+		"%{prj.name}/Source/**.h",
+		"%{prj.name}/Source/**.cpp"
+	}
+
+	includedirs
+	{
+		"Void/Source",
+		"Void/3rdParty/spdlog/include",
+		"Void/3rdParty/assimp/include",
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
+	}
+
+	libdirs
+	{
+		"%{prj.name}/../Void/3rdParty/assimp/lib"
+	}
+
+	links
+	{
+		"Void",
+		"assimp-vc142-mt.lib"
+	}
+
+	filter "system:windows"
+		systemversion "latest"
+
+	defines
+	{
+		"VD_PLATFORM_WINDOWS"
+	}
+
+	postbuildcommands
+	{
+		("{COPY} ../Void/3rdParty/assimp/lib/assimp-vc142-mt.dll ../bin/" .. OutputDir .. "/Sandbox")
+	}
+
+	filter "configurations:Debug"
+		defines { "VD_DEBUG", "VD_ENABLE_ASSERTS" }
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		defines "VD_RELEASE"
+		runtime "Release"
+		optimize "on"
+
+	filter "configurations:Dist"
+		defines "VD_DISTRIBUTION"
+		runtime "Release"
+		optimize "on"
+
+
+project "VoidEditor"
+	location "VoidEditor"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"

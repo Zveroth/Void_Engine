@@ -15,7 +15,7 @@ class  Application
 
 public:
 
-	Application();
+	Application(const std::string& Name = "Void App");
 	virtual ~Application();
 
 	void Run();
@@ -27,6 +27,10 @@ public:
 
 	inline Window& GetWindow() const { return *m_Window; }
 	inline static Application& GetApp() { return *s_Instance; }
+
+	void Exit();
+
+	ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
 
 private:
 

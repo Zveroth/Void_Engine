@@ -51,7 +51,13 @@ bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e)
 
 bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& e)
 {
-	m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
-	m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+	UpdateAspectRatio(e.GetWidth(), e.GetHeight());
 	return false;
+}
+
+
+void OrthographicCameraController::UpdateAspectRatio(float Width, float Height)
+{
+	m_AspectRatio = Width / Height;
+	m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 }
