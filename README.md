@@ -1,6 +1,5 @@
 # Void_Engine
-Void Enigne is my another ,and hopefully last, shot at creating a game engine. It will be an engine for turn based games.
-After finishing it I will try to recreate darkest dungeon in it.
+Void Enigne is my another,and hopefully last, shot at creating a game engine.
 
 
 Sources that I use:
