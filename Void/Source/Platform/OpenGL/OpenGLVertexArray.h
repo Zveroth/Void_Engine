@@ -3,6 +3,7 @@
 #include "Renderer/VertexArray.h"
 
 
+//Vertex array only exists in OpenGL
 
 class OpenGLVertexArray : public VertexArray
 {
@@ -29,5 +30,5 @@ private:
 	std::vector<Ref<VertexBuffer>> m_VertexBuffers;
 	Ref<IndexBuffer> m_IndexBuffer;
 
-	unsigned int m_RendererID;
+	uint32_t m_RendererID;
 };

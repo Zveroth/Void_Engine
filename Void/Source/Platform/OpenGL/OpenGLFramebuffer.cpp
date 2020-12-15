@@ -58,14 +58,17 @@ void OpenGLFramebuffer::Unbind()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void OpenGLFramebuffer::Resize(uint32_t Width, uint32_t Height)
+bool OpenGLFramebuffer::Resize(uint32_t Width, uint32_t Height)
 {
-	VD_CORE_TRACE("{0} {1}", Width, Height);
-	if (Width > 0 && Height > 0)
+	if (Width == 0 || Height == 0 || Width > s_MaxFramebufferSize || Height > s_MaxFramebufferSize)
 	{
-		m_Spec.Height = Height;
-		m_Spec.Width = Width;
-
-		Create();
+		VD_CORE_WARNING("Attempted to resize a framebuffer to {0} x {1}.", Width, Height);
+		return false;
 	}
+
+	m_Spec.Height = Height;
+	m_Spec.Width = Width;
+
+	Create();
+	return true;
 }

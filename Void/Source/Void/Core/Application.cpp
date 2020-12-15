@@ -11,7 +11,7 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderCommand.h"
 
-#include "assimp/Importer.hpp"
+
 
 Application* Application::s_Instance = nullptr;
 

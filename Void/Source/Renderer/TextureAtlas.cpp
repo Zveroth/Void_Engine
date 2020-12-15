@@ -53,7 +53,7 @@ const std::array<glm::vec2, 4>& TextureAtlas::GetTextureCoords(const glm::vec<2,
 
 void TextureAtlas::SetTextureSource(const Ref<Texture2D>& Texture, uint32_t SpriteCountXY)
 {
-	VD_ASSERT(Texture, "Null texture passed to texture atlas!");
+	VD_CORE_ASSERT(Texture, "Null texture passed to texture atlas!");
 
 	m_Texture = Texture;
 	m_SpriteCount.x = m_SpriteCount.y = SpriteCountXY;
@@ -63,7 +63,7 @@ void TextureAtlas::SetTextureSource(const Ref<Texture2D>& Texture, uint32_t Spri
 
 void TextureAtlas::SetTextureSource(const Ref<Texture2D>& Texture, const glm::vec<2, int>& SpriteCountXY)
 {
-	VD_ASSERT(Texture, "Null texture passed to texture atlas!");
+	VD_CORE_ASSERT(Texture, "Null texture passed to texture atlas!");
 
 	m_Texture = Texture;
 	m_SpriteCount = SpriteCountXY;

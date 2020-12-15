@@ -33,6 +33,10 @@
 #include "Renderer/Model.h"
 //--	Rendering
 
+//		ESC
+#include "Void/ECS/Scene.h"
+//--	ESC
+
 //		Misc
 #include "Void/Core/Log.h"
 #include "Void/Core/Time.h"

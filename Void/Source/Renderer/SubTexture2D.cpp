@@ -14,7 +14,7 @@ const std::array<glm::vec2, 4>& SubTexture2D::GetTextureCoords() const
 }
 const Ref<Texture2D>& SubTexture2D::GetTexture() const
 {
-	VD_ASSERT(m_SourceAtlas, "Null texture atlas in SubTexture2D!");
+	VD_CORE_ASSERT(m_SourceAtlas, "Null texture atlas in SubTexture2D!");
 
 	return m_SourceAtlas->GetTexture();
 }
@@ -27,7 +27,7 @@ void SubTexture2D::SetSourceAtlas(const Ref<TextureAtlas>& SourceAtlas, const gl
 
 void SubTexture2D::SetAtlasCoords(const glm::vec<2, uint32_t>& Coords)
 {
-	VD_ASSERT(m_SourceAtlas, "Null texture atlas in SubTexture2D!");
+	VD_CORE_ASSERT(m_SourceAtlas, "Null texture atlas in SubTexture2D!");
 
 	m_Coords = m_SourceAtlas->GetTextureCoords(Coords);
 }

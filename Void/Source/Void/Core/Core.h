@@ -19,9 +19,11 @@
 #ifdef VD_ENABLE_ASSERTS
 	#define VD_ASSERT(x, ...) {if(!(x)) { VD_CRITICAL("Assertion failed: {0}", __VA_ARGS__); __debugbreak(); } }
 	#define VD_CORE_ASSERT(x, ...) {if(!(x)) { VD_CORE_CRITICAL("Assertion failed: {0}", __VA_ARGS__); __debugbreak(); } }
+	#define VD_CORE_ASSERT_CUSTOM(x, m) {if(!(x)) { m; __debugbreak(); } }
 #else
 	#define VD_ASSERT(x, ...) x
 	#define VD_CORE_ASSERT(x, ...) x
+#define VD_CORE_ASSERT_CUSTOM(x, m) x
 #endif // VD_ENABLE_ASSERTS
 
 
@@ -35,5 +37,5 @@ using Ref = std::shared_ptr<T>;
 #define CreateRef std::make_shared
 
 template <typename T>
-using SRef = std::unique_ptr<T>;
-#define CreateSRef std::make_unique
+using UniqueRef = std::unique_ptr<T>;
+#define CreateUnique std::make_unique

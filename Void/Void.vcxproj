@@ -174,12 +174,17 @@
     <ClInclude Include="Source\Void\Core\MouseButtonCodes.h" />
     <ClInclude Include="Source\Void\Core\Time.h" />
     <ClInclude Include="Source\Void\Core\Window.h" />
+    <ClInclude Include="Source\Void\ECS\Component.h" />
+    <ClInclude Include="Source\Void\ECS\ComponentPool.h" />
+    <ClInclude Include="Source\Void\ECS\ComponentPoolWrapper.h" />
+    <ClInclude Include="Source\Void\ECS\Scene.h" />
     <ClInclude Include="Source\Void\EntryPoint.h" />
     <ClInclude Include="Source\Void\Events\ApplicationEvent.h" />
     <ClInclude Include="Source\Void\Events\Event.h" />
     <ClInclude Include="Source\Void\Events\KeyboardEvent.h" />
     <ClInclude Include="Source\Void\Events\MouseEvent.h" />
     <ClInclude Include="Source\Void\Misc\OrthoCameraController.h" />
+    <ClInclude Include="Source\Void\Utility\CoreUtility.h" />
     <ClInclude Include="Source\Void\Utility\RandomGenerator.h" />
     <ClInclude Include="Source\vdpch.h" />
   </ItemGroup>
@@ -215,11 +220,14 @@
     <ClCompile Include="Source\Renderer\VertexArray.cpp" />
     <ClCompile Include="Source\Renderer\VertexBuffer.cpp" />
     <ClCompile Include="Source\Void\Core\Application.cpp" />
+    <ClCompile Include="Source\Void\ECS\ComponentPool.cpp" />
     <ClCompile Include="Source\Void\Core\Layer.cpp" />
     <ClCompile Include="Source\Void\Core\LayerStack.cpp" />
     <ClCompile Include="Source\Void\Core\Log.cpp" />
     <ClCompile Include="Source\Void\Core\Time.cpp" />
+    <ClCompile Include="Source\Void\ECS\Scene.cpp" />
     <ClCompile Include="Source\Void\Misc\OrthoCameraController.cpp" />
+    <ClCompile Include="Source\Void\Utility\CoreUtility.cpp" />
     <ClCompile Include="Source\Void\Utility\RandomGenerator.cpp" />
     <ClCompile Include="Source\vdpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

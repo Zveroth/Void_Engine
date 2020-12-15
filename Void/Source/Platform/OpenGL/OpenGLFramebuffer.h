@@ -19,7 +19,7 @@ public:
 	virtual void Bind() override;
 	virtual void Unbind() override;
 
-	virtual void Resize(uint32_t Width, uint32_t Height) override;
+	virtual bool Resize(uint32_t Width, uint32_t Height) override;
 
 private:
 
@@ -27,4 +27,6 @@ private:
 	uint32_t m_ColorAttachment = 0;
 	uint32_t m_DepthAttachment = 0;
 	FramebufferSpecification m_Spec;
+
+	static const uint32_t s_MaxFramebufferSize = 8192;
 };

@@ -92,7 +92,7 @@ void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& Shader
 {
 	GLenum program = glCreateProgram();
 
-	VD_ASSERT(ShaderSources.size() <= 2, "Void currently supports a maximum of 2 shaders!");
+	VD_CORE_ASSERT(ShaderSources.size() <= 2, "Void currently supports a maximum of 2 shaders!");
 	std::array<GLenum, 2> ShaderIDs;//Allocated on the stack
 	int glShaderIDIndex = 0;
 

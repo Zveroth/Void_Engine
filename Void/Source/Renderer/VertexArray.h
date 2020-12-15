@@ -4,6 +4,9 @@
 #include "IndexBuffer.h"
 
 
+
+//Vertex array only exists in OpenGL
+
 class VertexArray
 {
 
