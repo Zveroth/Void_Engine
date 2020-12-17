@@ -188,7 +188,6 @@
     </ClInclude>
     <ClInclude Include="Source\Void\ECS\Scene.h" />
     <ClInclude Include="Source\Void\ECS\ComponentPool.h" />
-    <ClInclude Include="Source\Void\ECS\ComponentPoolWrapper.h" />
     <ClInclude Include="Source\Void\Utility\CoreUtility.h" />
     <ClInclude Include="Source\Void\ECS\Entity.h" />
     <ClInclude Include="Source\Void\ECS\Components\Component.h" />

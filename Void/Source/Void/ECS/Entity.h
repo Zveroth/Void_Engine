@@ -11,7 +11,7 @@ class Entity
 
 public:
 
-	Entity(Scene* OwningScene, uint32_t ID);
+	Entity(const Ref<Scene>& OwningScene, uint32_t ID);
 	virtual ~Entity() {}
 
 	Ref<Scene> GetOwningScene();
@@ -21,10 +21,19 @@ public:
 	{
 		Ref<Scene> Scene = GetOwningScene();
 
-		T& CreatedComponent = Scene->CreateComponent<T>(m_ID);
+		T& CreatedComponent = Scene->CreateComponent<T>(*this);
 		m_ComponentIDs.push_back(typeid(T).hash_code());
 
 		return CreatedComponent;
+	}
+
+	template<typename T>
+	void RemoveComponent()
+	{
+		Ref<Scene> Scene = GetOwningScene();
+
+		T& CreatedComponent = Scene->DeleteComponent<T>(*this);
+		m_ComponentIDs.push_back(typeid(T).hash_code());
 	}
 
 	void Destroy();

@@ -1,5 +1,4 @@
 #pragma once
-#include "ComponentPoolWrapper.h"
 #include "ComponentPool.h"
 #include "Components/Component.h"
 
@@ -11,10 +10,8 @@ class Scene
 	
 public:
 
-	void Tick(float DeltaTime);
-
 	template<typename T>
-	T& CreateComponent(uint32_t Entity)
+	T& CreateComponent(Entity& Ent)
 	{
 		size_t id = typeid(T).hash_code();
 		if (m_Pools.find(id) == m_Pools.end())
@@ -24,39 +21,30 @@ public:
 		}
 
 		ComponentPool<T>* Pool = (ComponentPool<T>*)m_Pools[id].get();
-		return Pool->Create(Entity);
+		T& Comp = Pool->Create(Ent.m_ID);
+		Comp.SetOwnerID(Ent.m_ID);
+		return Comp;
 	}
 
 	template<typename T>
-	T& GetComponent(uint32_t Entity)
+	T& GetComponent(Entity& Ent)
 	{
 		size_t id = typeid(T).hash_code();
 		VD_CORE_ASSERT(m_Pools.find(id) != m_Pools.end(), "Retrieval of non existing component!");
 
-		ComponentPool<T>* Pool = (ComponentPool<T>*)m_Pools[id].get();
-
-		return Pool->Get(Entity);
+		return (T&)m_Pools[id].get()->Get(Ent.m_ID);
 	}
 
 	template<typename T>
-	void DeleteComponent(uint32_t Entity)
+	void DeleteComponent(Entity& Ent)
 	{
 		size_t id = typeid(T).hash_code();
 		VD_CORE_ASSERT(m_Pools.find(id) != m_Pools.end(), "Deletion of non existing component!");
 
-		ComponentPool<T>* Pool = (ComponentPool<T>*)m_Pools[id].get();
-
-		Pool->Delete(Entity);
+		m_Pools[id].get()->Delete(Ent.m_ID);
 	}
 
-	void DeleteComponent(uint32_t Entity, size_t Comp)
-	{;
-		VD_CORE_ASSERT(m_Pools.find(Comp) != m_Pools.end(), "Deletion of non existing component!");
-
-		ComponentPoolWrapper* Pool = m_Pools[Comp].get();
-
-		Pool->DeleteComponent(Entity);
-	}
+	void DeleteComponent(Entity& Ent, size_t ComponentClass);
 
 	template<typename T>
 	ComponentPool<T>& GetComponentsOfType()
@@ -69,21 +57,20 @@ public:
 	}
 
 	template<typename T>
-	Ref<T> AddEntity()
+	T& AddEntity(const Ref<Scene>& ptr)
 	{
-		Ref<T> CreatedEntity = CreateRef<T>(this, m_NextID);
+		m_Entities.push_back(T(ptr, m_NextID));
 		m_NextID++;
-		m_Entities.push_back(CreatedEntity);
 
-		return CreatedEntity;
+		return m_Entities.back();;
 	}
 
-	void RemoveEntity(uint32_t ID);
+	void RemoveEntity(const Entity& Ent);
 
 private:
 
-	std::unordered_map<size_t, UniqueRef<ComponentPoolWrapper>> m_Pools;
-	std::vector<Ref<Entity>> m_Entities;
+	std::unordered_map<size_t, UniqueRef<ComponentPool<Component>>> m_Pools;
+	std::vector<Entity> m_Entities;
 
 	uint32_t m_NextID = 0;
 };

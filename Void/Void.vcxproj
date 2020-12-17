@@ -176,7 +176,6 @@
     <ClInclude Include="Source\Void\Core\Window.h" />
     <ClInclude Include="Source\Void\ECS\Components\Component.h" />
     <ClInclude Include="Source\Void\ECS\ComponentPool.h" />
-    <ClInclude Include="Source\Void\ECS\ComponentPoolWrapper.h" />
     <ClInclude Include="Source\Void\ECS\Entity.h" />
     <ClInclude Include="Source\Void\ECS\Scene.h" />
     <ClInclude Include="Source\Void\EntryPoint.h" />

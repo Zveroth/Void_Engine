@@ -28,13 +28,17 @@ public:
 		m_FramebufferSize.x = Spec.Width;
 		m_FramebufferSize.y = Spec.Height;
 
-		Ref<Entity> Ent = m_Scene.AddEntity<Entity>();
-		Ent->AddComponent<Component>();
+		m_Scene = CreateRef<Scene>();
+
+		Entity& Ent = m_Scene->AddEntity<Entity>(m_Scene);
+		Ent.AddComponent<Component>();
+
+		Ent.Destroy();
 	}
 
 	virtual void OnUpdate(float DeltaTime) override
 	{
-		m_Scene.Tick(DeltaTime);
+		//m_Scene.Tick(DeltaTime);
 
 		if(m_bViewportFocused)
 			m_CameraController.OnUpdate(DeltaTime);
@@ -170,5 +174,5 @@ private:
 
 	bool m_bViewportFocused = false;
 
-	Scene m_Scene;
+	Ref<Scene> m_Scene;
 };

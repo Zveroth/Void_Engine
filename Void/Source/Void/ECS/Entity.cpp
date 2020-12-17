@@ -4,14 +4,14 @@
 
 
 
-Entity::Entity(Scene* OwningScene, uint32_t ID) : m_ID(ID)
+Entity::Entity(const Ref<Scene>& OwningScene, uint32_t ID) : m_ID(ID), m_Scene(OwningScene)
 {
-	m_Scene = CreateRef<Scene>(OwningScene);
+	
 }
 
 Ref<Scene> Entity::GetOwningScene() 
 { 
-	VD_ASSERT(m_Scene.expired(), "GetOwningScene() with a null scene!");
+	VD_ASSERT(!m_Scene.expired(), "GetOwningScene() with a null scene!");
 	return m_Scene.lock(); 
 }
 
@@ -20,7 +20,7 @@ void Entity::Destroy()
 	Ref<Scene> OwningScene = GetOwningScene();
 
 	for (size_t Comp : m_ComponentIDs)
-		OwningScene->DeleteComponent(m_ID, Comp);
+		OwningScene->DeleteComponent(*this, Comp);
 
-	OwningScene->RemoveEntity(m_ID);
+	OwningScene->RemoveEntity(*this);
 }

@@ -5,15 +5,16 @@
 
 
 
-void Scene::Tick(float DeltaTime)
+void Scene::RemoveEntity(const Entity& Ent)
 {
-	for (auto& Pool : m_Pools)
-		Pool.second->Tick(DeltaTime);
-}
-
-void Scene::RemoveEntity(uint32_t ID)
-{
-	int32_t Index = BinarySearch(m_Entities, ID);
+	int32_t Index = BinarySearch(m_Entities, Ent.m_ID);
 	VD_CORE_ASSERT(Index != INDEX_NONE, "Removing not owned entity!");
 	m_Entities.erase(m_Entities.begin() + Index);
+}
+
+void Scene::DeleteComponent(Entity& Ent, size_t ComponentClass)
+{
+	VD_CORE_ASSERT(m_Pools.find(ComponentClass) != m_Pools.end(), "Deletion of non existing component!");
+
+	m_Pools[ComponentClass].get()->Delete(Ent.m_ID);
 }
