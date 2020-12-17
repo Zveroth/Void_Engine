@@ -15,7 +15,7 @@ public:
 
 	}
 
-	virtual void OnUpdate(const float& DeltaTime) override
+	virtual void OnUpdate(float DeltaTime) override
 	{
 		CameraController.OnUpdate(DeltaTime);
 

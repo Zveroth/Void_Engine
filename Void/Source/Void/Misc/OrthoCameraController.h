@@ -13,7 +13,7 @@ public:
 
 	OrthographicCameraController(float AspectRatio);
 
-	void OnUpdate(const float& DeltaTime);
+	void OnUpdate(float DeltaTime);
 	void OnEvent(Event& e);
 
 	OrthographicCamera& GetCamera() { return m_Camera; }

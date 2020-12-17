@@ -53,3 +53,29 @@ int32_t BinarySearch_Internal(const std::vector<ArrayType>& Array, const ValueTy
 
 	return BinarySearch_Internal(Array, Low, (Mid - 1), Value);
 }
+
+template<typename ValueType>
+int32_t BinarySearch(const std::vector<Ref<ValueType>>& Array, const ValueType& Value)
+{
+	int32_t Size = Array.size();
+	if (Size == 0)
+		return -1;
+
+	return BinarySearch_Internal<ValueType>(Array, Value, 0, Size - 1);
+}
+
+template<typename ValueType>
+int32_t BinarySearch_Internal(const std::vector<Ref<ValueType>>& Array, const ValueType& Value, int32_t Low, int32_t High)
+{
+	if (High < Low)
+		return -1;
+
+	int32_t Mid = (Low + High) / 2;
+	if (Value == Array[Mid])
+		return Mid;
+
+	if (Value > Array[Mid])
+		return BinarySearch_Internal<ValueType>(Array, (Mid + 1), High, Value);
+
+	return BinarySearch_Internal<ValueType>(Array, Low, (Mid - 1), Value);
+}

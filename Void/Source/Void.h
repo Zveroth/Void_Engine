@@ -35,6 +35,8 @@
 
 //		ESC
 #include "Void/ECS/Scene.h"
+#include "Void/ECS/Entity.h"
+#include "Void/ECS/Components/Component.h"
 //--	ESC
 
 //		Misc

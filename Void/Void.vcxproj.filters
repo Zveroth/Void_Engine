@@ -189,8 +189,9 @@
     <ClInclude Include="Source\Void\ECS\Scene.h" />
     <ClInclude Include="Source\Void\ECS\ComponentPool.h" />
     <ClInclude Include="Source\Void\ECS\ComponentPoolWrapper.h" />
-    <ClInclude Include="Source\Void\ECS\Component.h" />
     <ClInclude Include="Source\Void\Utility\CoreUtility.h" />
+    <ClInclude Include="Source\Void\ECS\Entity.h" />
+    <ClInclude Include="Source\Void\ECS\Components\Component.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3rdParty\stb_image\stb_image.cpp">
@@ -310,5 +311,7 @@
     <ClCompile Include="Source\Void\ECS\Scene.cpp" />
     <ClCompile Include="Source\Void\ECS\ComponentPool.cpp" />
     <ClCompile Include="Source\Void\Utility\CoreUtility.cpp" />
+    <ClCompile Include="Source\Void\ECS\Entity.cpp" />
+    <ClCompile Include="Source\Void\ECS\Components\Component.cpp" />
   </ItemGroup>
 </Project>

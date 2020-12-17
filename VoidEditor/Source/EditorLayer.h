@@ -4,11 +4,6 @@
 #include "imgui.h"
 #include "glm/gtc/matrix_transform.hpp"
 
-struct TempStruct
-{
-	int Number = 11;
-	float Value = 0.7f;
-};
 
 
 static bool Switcher = false;
@@ -32,17 +27,14 @@ public:
 
 		m_FramebufferSize.x = Spec.Width;
 		m_FramebufferSize.y = Spec.Height;
+
+		Ref<Entity> Ent = m_Scene.AddEntity<Entity>();
+		Ent->AddComponent<Component>();
 	}
 
-	virtual void OnUpdate(const float& DeltaTime) override
+	virtual void OnUpdate(float DeltaTime) override
 	{
-		for (TempStruct& Temp : m_Scene.GetComponentsOfType<TempStruct>())
-		{
-			VD_TRACE("Before: {0}		{1}", Temp.Number, Temp.Value);
-			Temp.Number = Temp.Number + 1;
-			Temp.Value = Temp.Value + 0.01f;
-			VD_TRACE("After: {0}		{1}", Temp.Number, Temp.Value);
-		}
+		m_Scene.Tick(DeltaTime);
 
 		if(m_bViewportFocused)
 			m_CameraController.OnUpdate(DeltaTime);

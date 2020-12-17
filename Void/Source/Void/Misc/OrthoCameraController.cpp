@@ -11,7 +11,7 @@ OrthographicCameraController::OrthographicCameraController(float AspectRatio)
 
 }
 
-void OrthographicCameraController::OnUpdate(const float& DeltaTime)
+void OrthographicCameraController::OnUpdate(float DeltaTime)
 {
 	m_CameraSpeed = m_ZoomLevel * 3.0f;
 

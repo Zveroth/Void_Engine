@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include "Components/Component.h"
 
 
 
@@ -12,4 +12,7 @@ public:
 	{
 
 	}
+
+	virtual void DeleteComponent(uint32_t ID) = 0;
+	virtual void Tick(float DeltaTime) = 0;
 };

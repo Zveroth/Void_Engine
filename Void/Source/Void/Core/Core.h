@@ -26,6 +26,7 @@
 #define VD_CORE_ASSERT_CUSTOM(x, m) x
 #endif // VD_ENABLE_ASSERTS
 
+#define INDEX_NONE -1
 
 #define BIT_SHIFT(x) (1 << x)
 
@@ -39,3 +40,6 @@ using Ref = std::shared_ptr<T>;
 template <typename T>
 using UniqueRef = std::unique_ptr<T>;
 #define CreateUnique std::make_unique
+
+template <typename T>
+using WeakRef = std::weak_ptr<T>;

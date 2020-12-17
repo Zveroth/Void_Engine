@@ -52,12 +52,20 @@ public:
 		return m_Storage[Index].StoredComponent;
 	}
 
-	void Remove(uint32_t ID)
+	virtual void DeleteComponent(uint32_t ID) override { Delete(ID); }
+
+	void Delete(uint32_t ID)
 	{
 		int32_t Index = BinarySearch(m_Storage, ID);
 		VD_CORE_ASSERT_CUSTOM(Index >= 0, VD_CORE_CRITICAL("Assertion failed: Tried to remove a non existing component {0} for {1}.", typeid(T).name(), ID));
 
-		m_Storage.erase(Index);
+		m_Storage.erase(m_Storage.begin() + Index);
+	}
+
+	void Tick(float DeltaTime) override
+	{
+		for (T& Comp : m_Storage)
+			Comp.Tick(DeltaTime);
 	}
 
 	typename std::vector<ComponentStorageData>::iterator begin() { return m_Storage.begin(); }

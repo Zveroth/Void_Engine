@@ -16,7 +16,7 @@ public:
 
 	virtual void OnAttach() {}
 	virtual void OnDetach() {}
-	virtual void OnUpdate(const float& DeltaTime) {}
+	virtual void OnUpdate(float DeltaTime) {}
 	virtual void OnImGuiRender() {}
 	virtual void OnEvent(Event& e) {}
 

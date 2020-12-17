@@ -174,9 +174,10 @@
     <ClInclude Include="Source\Void\Core\MouseButtonCodes.h" />
     <ClInclude Include="Source\Void\Core\Time.h" />
     <ClInclude Include="Source\Void\Core\Window.h" />
-    <ClInclude Include="Source\Void\ECS\Component.h" />
+    <ClInclude Include="Source\Void\ECS\Components\Component.h" />
     <ClInclude Include="Source\Void\ECS\ComponentPool.h" />
     <ClInclude Include="Source\Void\ECS\ComponentPoolWrapper.h" />
+    <ClInclude Include="Source\Void\ECS\Entity.h" />
     <ClInclude Include="Source\Void\ECS\Scene.h" />
     <ClInclude Include="Source\Void\EntryPoint.h" />
     <ClInclude Include="Source\Void\Events\ApplicationEvent.h" />
@@ -225,6 +226,8 @@
     <ClCompile Include="Source\Void\Core\LayerStack.cpp" />
     <ClCompile Include="Source\Void\Core\Log.cpp" />
     <ClCompile Include="Source\Void\Core\Time.cpp" />
+    <ClCompile Include="Source\Void\ECS\Components\Component.cpp" />
+    <ClCompile Include="Source\Void\ECS\Entity.cpp" />
     <ClCompile Include="Source\Void\ECS\Scene.cpp" />
     <ClCompile Include="Source\Void\Misc\OrthoCameraController.cpp" />
     <ClCompile Include="Source\Void\Utility\CoreUtility.cpp" />
