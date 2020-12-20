@@ -9,24 +9,20 @@ class Camera
 
 public:
 
-	void SetPosition(const glm::vec3& Position);
-	void SetRotation(const glm::vec3& Rotation);
+	Camera();
 
-	glm::vec3 GetPosition() const { return m_Position; }
-	glm::vec3 GetRotation() const { return m_Rotation; }
+	glm::mat4 GetProjection() const { return m_Projection; }
 
-	virtual glm::mat4 GetViewMatrix() const { return m_View; }
-	virtual glm::mat4 GetProjectionMatrix() const { return m_Projection; }
+	void SetAspectRatio(float AspectRatio);
+	void SetZoomLevel(float ZoomLevel);
 
-protected:
+private:
 
-	Camera() : m_Position(0.0f), m_Rotation(0.0f) {}
+	void SetOrthographicProjection(float Left, float Right, float Bottom, float Top, float NearPlane = -1.0f, float FarPlane = 1.0f);
+	void SetPerspectiveProjection(float AspectRatio, float FOV, float NearPlane = 0.1f, float FarPlane = 100.0f);
 
-	virtual void RecalculateViewMatrix() { VD_CORE_ASSERT(false, "Camera view recalculation not overrriden!"); }
-
-	glm::mat4 m_View;
 	glm::mat4 m_Projection;
 
-	glm::vec3 m_Position;
-	glm::vec3 m_Rotation; //this should be a quaterion but god knows how to use them
+	float m_ZoomLevel = 1.0f;
+	float m_AspectRatio = 16.0f / 9.0f;
 };

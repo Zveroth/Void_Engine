@@ -1,23 +1,21 @@
 #pragma once
 #include "Void.h"
 
+#include "Void/ECS/Components/SpriteComponent.h"
+#include "Void/ECS/Components/CameraComponent.h"
 #include "imgui.h"
 #include "glm/gtc/matrix_transform.hpp"
 
 
 
-static bool Switcher = false;
-
 class EditorLayer : public Layer
 {
 public:
 
-	EditorLayer() : Layer("Render2DLayer"), m_CameraController(16.0f / 9.0f) {}
+	EditorLayer() : Layer("Render2DLayer")/*, m_CameraController(16.0f / 9.0f)*/ {}
 
 	virtual void OnAttach() override
 	{
-		m_Texture = Texture2D::Create("Assets/Textures/test.png");
-
 		const Window& AppWindow = Application::GetApp().GetWindow();
 
 		FramebufferSpecification Spec;
@@ -30,28 +28,25 @@ public:
 
 		m_Scene = CreateRef<Scene>();
 
-		Entity& Ent = m_Scene->AddEntity<Entity>(m_Scene);
-		Ent.AddComponent<Component>();
+		Entity& EditorCamera = m_Scene->AddEntity<Entity>(m_Scene, "Editor_Camera");
+		m_Scene->SetActiveCamera(EditorCamera.AddComponent<CameraComponent>());
 
-		Ent.Destroy();
+		Entity& Ent = m_Scene->AddEntity<Entity>(m_Scene);
+		Ent.AddComponent<SpriteComponent>(glm::vec4(0.5f, 0.2f, 1.0f, 1.0f));//.AddLocationOffset(glm::vec3(0.0f, 0.0f, -5.0f));
 	}
 
 	virtual void OnUpdate(float DeltaTime) override
 	{
-		//m_Scene.Tick(DeltaTime);
-
-		if(m_bViewportFocused)
-			m_CameraController.OnUpdate(DeltaTime);
 
 		m_Framebuffer->Bind();
 		RenderCommand::Clear();
-
 		Renderer2D::ResetStats();
-		Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-		Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, m_Texture);
+		//if (m_bViewportFocused)
+		//	m_CameraController.OnUpdate(DeltaTime);
 
-		Renderer2D::EndScene();
+		m_Scene->Tick(DeltaTime);
+
 		m_Framebuffer->Unbind();
 	}
 
@@ -129,6 +124,17 @@ public:
 			}
 			ImGui::End();
 
+			ImGui::Begin("Entities");
+			{
+				for (const Entity& Ent : m_Scene->GetAllEntities())
+				{
+					if (ImGui::Button(Ent.GetEntityFullName().c_str()))
+					{
+						
+					}
+				}
+			}
+			ImGui::End();
 
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 			ImGui::Begin("Viewport");
@@ -142,32 +148,24 @@ public:
 					m_FramebufferSize = ViewportSize;
 
 					if (m_Framebuffer->Resize(m_FramebufferSize.x, m_FramebufferSize.y))
-					{
-						m_CameraController.UpdateAspectRatio(m_FramebufferSize.x, m_FramebufferSize.y);
-					}
+						if (m_Scene->HasActiveCamera())
+							m_Scene->GetActiveCamera().GetCamera().SetAspectRatio(m_FramebufferSize.x / m_FramebufferSize.y);
 				}
 
 				ImGui::Image((void*)m_Framebuffer->GetColorAttachmentID(), ViewportSize, ImVec2(0, 1), ImVec2(1, 0));
 			}
 			ImGui::End();
 			ImGui::PopStyleVar();
-
-			ImGui::Begin("AAA");
-			ImGui::End();
 		}
 		ImGui::End();
 	}
 
 	virtual void OnEvent(Event& e) override
 	{
-		m_CameraController.OnEvent(e);
+		m_Scene->OnEvent(e);
 	}
 
 private:
-
-	OrthographicCameraController m_CameraController;
-
-	Ref<Texture2D> m_Texture;
 
 	Ref<Framebuffer> m_Framebuffer;
 	ImVec2 m_FramebufferSize;

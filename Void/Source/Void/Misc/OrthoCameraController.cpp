@@ -5,8 +5,8 @@
 #include "Void/Core/KeyCodes.h"
 
 OrthographicCameraController::OrthographicCameraController(float AspectRatio)
-	: m_ZoomLevel(1.0f), m_AspectRatio(AspectRatio), m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel)
-	,m_CameraPosition(0.0f), m_CameraRotation(0.0f), m_CameraSpeed(m_ZoomLevel * 3.0f)
+	: m_ZoomLevel(1.0f), m_AspectRatio(AspectRatio), //m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel),
+	/*m_CameraPosition(0.0f), m_CameraRotation(0.0f),*/ m_CameraSpeed(m_ZoomLevel * 3.0f)
 {
 
 }
@@ -15,7 +15,7 @@ void OrthographicCameraController::OnUpdate(float DeltaTime)
 {
 	m_CameraSpeed = m_ZoomLevel * 3.0f;
 
-	if (Input::IsKeyPressed(VD_KEY_A))
+	/*if (Input::IsKeyPressed(VD_KEY_A))
 		m_CameraPosition.x -= m_CameraSpeed * DeltaTime;
 	else if (Input::IsKeyPressed(VD_KEY_D))
 		m_CameraPosition.x += m_CameraSpeed * DeltaTime;
@@ -31,7 +31,7 @@ void OrthographicCameraController::OnUpdate(float DeltaTime)
 		m_CameraRotation.z += 90.0f * DeltaTime;
 
 	m_Camera.SetPosition(m_CameraPosition);
-	m_Camera.SetRotation(m_CameraRotation);
+	m_Camera.SetRotation(m_CameraRotation);*/
 }
 
 void OrthographicCameraController::OnEvent(Event& e)
@@ -45,7 +45,7 @@ bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e)
 {
 	m_ZoomLevel -= e.GetYOffset() * 0.25f;
 	m_ZoomLevel = std::max(m_ZoomLevel, 0.25f);
-	m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+	//m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 	return false;
 }
 
@@ -59,5 +59,5 @@ bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& e)
 void OrthographicCameraController::UpdateAspectRatio(float Width, float Height)
 {
 	m_AspectRatio = Width / Height;
-	m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+	//m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 }

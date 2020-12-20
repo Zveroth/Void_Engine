@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Renderer/OrthoCamera.h"
+//#include "Renderer/OrthoCamera.h"
 #include "Void/Events/ApplicationEvent.h"
 #include "Void/Events/MouseEvent.h"
 
@@ -16,7 +16,7 @@ public:
 	void OnUpdate(float DeltaTime);
 	void OnEvent(Event& e);
 
-	OrthographicCamera& GetCamera() { return m_Camera; }
+//	OrthographicCamera& GetCamera() { return m_Camera; }
 
 	void UpdateAspectRatio(float Width, float Height);
 
@@ -28,10 +28,10 @@ private:
 	float m_AspectRatio;
 	float m_ZoomLevel;
 
-	OrthographicCamera m_Camera;
+//	OrthographicCamera m_Camera;
 
-	glm::vec3 m_CameraPosition;
-	glm::vec3 m_CameraRotation;
+	//glm::vec3 m_CameraPosition;
+	//glm::vec3 m_CameraRotation;
 	
 	float m_CameraSpeed;
 };

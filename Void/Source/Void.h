@@ -27,8 +27,7 @@
 #include "Renderer/Renderer2D.h"
 #include "Renderer/RenderCommand.h"
 
-#include "Renderer/OrthoCamera.h"
-#include "Renderer/PerspectiveCamera.h"
+#include "Renderer/Camera.h"
 
 #include "Renderer/Model.h"
 //--	Rendering

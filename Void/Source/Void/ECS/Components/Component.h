@@ -6,27 +6,41 @@
 class Component
 {
 
-public:
+	friend class Scene;
 
-	Component() : m_OwnerID(-1) {}
+public:
 
 	uint32_t GetOwnerID() const { return m_OwnerID; }
 
-	void SetOwnerID(uint32_t OwnerID) { m_OwnerID = OwnerID; }
-
-	virtual void Tick(float DeltaTime) 
-	{
-		VD_CORE_TRACE("Tick");
-	}
-
 	void Destroy();
+
+	virtual void Tick(float DeltaTime) {}
+
+	bool CanEverTick() const { return m_bCanEverTick; }
 
 	bool operator==(const Component& other)
 	{
 		return m_OwnerID == other.m_OwnerID;
 	}
 
-private:
+	bool operator==(uint32_t ID)
+	{
+		return m_OwnerID == ID;
+	}
 
-	uint32_t m_OwnerID;
+	operator uint32_t() const
+	{
+		return m_OwnerID;
+	}
+
+	operator uint32_t()
+	{
+		return m_OwnerID;
+	}
+
+protected:
+
+	bool m_bCanEverTick = false;
+
+	uint32_t m_OwnerID = 0;
 };

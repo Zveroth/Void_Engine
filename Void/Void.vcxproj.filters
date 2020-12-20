@@ -90,12 +90,6 @@
     <ClInclude Include="Source\Renderer\Model.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Renderer\OrthoCamera.h">
-      <Filter>Source\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Renderer\PerspectiveCamera.h">
-      <Filter>Source\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Renderer\RenderCommand.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
@@ -191,6 +185,9 @@
     <ClInclude Include="Source\Void\Utility\CoreUtility.h" />
     <ClInclude Include="Source\Void\ECS\Entity.h" />
     <ClInclude Include="Source\Void\ECS\Components\Component.h" />
+    <ClInclude Include="Source\Void\ECS\Components\SpriteComponent.h" />
+    <ClInclude Include="Source\Void\ECS\Components\TransformComponent.h" />
+    <ClInclude Include="Source\Void\ECS\Components\CameraComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3rdParty\stb_image\stb_image.cpp">
@@ -245,12 +242,6 @@
       <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Source\Renderer\Model.cpp">
-      <Filter>Source\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Renderer\OrthoCamera.cpp">
-      <Filter>Source\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Renderer\PerspectiveCamera.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Source\Renderer\RenderCommand.cpp">
@@ -312,5 +303,6 @@
     <ClCompile Include="Source\Void\Utility\CoreUtility.cpp" />
     <ClCompile Include="Source\Void\ECS\Entity.cpp" />
     <ClCompile Include="Source\Void\ECS\Components\Component.cpp" />
+    <ClCompile Include="Source\Void\ECS\Components\SpriteComponent.cpp" />
   </ItemGroup>
 </Project>

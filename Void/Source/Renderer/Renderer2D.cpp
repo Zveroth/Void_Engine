@@ -71,11 +71,11 @@ void Renderer2D::Shutdown()
 	delete[] s_Data.BufferStart;
 }
 
-void Renderer2D::BeginScene(const Camera& Camera)
+void Renderer2D::BeginScene(CameraComponent& Camera)
 {
 	s_Data.Shader2D->Bind();
-	s_Data.Shader2D->SetUniform("u_View", Camera.GetViewMatrix());
-	s_Data.Shader2D->SetUniform("u_Projection", Camera.GetProjectionMatrix());
+	s_Data.Shader2D->SetUniform("u_View", Camera.GetView());
+	s_Data.Shader2D->SetUniform("u_Projection", Camera.GetCamera().GetProjection());
 
 	StartBatch();
 }
@@ -113,12 +113,48 @@ void Renderer2D::NextBatch()
 	StartBatch();
 }
 
+void Renderer2D::DrawQuad(const glm::mat4& Transform, const glm::vec4& Color)
+{
+	constexpr std::array<glm::vec2, 4> TextureCoords = {
+		glm::vec2(0.0f, 0.0f),
+		glm::vec2(1.0f, 0.0f),
+		glm::vec2(1.0f, 1.0f),
+		glm::vec2(0.0f, 1.0f)
+	};
+	constexpr float WhiteTextureIndex = 0.0f;
+	constexpr float TextureTiling = 1.0f;
+
+	if (s_Data.IsBatchFull())
+		NextBatch();
+
+	SetNextQuadData(Transform, Color, TextureCoords, WhiteTextureIndex, TextureTiling);
+}
+
 void Renderer2D::DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, float Rotation, const glm::vec4& Color)
 {
 	DrawQuad( { Position.x, Position.y, 0.0f }, Extent, Rotation, Color);
 }
-
 void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, float Rotation, const glm::vec4& Color)
+{
+	glm::mat4 Transform = glm::translate(glm::mat4(1.0f), Position)
+		* glm::rotate(glm::mat4(1.0f), Rotation, { 0.0f, 0.0f, 1.0f })
+		* glm::scale(glm::mat4(1.0f), { Extent.x, Extent.y, 1.0f });
+
+	DrawQuad(Transform, Color);
+}
+void Renderer2D::DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const glm::vec4& Color)
+{
+	DrawQuad({ Position.x, Position.y, 0.0f }, Extent, Color);
+}
+void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const glm::vec4& Color)
+{
+	glm::mat4 Transform = glm::translate(glm::mat4(1.0f), Position)
+		* glm::scale(glm::mat4(1.0f), { Extent.x, Extent.y, 1.0f });
+
+	DrawQuad(Transform, Color);
+}
+
+void Renderer2D::DrawQuad(const glm::mat4& Transform, const Ref<Texture2D>& texture, float TexTiling, const glm::vec4& Tint)
 {
 	constexpr std::array<glm::vec2, 4> TextureCoords = {
 		glm::vec2(0.0f, 0.0f),
@@ -127,102 +163,59 @@ void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, flo
 		glm::vec2(0.0f, 1.0f)
 	};
 
-	constexpr float WhiteTextureIndex = 0.0f;
-
 	if (s_Data.IsBatchFull())
 		NextBatch();
 
-	glm::mat4 Transform = glm::translate(glm::mat4(1.0f), Position)
-		* glm::rotate(glm::mat4(1.0f), Rotation, { 0.0f, 0.0f, 1.0f })
-		* glm::scale(glm::mat4(1.0f), { Extent.x, Extent.y, 1.0f });
+	float TextureIndex = 0.0f;
 
-	SetNextQuadData(Transform, Color, TextureCoords, WhiteTextureIndex, 1.0f);
+	for (uint8_t I = 1; I < s_Data.CurrentTextureIndex; I++)
+	{
+		if (*s_Data.CachedTextures[I] == *texture)
+		{
+			TextureIndex = I;
+			break;
+		}
+	}
+
+	if (TextureIndex == 0.0f)
+	{
+		if (s_Data.IsTextureCacheFull())
+			NextBatch();
+
+		TextureIndex = (float)s_Data.CurrentTextureIndex;
+		s_Data.CachedTextures[s_Data.CurrentTextureIndex] = texture;
+		s_Data.CurrentTextureIndex++;
+	}
+
+	SetNextQuadData(Transform, Tint, TextureCoords, TextureIndex, TexTiling);
 }
 
 void Renderer2D::DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, float Rotation, const Ref<Texture2D>& texture, float TexTiling, const glm::vec4& Tint)
 {
 	DrawQuad({ Position.x, Position.y, 0.0f }, Extent, Rotation, texture, TexTiling, Tint);
 }
-
 void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, float Rotation, const Ref<Texture2D>& texture, float TexTiling, const glm::vec4& Tint)
 {
-	constexpr std::array<glm::vec2, 4> TextureCoords = {
-		glm::vec2(0.0f, 0.0f),
-		glm::vec2(1.0f, 0.0f),
-		glm::vec2(1.0f, 1.0f),
-		glm::vec2(0.0f, 1.0f)
-	};
-
-	if (s_Data.IsBatchFull())
-		NextBatch();
-
-	float TextureIndex = 0.0f;
-
-	for (uint8_t I = 1; I < s_Data.CurrentTextureIndex; I++)
-	{
-		if (*s_Data.CachedTextures[I] == *texture)
-		{
-			TextureIndex = I;
-			break;
-		}
-	}
-
-	if (TextureIndex == 0.0f)
-	{
-		if (s_Data.IsTextureCacheFull())
-			NextBatch();
-
-		TextureIndex = (float)s_Data.CurrentTextureIndex;
-		s_Data.CachedTextures[s_Data.CurrentTextureIndex] = texture;
-		s_Data.CurrentTextureIndex++;
-	}
-
 	glm::mat4 Transform = glm::translate(glm::mat4(1.0f), Position)
 		* glm::rotate(glm::mat4(1.0f), Rotation, {0.0f, 0.0f, 1.0f})
 		* glm::scale(glm::mat4(1.0f), {Extent.x, Extent.y, 1.0f});
 
-	SetNextQuadData(Transform, Tint, TextureCoords, TextureIndex, TexTiling);
+	DrawQuad(Transform, texture, TexTiling, Tint);
 }
-
-void Renderer2D::DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const glm::vec4& Color)
-{
-	DrawQuad({ Position.x, Position.y, 0.0f }, Extent, Color);
-}
-
-void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const glm::vec4& Color)
-{
-	constexpr std::array<glm::vec2, 4> TextureCoords = {
-		glm::vec2(0.0f, 0.0f),
-		glm::vec2(1.0f, 0.0f),
-		glm::vec2(1.0f, 1.0f),
-		glm::vec2(0.0f, 1.0f)
-	};
-
-	constexpr float WhiteTextureIndex = 0.0f;
-
-	if (s_Data.IsBatchFull())
-		NextBatch();
-
-	glm::mat4 Transform = glm::translate(glm::mat4(1.0f), Position)
-		* glm::scale(glm::mat4(1.0f), { Extent.x, Extent.y, 1.0f });
-
-	SetNextQuadData(Transform, Color, TextureCoords, WhiteTextureIndex, 1.0f);
-}
-
 void Renderer2D::DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const Ref<Texture2D>& texture, float TexTiling, const glm::vec4& Tint)
 {
 	DrawQuad({ Position.x, Position.y, 0.0f }, Extent, texture, TexTiling, Tint);
 }
-
 void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const Ref<Texture2D>& texture, float TexTiling, const glm::vec4& Tint)
 {
-	constexpr std::array<glm::vec2, 4> TextureCoords = {
-		glm::vec2(0.0f, 0.0f),
-		glm::vec2(1.0f, 0.0f),
-		glm::vec2(1.0f, 1.0f),
-		glm::vec2(0.0f, 1.0f)
-	};
+	glm::mat4 Transform = glm::translate(glm::mat4(1.0f), Position)
+		* glm::scale(glm::mat4(1.0f), { Extent.x, Extent.y, 1.0f });
 
+	DrawQuad(Transform, texture, TexTiling, Tint);
+}
+
+void Renderer2D::DrawQuad(const glm::mat4& Transform, const SubTexture2D& SubTexture, const glm::vec4& Tint)
+{
 	if (s_Data.IsBatchFull())
 		NextBatch();
 
@@ -230,7 +223,7 @@ void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, con
 
 	for (uint8_t I = 1; I < s_Data.CurrentTextureIndex; I++)
 	{
-		if (*s_Data.CachedTextures[I] == *texture)
+		if (*s_Data.CachedTextures[I] == *SubTexture.GetTexture())
 		{
 			TextureIndex = I;
 			break;
@@ -243,89 +236,35 @@ void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, con
 			NextBatch();
 
 		TextureIndex = (float)s_Data.CurrentTextureIndex;
-		s_Data.CachedTextures[s_Data.CurrentTextureIndex] = texture;
+		s_Data.CachedTextures[s_Data.CurrentTextureIndex] = SubTexture.GetTexture();
 		s_Data.CurrentTextureIndex++;
 	}
 
-	glm::mat4 Transform = glm::translate(glm::mat4(1.0f), Position)
-		* glm::scale(glm::mat4(1.0f), { Extent.x, Extent.y, 1.0f });
-
-	SetNextQuadData(Transform, Tint, TextureCoords, TextureIndex, TexTiling);
+	SetNextQuadData(Transform, Tint, SubTexture.GetTextureCoords(), TextureIndex, 1.0f);
 }
 
 void Renderer2D::DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const SubTexture2D& SubTexture, const glm::vec4& Tint)
 {
 	DrawQuad({ Position.x, Position.y, 0.0f }, Extent, SubTexture, Tint);
 }
-
 void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const SubTexture2D& SubTexture, const glm::vec4& Tint)
 {
-	if (s_Data.IsBatchFull())
-		NextBatch();
-
-	float TextureIndex = 0.0f;
-
-	for (uint8_t I = 1; I < s_Data.CurrentTextureIndex; I++)
-	{
-		if (*s_Data.CachedTextures[I] == *SubTexture.GetTexture())
-		{
-			TextureIndex = I;
-			break;
-		}
-	}
-
-	if (TextureIndex == 0.0f)
-	{
-		if (s_Data.IsTextureCacheFull())
-			NextBatch();
-
-		TextureIndex = (float)s_Data.CurrentTextureIndex;
-		s_Data.CachedTextures[s_Data.CurrentTextureIndex] = SubTexture.GetTexture();
-		s_Data.CurrentTextureIndex++;
-	}
-
 	glm::mat4 Transform = glm::translate(glm::mat4(1.0f), Position)
 		* glm::scale(glm::mat4(1.0f), { Extent.x, Extent.y, 1.0f });
 
-	SetNextQuadData(Transform, Tint, SubTexture.GetTextureCoords(), TextureIndex, 1.0f);
+	DrawQuad(Transform, SubTexture, Tint);
 }
-
 void Renderer2D::DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, float Rotation, const SubTexture2D& SubTexture, const glm::vec4& Tint)
 {
 	DrawQuad({ Position.x, Position.y, 0.0f }, Extent, Rotation, SubTexture, Tint);
 }
-
 void Renderer2D::DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, float Rotation, const SubTexture2D& SubTexture, const glm::vec4& Tint)
 {
-	if (s_Data.IsBatchFull())
-		NextBatch();
-
-	float TextureIndex = 0.0f;
-
-	for (uint8_t I = 1; I < s_Data.CurrentTextureIndex; I++)
-	{
-		if (*s_Data.CachedTextures[I] == *SubTexture.GetTexture())
-		{
-			TextureIndex = I;
-			break;
-		}
-	}
-
-	if (TextureIndex == 0.0f)
-	{
-		if (s_Data.IsTextureCacheFull())
-			NextBatch();
-
-		TextureIndex = (float)s_Data.CurrentTextureIndex;
-		s_Data.CachedTextures[s_Data.CurrentTextureIndex] = SubTexture.GetTexture();
-		s_Data.CurrentTextureIndex++;
-	}
-
 	glm::mat4 Transform = glm::translate(glm::mat4(1.0f), Position)
 		* glm::rotate(glm::mat4(1.0f), Rotation, { 0.0f, 0.0f, 1.0f })
 		* glm::scale(glm::mat4(1.0f), { Extent.x, Extent.y, 1.0f });
 
-	SetNextQuadData(Transform, Tint, SubTexture.GetTextureCoords(), TextureIndex, 1.0f);
+	DrawQuad(Transform, SubTexture, Tint);
 }
 
 void Renderer2D::SetNextQuadData(const glm::mat4& Transform, const glm::vec4& Color, const std::array<glm::vec2, 4>& TextureCoords, float TextureIndex, float TextureTiling)

@@ -1,10 +1,9 @@
 #pragma once
-
-#include "OrthoCamera.h"
 #include "Texture.h"
 #include "SubTexture2D.h"
 #include "VertexArray.h"
 #include "Shader.h"
+#include "Void/ECS/Components/CameraComponent.h"
 
 
 
@@ -70,8 +69,12 @@ public:
 	static void Init();
 	static void Shutdown();
 
-	static void BeginScene(const Camera& Camera);
+	static void BeginScene(CameraComponent& Camera);
 	static void EndScene();
+
+	static void DrawQuad(const glm::mat4& Transform, const glm::vec4& Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	static void DrawQuad(const glm::mat4& Transform, const Ref<Texture2D>& texture, float TexTiling = 1.0f, const glm::vec4& Tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	static void DrawQuad(const glm::mat4& Transform, const SubTexture2D& SubTexture, const glm::vec4& Tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
 	static void DrawQuad(const glm::vec2& Position, const glm::vec2 Extent, const glm::vec4& Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	static void DrawQuad(const glm::vec3& Position, const glm::vec2 Extent, const glm::vec4& Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));

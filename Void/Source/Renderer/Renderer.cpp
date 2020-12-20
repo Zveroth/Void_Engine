@@ -16,10 +16,10 @@ void Renderer::OnWindowResize(uint32_t Width, uint32_t Height)
 	RenderCommand::SetViewport(0, 0, Width, Height);
 }
 
-void Renderer::BeginScene(const Camera& Camera)
+void Renderer::BeginScene(CameraComponent& Camera)
 {
-	s_SceneData->ViewMatrix = Camera.GetViewMatrix();
-	s_SceneData->ProjectionMatrix = Camera.GetProjectionMatrix();
+	s_SceneData->ViewMatrix = Camera.GetView();
+	s_SceneData->ProjectionMatrix = Camera.GetCamera().GetProjection();
 }
 
 void Renderer::EndScene()

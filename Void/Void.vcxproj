@@ -150,8 +150,6 @@
     <ClInclude Include="Source\Renderer\IndexBuffer.h" />
     <ClInclude Include="Source\Renderer\Mesh.h" />
     <ClInclude Include="Source\Renderer\Model.h" />
-    <ClInclude Include="Source\Renderer\OrthoCamera.h" />
-    <ClInclude Include="Source\Renderer\PerspectiveCamera.h" />
     <ClInclude Include="Source\Renderer\RenderCommand.h" />
     <ClInclude Include="Source\Renderer\RenderContext.h" />
     <ClInclude Include="Source\Renderer\Renderer.h" />
@@ -174,8 +172,11 @@
     <ClInclude Include="Source\Void\Core\MouseButtonCodes.h" />
     <ClInclude Include="Source\Void\Core\Time.h" />
     <ClInclude Include="Source\Void\Core\Window.h" />
+    <ClInclude Include="Source\Void\ECS\Components\CameraComponent.h" />
     <ClInclude Include="Source\Void\ECS\Components\Component.h" />
     <ClInclude Include="Source\Void\ECS\ComponentPool.h" />
+    <ClInclude Include="Source\Void\ECS\Components\SpriteComponent.h" />
+    <ClInclude Include="Source\Void\ECS\Components\TransformComponent.h" />
     <ClInclude Include="Source\Void\ECS\Entity.h" />
     <ClInclude Include="Source\Void\ECS\Scene.h" />
     <ClInclude Include="Source\Void\EntryPoint.h" />
@@ -207,8 +208,6 @@
     <ClCompile Include="Source\Renderer\IndexBuffer.cpp" />
     <ClCompile Include="Source\Renderer\Mesh.cpp" />
     <ClCompile Include="Source\Renderer\Model.cpp" />
-    <ClCompile Include="Source\Renderer\OrthoCamera.cpp" />
-    <ClCompile Include="Source\Renderer\PerspectiveCamera.cpp" />
     <ClCompile Include="Source\Renderer\RenderCommand.cpp" />
     <ClCompile Include="Source\Renderer\Renderer.cpp" />
     <ClCompile Include="Source\Renderer\Renderer2D.cpp" />
@@ -226,6 +225,7 @@
     <ClCompile Include="Source\Void\Core\Log.cpp" />
     <ClCompile Include="Source\Void\Core\Time.cpp" />
     <ClCompile Include="Source\Void\ECS\Components\Component.cpp" />
+    <ClCompile Include="Source\Void\ECS\Components\SpriteComponent.cpp" />
     <ClCompile Include="Source\Void\ECS\Entity.cpp" />
     <ClCompile Include="Source\Void\ECS\Scene.cpp" />
     <ClCompile Include="Source\Void\Misc\OrthoCameraController.cpp" />

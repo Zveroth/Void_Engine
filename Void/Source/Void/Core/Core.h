@@ -30,7 +30,7 @@
 
 #define BIT_SHIFT(x) (1 << x)
 
-#define VD_BIND_EVENT_FUN(x) std::bind(&x, this, std::placeholders::_1)
+#define VD_BIND_EVENT_FUN(x) [this](auto&&... args) -> decltype(auto) { return this->x(std::forward<decltype(args)>(args)...); }
 
 
 template <typename T>

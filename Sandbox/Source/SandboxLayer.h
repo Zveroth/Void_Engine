@@ -8,7 +8,7 @@ class SandboxLayer : public Layer
 {
 public:
 
-	SandboxLayer() : Layer("Render2DLayer"), CameraController(16.0f / 9.0f) {}
+	SandboxLayer() : Layer("Render2DLayer") {}
 
 	virtual void OnAttach() override
 	{
@@ -17,15 +17,13 @@ public:
 
 	virtual void OnUpdate(float DeltaTime) override
 	{
-		CameraController.OnUpdate(DeltaTime);
-
 		m_FB->Bind();
 		RenderCommand::Clear();
 
 		Renderer2D::ResetStats();
-		Renderer2D::BeginScene(CameraController.GetCamera());
+		//Renderer2D::BeginScene(CameraController.GetCamera());
 
-		Renderer2D::EndScene();
+		//Renderer2D::EndScene();
 		m_FB->Unbind();
 	}
 
@@ -36,13 +34,10 @@ public:
 
 	virtual void OnEvent(Event& e) override
 	{
-		CameraController.OnEvent(e);
+		
 	}
 
 private:
 
-	OrthographicCameraController CameraController;
-
-	Ref<Texture2D> m_Texture;
 	Ref<Framebuffer> m_FB;
 };

@@ -11,17 +11,20 @@ class Entity
 
 public:
 
-	Entity(const Ref<Scene>& OwningScene, uint32_t ID);
 	virtual ~Entity() {}
 
-	Ref<Scene> GetOwningScene();
+	void Init(const Ref<Scene>& OwningScene, uint32_t ID, const std::string& Name);
 
-	template<typename T>
-	T& AddComponent()
+	void Destroy();
+
+	Ref<Scene> GetOwningScene() const;
+
+	template<typename T, typename... Args>
+	T& AddComponent(Args &&... args)
 	{
 		Ref<Scene> Scene = GetOwningScene();
 
-		T& CreatedComponent = Scene->CreateComponent<T>(*this);
+		T& CreatedComponent = Scene->CreateComponent<T>(*this, std::forward<Args>(args)...);
 		m_ComponentIDs.push_back(typeid(T).hash_code());
 
 		return CreatedComponent;
@@ -36,7 +39,7 @@ public:
 		m_ComponentIDs.push_back(typeid(T).hash_code());
 	}
 
-	void Destroy();
+	std::string GetEntityFullName() const { return m_Name + "_" + std::to_string(m_ID); }
 
 	operator uint32_t() const
 	{
@@ -47,10 +50,14 @@ public:
 	{
 		return m_ID;
 	}
-
+	
 private:
+
+	Entity();//Get name and display it in a panel
 
 	WeakRef<Scene> m_Scene;
 	std::vector<size_t> m_ComponentIDs;
 	uint32_t m_ID;
+
+	std::string m_Name;
 };
