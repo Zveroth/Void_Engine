@@ -1,21 +1,19 @@
 #include "vdpch.h"
 #include "Component.h"
-#include "Void/ECS/ComponentPool.h"
 #include "Void/ECS/Entity.h"
 #include "Void/ECS/Scene.h"
 
 
 
-void Component::Init(Scene* OwningScene, Entity* OwningEntity)
+void Component::Init(Entity* OwningEntity)
 {
-	m_Scene = OwningScene;
 	m_Owner = OwningEntity;
 	m_OwnerID = *m_Owner;
 }
 
-void Component::Destroy()
-{
-	
+Scene* Component::GetOwningScene() const
+{ 
+	return m_Owner->GetOwningScene(); 
 }
 
 bool Component::operator==(const Component& other)

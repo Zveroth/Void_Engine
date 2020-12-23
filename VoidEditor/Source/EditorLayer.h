@@ -5,6 +5,7 @@
 #include "Void/ECS/Components/CameraComponent.h"
 #include "imgui.h"
 #include "glm/gtc/matrix_transform.hpp"
+#include "InterfacePanels/SceneHierarchyPanel.h"
 
 
 
@@ -31,6 +32,8 @@ public:
 
 		Entity* Ent = m_Scene->AddEntity<Entity>();
 		Ent->AddComponent<SpriteComponent>();
+
+		m_SceneHierarchyPanel.SetScene(m_Scene);
 	}
 
 	virtual void OnUpdate(float DeltaTime) override
@@ -121,17 +124,7 @@ public:
 			}
 			ImGui::End();
 
-			ImGui::Begin("Entities");
-			{
-				for (const Entity* Ent : m_Scene->GetAllEntities())
-				{
-					if (ImGui::Button(Ent->GetEntityFullName().c_str()))
-					{
-						
-					}
-				}
-			}
-			ImGui::End();
+			m_SceneHierarchyPanel.OnImGuiRender();
 
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 			ImGui::Begin("Viewport");
@@ -154,6 +147,8 @@ public:
 			ImGui::PopStyleVar();
 		}
 		ImGui::End();
+
+		//ImGui::ShowDemoWindow();
 	}
 
 	virtual void OnEvent(Event& e) override
@@ -169,4 +164,5 @@ private:
 	bool m_bViewportFocused = false;
 
 	Ref<Scene> m_Scene;
+	SceneHierarchyPanel m_SceneHierarchyPanel;
 };

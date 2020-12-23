@@ -9,6 +9,8 @@ class CameraComponent : public TransformComponent
 
 public:
 
+	virtual void OnDestroy() override;
+
 	Camera& GetCamera() { return m_Camera; }
 
 	const glm::mat4& GetView() const { return m_Transform; }
@@ -20,6 +22,8 @@ public:
 	float GetAspectRatio() const { return m_AspectRatio; }
 	float GetZoomLevel() const { return m_ZoomLevel; }
 
+	void SetIsActive(bool bActive) { m_bAcive = bActive; }
+
 private:
 
 	void SetOrthographicProjection(float Left, float Right, float Bottom, float Top, float NearPlane = -1.0f, float FarPlane = 1.0f);
@@ -29,4 +33,6 @@ private:
 
 	float m_ZoomLevel = 3.0f;
 	float m_AspectRatio = 16.0f / 9.0f;
+
+	bool m_bAcive = false;
 };

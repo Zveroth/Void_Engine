@@ -10,11 +10,9 @@ Entity::Entity() : m_ID(0), m_Scene(), m_Name("")
 	m_bCanEverTick = false;
 }
 
-void Entity::Init(Scene* OwningScene, uint32_t ID, const std::string& Name)
+void Entity::Init(Scene* OwningScene)
 {
-	m_ID = ID;
 	m_Scene = OwningScene;
-	m_Name = Name;
 
 	if (m_bCanEverTick)
 	{
@@ -27,9 +25,10 @@ void Entity::Init(Scene* OwningScene, uint32_t ID, const std::string& Name)
 void Entity::Destroy()
 {
 	Scene* OwningScene = GetOwningScene();
+	ECSRegistry* Registry = OwningScene->GetRegistry();
 
 	for (size_t Comp : m_ComponentIDs)
-		OwningScene->DeleteComponent(*this, Comp);
+		Registry->DeleteComponent(*this, Comp);
 
-	OwningScene->DeleteEntity(*this);
+	Registry->DeleteEntity(*this);
 }

@@ -1,5 +1,4 @@
 #pragma once
-#include "Void/ECS/ComponentPool.h"
 
 
 
@@ -14,12 +13,11 @@ public:
 
 	virtual ~Component() {}
 
-	void Init(Scene* OwningScene, Entity* OwningEntity);
-	void Destroy();
-
+	void Init(Entity* OwningEntity);
 	virtual void Tick(float DeltaTime) {}
+	virtual void OnDestroy() {}
 
-	Scene* GetOwningScene() const { return m_Scene; }
+	Scene* GetOwningScene() const;
 	Entity* GetOwner() const { return m_Owner; }
 	uint32_t GetOwnerID() const { return m_OwnerID; }
 
@@ -37,7 +35,6 @@ protected:
 
 	bool m_bCanEverTick = false;
 
-	Scene* m_Scene;
 	Entity* m_Owner;
 	uint32_t m_OwnerID;
 };

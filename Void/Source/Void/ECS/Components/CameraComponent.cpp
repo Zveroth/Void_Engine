@@ -1,7 +1,14 @@
 #include "vdpch.h"
 #include "CameraComponent.h"
+#include "Void/ECS/Scene.h"
 
 
+
+void CameraComponent::OnDestroy()
+{
+	if (m_bAcive)
+		GetOwningScene()->InvalidateActiveCamera();
+}
 
 void CameraComponent::SetAspectRatio(float AspectRatio)
 {

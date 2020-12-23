@@ -1,4 +1,5 @@
 #pragma once
+#include "vdpch.h"
 
 
 
@@ -31,7 +32,7 @@ size_t BinaryInsert_Internal(const std::vector<ArrayType>& Array, const ValueTyp
 template<typename ArrayType, typename ValueType>
 int32_t BinarySearch(const std::vector<ArrayType>& Array, const ValueType& Value)
 {
-	int32_t Size = Array.size();
+	int32_t Size = (int32_t)Array.size();
 	if (Size == 0)
 		return -1;
 

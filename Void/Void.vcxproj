@@ -179,6 +179,7 @@
     <ClInclude Include="Source\Void\ECS\Components\SpriteComponent.h" />
     <ClInclude Include="Source\Void\ECS\Components\TickComponent.h" />
     <ClInclude Include="Source\Void\ECS\Components\TransformComponent.h" />
+    <ClInclude Include="Source\Void\ECS\ECSRegistry.h" />
     <ClInclude Include="Source\Void\ECS\Entities\EditorCamera.h" />
     <ClInclude Include="Source\Void\ECS\Entity.h" />
     <ClInclude Include="Source\Void\ECS\Scene.h" />
@@ -230,6 +231,7 @@
     <ClCompile Include="Source\Void\ECS\Components\Component.cpp" />
     <ClCompile Include="Source\Void\ECS\Components\SpriteComponent.cpp" />
     <ClCompile Include="Source\Void\ECS\Components\TickComponent.cpp" />
+    <ClCompile Include="Source\Void\ECS\ECSRegistry.cpp" />
     <ClCompile Include="Source\Void\ECS\Entities\EditorCamera.cpp" />
     <ClCompile Include="Source\Void\ECS\Entity.cpp" />
     <ClCompile Include="Source\Void\ECS\Scene.cpp" />

@@ -40,6 +40,7 @@ public:
 		int32_t Index = BinarySearch(m_Storage, ID);
 		VD_CORE_ASSERT_CUSTOM(Index >= 0, VD_CORE_CRITICAL("Assertion failed: Tried to remove a non existing component {0} for {1}.", typeid(T).name(), ID));
 
+		m_Storage[Index].OnDestroy();
 		m_Storage.erase(m_Storage.begin() + Index);
 		m_Num--;
 	}

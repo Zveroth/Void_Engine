@@ -2,18 +2,19 @@
 
 #include "Components/Component.h"
 #include "Scene.h"
+#include "ECSRegistry.h"
 
 
 
 class Entity
 {
-	friend class Scene;
+	friend class ECSRegistry;
 
 public:
 
-	virtual ~Entity() {}
+	virtual ~Entity() { }
 
-	void Init(Scene* OwningScene, uint32_t ID, const std::string& Name);
+	void Init(Scene* OwningScene);
 	void Destroy();
 
 	virtual void PostInit() {}
@@ -24,7 +25,7 @@ public:
 	template<typename T, typename... Args>
 	T& AddComponent(Args &&... args)
 	{
-		T& CreatedComponent = GetOwningScene()->CreateComponent<T>(this, m_ID, std::forward<Args>(args)...);
+		T& CreatedComponent = GetOwningScene()->GetRegistry()->CreateComponent<T>(this, m_ID, std::forward<Args>(args)...);
 		m_ComponentIDs.push_back(typeid(T).hash_code());
 
 		return CreatedComponent;
@@ -33,14 +34,14 @@ public:
 	template<typename T>
 	void RemoveComponent()
 	{
-		T& CreatedComponent = GetOwningScene()->DeleteComponent<T>(*this);
+		T& CreatedComponent = GetOwningScene()->GetRegistry()->DeleteComponent<T>(*this);
 		m_ComponentIDs.push_back(typeid(T).hash_code());
 	}
 
 	template<typename T>
 	T& GetComponent()
 	{
-		return GetOwningScene()->GetComponent<T>(*this);
+		return GetOwningScene()->GetRegistry()->GetComponent<T>(*this);
 	}
 
 	std::string GetEntityFullName() const { return m_Name + "_" + std::to_string(m_ID); }
@@ -55,6 +56,9 @@ public:
 		return m_ID;
 	}
 	
+	bool operator ==(const Entity& other) { return (m_ID == other.m_ID) && (m_Scene == other.m_Scene); }
+	bool operator !=(const Entity& other) { return (m_ID != other.m_ID) || (m_Scene != other.m_Scene); }
+
 protected:
 
 	Entity();

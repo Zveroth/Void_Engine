@@ -167,6 +167,9 @@ project "VoidEditor"
 	targetdir("bin/" .. OutputDir .. "/%{prj.name}")
 	objdir("intermediates/" .. OutputDir .. "/%{prj.name}")
 
+	pchheader "vdepch.h"
+	pchsource "VoidEditor/Source/vdepch.cpp"
+
 	files
 	{
 		"%{prj.name}/Source/**.h",
@@ -179,7 +182,8 @@ project "VoidEditor"
 		"Void/3rdParty/spdlog/include",
 		"Void/3rdParty/assimp/include",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"VoidEditor/Source"
 	}
 
 	libdirs

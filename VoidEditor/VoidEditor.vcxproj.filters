@@ -1,9 +1,22 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Source\Editor.cpp" />
+    <Filter Include="InterfacePanels">
+      <UniqueIdentifier>{D916BB85-45A2-284A-4EB3-AB3EBABD844A}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\EditorLayer.h" />
+    <ClInclude Include="Source\InterfacePanels\SceneHierarchyPanel.h">
+      <Filter>InterfacePanels</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\vdepch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Editor.cpp" />
+    <ClCompile Include="Source\InterfacePanels\SceneHierarchyPanel.cpp">
+      <Filter>InterfacePanels</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\vdepch.cpp" />
   </ItemGroup>
 </Project>
