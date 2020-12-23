@@ -203,7 +203,7 @@ project "VoidEditor"
 
 	postbuildcommands
 	{
-		("{COPY} ../Void/3rdParty/assimp/lib/assimp-vc142-mt.dll ../bin/" .. OutputDir .. "/Sandbox")
+		("{COPY} ../Void/3rdParty/assimp/lib/assimp-vc142-mt.dll ../bin/" .. OutputDir .. "/VoidEditor")
 	}
 
 	filter "configurations:Debug"

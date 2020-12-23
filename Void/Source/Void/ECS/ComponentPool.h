@@ -1,10 +1,11 @@
 #pragma once
+#include "ComponentPoolHandle.h"
 #include "Void/Utility/CoreUtility.h"
 
 
 
 template<typename T>
-class ComponentPool
+class ComponentPool : public IComponentPoolHandle
 {
 
 public:
@@ -43,19 +44,16 @@ public:
 		m_Num--;
 	}
 
-	void Tick(float DeltaTime)
+	virtual void DeleteDirect(uint32_t ID) override
+	{
+		Delete(ID);
+	}
+
+	virtual void Tick(float DeltaTime) override
 	{
 		if (m_bTickable)
-		{
-			BYTE* ptr = (BYTE*)&m_Storage[0];
-
-			for (size_t I = 0; I < m_Num; I++)
-			{
-				((Component*)ptr)->Tick(DeltaTime);
-
-				ptr += m_ComponentSize;
-			}
-		}
+			for (T& Comp : m_Storage)
+				Comp.Tick(DeltaTime);
 	}
 
 	typename std::vector<T>::iterator begin() { return m_Storage.begin(); }
@@ -67,6 +65,4 @@ private:
 	size_t m_Num = 0;
 
 	bool m_bTickable = false;
-
-	size_t m_ComponentSize = sizeof(T);
 };

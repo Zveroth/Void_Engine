@@ -27,17 +27,14 @@ public:
 		m_FramebufferSize.y = Spec.Height;
 
 		m_Scene = CreateRef<Scene>();
+		m_Scene->PostInit();
 
-		Entity& EditorCamera = m_Scene->AddEntity<Entity>(m_Scene, "Editor_Camera");
-		m_Scene->SetActiveCamera(EditorCamera.AddComponent<CameraComponent>());
-
-		Entity& Ent = m_Scene->AddEntity<Entity>(m_Scene);
-		Ent.AddComponent<SpriteComponent>(glm::vec4(0.5f, 0.2f, 1.0f, 1.0f));//.AddLocationOffset(glm::vec3(0.0f, 0.0f, -5.0f));
+		Entity* Ent = m_Scene->AddEntity<Entity>();
+		Ent->AddComponent<SpriteComponent>();
 	}
 
 	virtual void OnUpdate(float DeltaTime) override
 	{
-
 		m_Framebuffer->Bind();
 		RenderCommand::Clear();
 		Renderer2D::ResetStats();
@@ -126,9 +123,9 @@ public:
 
 			ImGui::Begin("Entities");
 			{
-				for (const Entity& Ent : m_Scene->GetAllEntities())
+				for (const Entity* Ent : m_Scene->GetAllEntities())
 				{
-					if (ImGui::Button(Ent.GetEntityFullName().c_str()))
+					if (ImGui::Button(Ent->GetEntityFullName().c_str()))
 					{
 						
 					}
@@ -148,8 +145,7 @@ public:
 					m_FramebufferSize = ViewportSize;
 
 					if (m_Framebuffer->Resize(m_FramebufferSize.x, m_FramebufferSize.y))
-						if (m_Scene->HasActiveCamera())
-							m_Scene->GetActiveCamera().GetCamera().SetAspectRatio(m_FramebufferSize.x / m_FramebufferSize.y);
+						m_Scene->SetViewportAspectRatio(m_FramebufferSize.x / m_FramebufferSize.y);
 				}
 
 				ImGui::Image((void*)m_Framebuffer->GetColorAttachmentID(), ViewportSize, ImVec2(0, 1), ImVec2(1, 0));

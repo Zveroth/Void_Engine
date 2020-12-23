@@ -2,7 +2,7 @@
 
 #include "RenderCommand.h"
 #include "Shader.h"
-#include "Void/ECS/Components/CameraComponent.h"
+#include "Renderer/Camera.h"
 
 
 
@@ -17,7 +17,7 @@ public:
 
 	static void OnWindowResize(uint32_t Width, uint32_t Height);
 
-	static void BeginScene(CameraComponent& Camera);
+	static void BeginScene(Camera& Camera, const glm::mat4& View);
 	static void EndScene();
 
 	static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader);

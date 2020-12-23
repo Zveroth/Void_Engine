@@ -3,6 +3,8 @@
 
 
 
+class Entity;
+
 class Component
 {
 
@@ -10,37 +12,32 @@ class Component
 
 public:
 
-	uint32_t GetOwnerID() const { return m_OwnerID; }
+	virtual ~Component() {}
 
+	void Init(Scene* OwningScene, Entity* OwningEntity);
 	void Destroy();
 
 	virtual void Tick(float DeltaTime) {}
 
+	Scene* GetOwningScene() const { return m_Scene; }
+	Entity* GetOwner() const { return m_Owner; }
+	uint32_t GetOwnerID() const { return m_OwnerID; }
+
 	bool CanEverTick() const { return m_bCanEverTick; }
 
-	bool operator==(const Component& other)
-	{
-		return m_OwnerID == other.m_OwnerID;
-	}
+	bool operator==(const Component& other);
 
-	bool operator==(uint32_t ID)
-	{
-		return m_OwnerID == ID;
-	}
+	bool operator==(uint32_t ID);
 
-	operator uint32_t() const
-	{
-		return m_OwnerID;
-	}
+	operator uint32_t() const;
 
-	operator uint32_t()
-	{
-		return m_OwnerID;
-	}
+	operator uint32_t();
 
 protected:
 
 	bool m_bCanEverTick = false;
 
-	uint32_t m_OwnerID = 0;
+	Scene* m_Scene;
+	Entity* m_Owner;
+	uint32_t m_OwnerID;
 };

@@ -92,7 +92,7 @@
       <AdditionalLibraryDirectories>..\Void\3rdParty\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll\ (xcopy /Q /E /Y /I ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll ..\bin\windows_Debug_x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll ..\bin\windows_Debug_x86_64\Sandbox &gt; nul)</Command>
+      <Command>IF EXIST ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll\ (xcopy /Q /E /Y /I ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll ..\bin\windows_Debug_x86_64\VoidEditor &gt; nul) ELSE (xcopy /Q /Y /I ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll ..\bin\windows_Debug_x86_64\VoidEditor &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -117,7 +117,7 @@
       <AdditionalLibraryDirectories>..\Void\3rdParty\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll\ (xcopy /Q /E /Y /I ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll ..\bin\windows_Release_x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll ..\bin\windows_Release_x86_64\Sandbox &gt; nul)</Command>
+      <Command>IF EXIST ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll\ (xcopy /Q /E /Y /I ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll ..\bin\windows_Release_x86_64\VoidEditor &gt; nul) ELSE (xcopy /Q /Y /I ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll ..\bin\windows_Release_x86_64\VoidEditor &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution|x64'">
@@ -136,7 +136,7 @@
       <AdditionalLibraryDirectories>..\Void\3rdParty\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll\ (xcopy /Q /E /Y /I ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll ..\bin\windows_Distribution_x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll ..\bin\windows_Distribution_x86_64\Sandbox &gt; nul)</Command>
+      <Command>IF EXIST ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll\ (xcopy /Q /E /Y /I ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll ..\bin\windows_Distribution_x86_64\VoidEditor &gt; nul) ELSE (xcopy /Q /Y /I ..\Void\3rdParty\assimp\lib\assimp-vc142-mt.dll ..\bin\windows_Distribution_x86_64\VoidEditor &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

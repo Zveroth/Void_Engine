@@ -2,11 +2,11 @@
 #include "ComponentPool.h"
 #include "Components/Component.h"
 #include "Components/CameraComponent.h"
-#include "Void/ECS/Entity.h"
-#include "Void/Events/ApplicationEvent.h"
 #include "Void/Events/MouseEvent.h"
 
 
+
+class Entity;
 
 class Scene
 {
@@ -15,38 +15,40 @@ public:
 
 	~Scene();
 
+	void PostInit();
+
 	template<typename T, typename... Args>
-	T& CreateComponent(Entity& Ent, Args &&... args)
+	T& CreateComponent(Entity* Ent, uint32_t EntID, Args &&... args)
 	{
 		size_t id = typeid(T).hash_code();
 		if (m_Pools.find(id) == m_Pools.end())
 		{
-			m_Pools[id] = (ComponentPool<Component>*)(new ComponentPool<T>());
+			m_Pools[id] = new ComponentPool<T>();
 			VD_CORE_ASSERT(m_Pools[id], "Pointer to component pool is null after creation!");
 		}
 
-		ComponentPool<T>* Pool = (ComponentPool<T>*)m_Pools[id];
-		T& Comp = Pool->Create(Ent.m_ID, std::forward<Args>(args)...);
-		Comp.m_OwnerID = Ent.m_ID;
+		ComponentPool<T>* Pool = GetPool<T>(id);
+		T& Comp = Pool->Create(EntID, std::forward<Args>(args)...);
+		Comp.Init(this, Ent);
 		return Comp;
 	}
 
 	template<typename T>
-	T& GetComponent(Entity& Ent)
+	T& GetComponent(uint32_t EntID)
 	{
 		size_t id = typeid(T).hash_code();
 		VD_CORE_ASSERT(m_Pools.find(id) != m_Pools.end(), "Retrieval of non existing component!");
 
-		return (T&)m_Pools[id]->Get(Ent.m_ID);
+		return GetPool<T>(id)->Get(EntID);
 	}
 
 	template<typename T>
-	void DeleteComponent(Entity& Ent)
+	void DeleteComponent(uint32_t EntID)
 	{
 		size_t id = typeid(T).hash_code();
 		VD_CORE_ASSERT(m_Pools.find(id) != m_Pools.end(), "Deletion of non existing component!");
 
-		m_Pools[id]->Delete(Ent.m_ID);
+		GetPool<T>(id)->Delete(EntID);
 	}
 
 	template<typename T>
@@ -55,19 +57,20 @@ public:
 		size_t id = typeid(T).hash_code();
 		VD_CORE_ASSERT(m_Pools.find(id) != m_Pools.end(), "Retrieval of non existing components!");
 
-		ComponentPool<T>* Pool = (ComponentPool<T>*)m_Pools[id];
-		return *Pool;
+		return *GetPool<T>(id);
 	}
 
 	template<typename T>
-	T& AddEntity(const Ref<Scene>& ptr, const std::string& Name = "Unnamed_Entity")
+	T* AddEntity(const std::string& Name = "Unnamed_Entity")
 	{
 		m_NextID++;
-		m_Entities.push_back(T());
-		T& CreatedEntity = m_Entities.back();
-		CreatedEntity.Init(ptr, m_NextID, Name);
+		m_EntIDs.push_back(m_NextID);
 
-		return CreatedEntity;
+		T* Ent = new T();
+		m_Entities.push_back(Ent);
+		Ent->Init(this, m_NextID, Name);
+
+		return Ent;
 	}
 
 	void DeleteEntity(const Entity& Ent);
@@ -75,36 +78,51 @@ public:
 
 	void Tick(float DeltaTime);
 
-	const std::vector<Entity>& GetAllEntities() { return m_Entities; }
+	std::vector<Entity*>& GetAllEntities() { return m_Entities; }
+	const std::vector<Entity*>& GetAllEntities() const { return m_Entities; }
+
+	Entity* GetEntity(uint32_t ID);
 
 	bool HasActiveCamera() const { return m_ActiveCamera != 0; }
 	CameraComponent& GetActiveCamera();
-	void SetActiveCamera(const CameraComponent& ActiveCamera);
+	void SetActiveCamera(CameraComponent& ActiveCamera);
+
+	void SetViewportAspectRatio(float AspectRatio);
+	void SetViewportAspectRatio(float Width, float Height);
 
 	template<>
-	void DeleteComponent<CameraComponent>(Entity& Ent)
+	void DeleteComponent<CameraComponent>(uint32_t EntID)
 	{
 		size_t id = typeid(CameraComponent).hash_code();
 		VD_CORE_ASSERT(m_Pools.find(id) != m_Pools.end(), "Deletion of non existing component!");
 
-		if (m_ActiveCamera == Ent.m_ID)
-			m_ActiveCamera = 0;
+		if (m_ActiveCamera == EntID)
+			InvalidateActiveCamera();
 
-		m_Pools[id]->Delete(Ent.m_ID);
+		GetPool<CameraComponent>(id)->Delete(EntID);
 	}
 
 	void OnEvent(Event& e);
 
-	bool OnWindowResized(WindowResizeEvent& e);
 	bool OnMouseScrolled(MouseScrolledEvent& e);
 
 private:
 
-	std::unordered_map<size_t, ComponentPool<Component>*> m_Pools;
-	std::vector<Entity> m_Entities;
+	template<typename T>
+	ComponentPool<T>* GetPool(size_t Type)
+	{
+		return (ComponentPool<T>*)m_Pools[Type];
+	}
+
+	void InvalidateActiveCamera();
+
+	std::unordered_map<size_t, IComponentPoolHandle*> m_Pools;
+
+	std::vector<Entity*> m_Entities;//Vector of pointers - slow when iterating due to not being cache friendly
+	std::vector<uint32_t> m_EntIDs;
 
 	uint32_t m_NextID = 0;
 
 	uint32_t m_ActiveCamera = 0;
-	float m_CameraZoom = 1.0f;
+	float m_ViewportAspectRatio = 16.0f / 9.0f;
 };
