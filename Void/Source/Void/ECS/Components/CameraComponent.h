@@ -13,7 +13,10 @@ public:
 
 	Camera& GetCamera() { return m_Camera; }
 
-	const glm::mat4& GetView() const { return m_Transform; }
+	glm::mat4 GetView() const 
+	{
+		return glm::inverse(m_Transform);
+	}
 
 	void SetAspectRatio(float AspectRatio);
 	void SetAspectRatio(float Width, float Height);
@@ -23,6 +26,8 @@ public:
 	float GetZoomLevel() const { return m_ZoomLevel; }
 
 	void SetIsActive(bool bActive) { m_bAcive = bActive; }
+
+	virtual void OnImGuiRender() override;
 
 private:
 

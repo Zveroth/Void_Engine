@@ -40,3 +40,8 @@ void CameraComponent::SetPerspectiveProjection(float AspectRatio, float FOV, flo
 {
 	m_Camera.SetProjection(glm::perspective(glm::radians(FOV), AspectRatio, NearPlane, FarPlane));
 }
+
+void CameraComponent::OnImGuiRender()
+{
+	TransformComponent::OnImGuiRender();
+}

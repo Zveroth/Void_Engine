@@ -44,6 +44,8 @@ public:
 		return GetOwningScene()->GetRegistry()->GetComponent<T>(*this);
 	}
 
+	std::vector<Component*> GetAllComponents();
+
 	std::string GetEntityFullName() const { return m_Name + "_" + std::to_string(m_ID); }
 
 	operator uint32_t() const

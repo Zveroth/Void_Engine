@@ -144,11 +144,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Source\EditorLayer.h" />
+    <ClInclude Include="Source\InterfacePanels\DetailsPanel.h" />
     <ClInclude Include="Source\InterfacePanels\SceneHierarchyPanel.h" />
     <ClInclude Include="Source\vdepch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Editor.cpp" />
+    <ClCompile Include="Source\EditorLayer.cpp" />
+    <ClCompile Include="Source\InterfacePanels\DetailsPanel.cpp" />
     <ClCompile Include="Source\InterfacePanels\SceneHierarchyPanel.cpp" />
     <ClCompile Include="Source\vdepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -162,4 +165,4 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-</Project>
+</Project> 

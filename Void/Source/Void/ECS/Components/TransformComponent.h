@@ -16,20 +16,15 @@ public:
 	const glm::mat4& GetTransform() const { return m_Transform;}
 	void SetTransform(const glm::mat4& Transform) { m_Transform = Transform; }
 
-	void AddLocationOffset(const glm::vec3& Offset)
-	{
-		m_Transform = glm::translate(m_Transform, Offset);
-	}
+	void SetLocation(const glm::vec3& Location);
+	void SetRotation(const glm::vec3& Rotation);
+	void SetScale(const glm::vec2& Scale);
 
-	void AddRotationOffset(float Offset)
-	{
-		m_Transform = glm::rotate(m_Transform, Offset, { 0.0f, 0.0f, 1.0f });
-	}
+	void AddLocationOffset(const glm::vec3& Offset);
+	void AddRotationOffset(const glm::vec3& Offset);
+	void AddScaleOffset(const glm::vec2& Offset);
 
-	void AddScaleOffset(const glm::vec2& Offset)
-	{
-		m_Transform = glm::scale(m_Transform, { Offset.x, Offset.y, 1.0f });
-	}
+	virtual void OnImGuiRender() override;
 
 protected:
 

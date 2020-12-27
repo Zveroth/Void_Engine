@@ -15,6 +15,8 @@ public:
 
 	void OnImGuiRender();
 
+	uint32_t GetSelected() const { return m_SelectedID; }
+
 private:
 
 	WeakRef<Scene> m_Scene;

@@ -3,6 +3,7 @@
 #include "Void/Utility/CoreUtility.h"
 
 
+class Component;
 
 template<typename T>
 class ComponentPool : public IComponentPoolHandle
@@ -33,6 +34,14 @@ public:
 		VD_CORE_ASSERT_CUSTOM(Index >= 0, VD_CORE_CRITICAL("Assertion failed: Tried to retrieve a non existing component {0} for {1}.", typeid(T).name(), ID));
 
 		return m_Storage[Index];
+	}
+
+	virtual Component* GetComponentDirect(uint32_t ID) override
+	{
+		int32_t Index = BinarySearch(m_Storage, ID);
+		VD_CORE_ASSERT_CUSTOM(Index >= 0, VD_CORE_CRITICAL("Assertion failed: Tried to retrieve a non existing component {0} for {1}.", typeid(T).name(), ID));
+
+		return &m_Storage[Index];
 	}
 
 	void Delete(uint32_t ID)

@@ -11,14 +11,14 @@ public:
 
 	~ECSRegistry();
 
-	void Tick(CameraComponent& CameraComp, float DeltaTime);
+	void Tick(float DeltaTime);
 
 	Entity* GetEntity(uint32_t ID);
 	std::vector<Entity*>& GetAllEntities() { return m_Entities; }
 	const std::vector<Entity*>& GetAllEntities() const { return m_Entities; }
 
-	void DeleteEntity(const Entity& Ent);
-	void DeleteComponent(Entity& Ent, size_t ComponentClass);
+	void DeleteEntity(const Entity* Ent);
+	void DeleteComponent(Entity* Ent, size_t ComponentClass);
 
 	template<typename T, typename... Args>
 	T& CreateComponent(Entity* Ent, uint32_t EntID, Args &&... args)
@@ -62,6 +62,8 @@ public:
 
 		return *GetPool<T>(id);
 	}
+
+	Component* GetComponentOfType(Entity* Ent, size_t ComponentClass);
 
 private:
 

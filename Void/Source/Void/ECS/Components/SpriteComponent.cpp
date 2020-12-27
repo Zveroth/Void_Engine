@@ -8,3 +8,8 @@ void SpriteComponent::Tick(float DeltaTime)
 {
 	Renderer2D::DrawQuad(GetTransform(), m_Color);
 }
+
+void SpriteComponent::OnImGuiRender()
+{
+	TransformComponent::OnImGuiRender();
+}

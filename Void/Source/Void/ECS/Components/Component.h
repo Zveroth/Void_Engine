@@ -23,6 +23,8 @@ public:
 
 	bool CanEverTick() const { return m_bCanEverTick; }
 
+	virtual void OnImGuiRender() {}
+
 	bool operator==(const Component& other);
 
 	bool operator==(uint32_t ID);

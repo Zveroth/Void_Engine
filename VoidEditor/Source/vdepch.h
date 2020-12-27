@@ -17,3 +17,5 @@
 #ifdef VD_PLATFORM_WINDOWS
 #include "Windows.h"
 #endif
+
+#include "Void/Core/Core.h"

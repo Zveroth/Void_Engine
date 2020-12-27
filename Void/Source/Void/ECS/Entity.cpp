@@ -28,7 +28,17 @@ void Entity::Destroy()
 	ECSRegistry* Registry = OwningScene->GetRegistry();
 
 	for (size_t Comp : m_ComponentIDs)
-		Registry->DeleteComponent(*this, Comp);
+		Registry->DeleteComponent(this, Comp);
 
-	Registry->DeleteEntity(*this);
+	Registry->DeleteEntity(this);
+}
+
+std::vector<Component*> Entity::GetAllComponents()
+{
+	std::vector<Component*> Components;
+
+	for (size_t Type : m_ComponentIDs)
+		Components.push_back(m_Scene->GetRegistry()->GetComponentOfType(this, Type));
+
+	return Components;
 }

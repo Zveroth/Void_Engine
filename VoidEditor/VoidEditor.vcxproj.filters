@@ -7,6 +7,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\EditorLayer.h" />
+    <ClInclude Include="Source\InterfacePanels\DetailsPanel.h">
+      <Filter>InterfacePanels</Filter>
+    </ClInclude>
     <ClInclude Include="Source\InterfacePanels\SceneHierarchyPanel.h">
       <Filter>InterfacePanels</Filter>
     </ClInclude>
@@ -14,6 +17,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Editor.cpp" />
+    <ClCompile Include="Source\EditorLayer.cpp" />
+    <ClCompile Include="Source\InterfacePanels\DetailsPanel.cpp">
+      <Filter>InterfacePanels</Filter>
+    </ClCompile>
     <ClCompile Include="Source\InterfacePanels\SceneHierarchyPanel.cpp">
       <Filter>InterfacePanels</Filter>
     </ClCompile>

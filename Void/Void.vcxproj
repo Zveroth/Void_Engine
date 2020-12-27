@@ -231,6 +231,7 @@
     <ClCompile Include="Source\Void\ECS\Components\Component.cpp" />
     <ClCompile Include="Source\Void\ECS\Components\SpriteComponent.cpp" />
     <ClCompile Include="Source\Void\ECS\Components\TickComponent.cpp" />
+    <ClCompile Include="Source\Void\ECS\Components\TransformComponent.cpp" />
     <ClCompile Include="Source\Void\ECS\ECSRegistry.cpp" />
     <ClCompile Include="Source\Void\ECS\Entities\EditorCamera.cpp" />
     <ClCompile Include="Source\Void\ECS\Entity.cpp" />
@@ -255,4 +256,4 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-</Project>
+</Project> 

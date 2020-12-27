@@ -335,6 +335,9 @@
     <ClCompile Include="Source\Void\ECS\Components\TickComponent.cpp">
       <Filter>Source\Void\ECS\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Void\ECS\Components\TransformComponent.cpp">
+      <Filter>Source\Void\ECS\Components</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Void\ECS\ECSRegistry.cpp">
       <Filter>Source\Void\ECS</Filter>
     </ClCompile>

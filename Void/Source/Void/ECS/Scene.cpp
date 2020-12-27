@@ -3,6 +3,7 @@
 #include "Components/CameraComponent.h"
 #include "Entities/EditorCamera.h"
 #include "ECSRegistry.h"
+#include "Renderer/Renderer2D.h"
 
 
 
@@ -18,7 +19,12 @@ void Scene::PostInit()
 
 void Scene::Tick(float DeltaTime)
 {
-	m_Registry->Tick(GetActiveCamera(), DeltaTime);
+	CameraComponent& CameraComp = GetActiveCamera();
+	Renderer2D::BeginScene(CameraComp.GetCamera(), CameraComp.GetView());
+
+	m_Registry->Tick(DeltaTime);
+
+	Renderer2D::EndScene();
 }
 
 CameraComponent& Scene::GetActiveCamera()

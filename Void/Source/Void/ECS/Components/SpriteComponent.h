@@ -23,6 +23,8 @@ public:
 	const glm::vec4& GetColor() const { return m_Color; }
 	void SetColor(const glm::vec4& Color) { m_Color = Color; }
 
+	virtual void OnImGuiRender() override;
+
 protected:
 
 	glm::vec4 m_Color;

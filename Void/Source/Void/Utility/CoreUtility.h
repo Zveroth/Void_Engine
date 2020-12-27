@@ -50,9 +50,9 @@ int32_t BinarySearch_Internal(const std::vector<ArrayType>& Array, const ValueTy
 		return Mid;
 
 	if (Value > Array[Mid])
-		return BinarySearch_Internal(Array, (Mid + 1), High, Value);
+		return BinarySearch_Internal(Array, Value, (Mid + 1), High);
 
-	return BinarySearch_Internal(Array, Low, (Mid - 1), Value);
+	return BinarySearch_Internal(Array, Value, Low, (Mid - 1));
 }
 
 template<typename ArrayType, typename ValueType>
@@ -76,7 +76,7 @@ int32_t BinarySearchP_Internal(const std::vector<ArrayType>& Array, const ValueT
 		return Mid;
 
 	if (Value > *Array[Mid])
-		return BinarySearchP_Internal(Array, (Mid + 1), High, Value);
+		return BinarySearchP_Internal(Array, Value, (Mid + 1), High);
 
-	return BinarySearchP_Internal(Array, Low, (Mid - 1), Value);
+	return BinarySearchP_Internal(Array, Value, Low, (Mid - 1));
 }

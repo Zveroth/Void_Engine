@@ -27,6 +27,7 @@
 #endif // VD_ENABLE_ASSERTS
 
 #define INDEX_NONE -1
+#define ENTITY_ID_NONE 0
 
 #define BIT_SHIFT(x) (1 << x)
 
