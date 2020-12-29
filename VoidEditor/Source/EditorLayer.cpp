@@ -134,6 +134,8 @@ void EditorLayer::OnImGuiRender()
 		ImGui::PopStyleVar();
 	}
 	ImGui::End();
+
+	//ImGui::ShowDemoWindow();
 }
 
 void EditorLayer::OnEvent(Event& e)

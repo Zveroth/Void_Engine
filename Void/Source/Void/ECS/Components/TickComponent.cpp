@@ -7,8 +7,3 @@ void TickComponent::Tick(float DeltaTime)
 {
 	GetOwner()->Tick(DeltaTime);
 }
-
-void TickComponent::OnImGuiRender()
-{
-
-}

@@ -23,8 +23,13 @@ void ECSRegistry::DeleteEntity(const Entity* Ent)
 	int32_t Index = BinarySearch(m_EntIDs, Ent->m_ID);
 	VD_CORE_ASSERT(Index != INDEX_NONE, "Removing not owned entity!");
 
+	for (size_t Comp : m_Entities[Index]->m_ComponentIDs)
+		DeleteComponent(m_Entities[Index], Comp);
+
 	m_EntIDs.erase(m_EntIDs.begin() + Index);
 	m_Entities.erase(m_Entities.begin() + Index);
+
+	delete Ent;
 }
 
 void ECSRegistry::DeleteComponent(Entity* Ent, size_t ComponentClass)

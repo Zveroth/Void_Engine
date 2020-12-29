@@ -20,5 +20,5 @@ public:
 private:
 
 	WeakRef<Scene> m_Scene;
-	uint32_t m_SelectedID = 0;
+	uint32_t m_SelectedID = ENTITY_ID_NONE;
 };

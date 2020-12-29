@@ -27,9 +27,6 @@ void Entity::Destroy()
 	Scene* OwningScene = GetOwningScene();
 	ECSRegistry* Registry = OwningScene->GetRegistry();
 
-	for (size_t Comp : m_ComponentIDs)
-		Registry->DeleteComponent(this, Comp);
-
 	Registry->DeleteEntity(this);
 }
 

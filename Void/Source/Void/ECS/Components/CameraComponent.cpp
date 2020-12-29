@@ -1,6 +1,7 @@
 #include "vdpch.h"
 #include "CameraComponent.h"
 #include "Void/ECS/Scene.h"
+#include "imgui.h"
 
 
 
@@ -13,35 +14,128 @@ void CameraComponent::OnDestroy()
 void CameraComponent::SetAspectRatio(float AspectRatio)
 {
 	m_AspectRatio = AspectRatio;
-	SetOrthographicProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+	RecalculateProjection();
 }
 
 void CameraComponent::SetAspectRatio(float Width, float Height)
 {
 	m_AspectRatio = Width / Height;
-	SetOrthographicProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+	RecalculateProjection();
 }
 
-void CameraComponent::SetZoomLevel(float ZoomLevel)
+void CameraComponent::SetOrthoWidth(float OrthoWidth)
 {
-	if (ZoomLevel > 0.0f)
+	if (OrthoWidth > 0.0f)
 	{
-		m_ZoomLevel = ZoomLevel;
-		SetOrthographicProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+		m_OrthoWidth = OrthoWidth;
+		RecalculateProjection();
 	}
 }
 
-void CameraComponent::SetOrthographicProjection(float Left, float Right, float Bottom, float Top, float NearPlane, float FarPlane)
+void CameraComponent::SetFieldOfView(float FOV)
 {
-	m_Camera.SetProjection(glm::ortho(Left, Right, Bottom, Top, NearPlane, FarPlane));
+	if (FOV > 0.0f)
+	{
+		m_FOV = FOV;
+		RecalculateProjection();
+	}
 }
 
-void CameraComponent::SetPerspectiveProjection(float AspectRatio, float FOV, float NearPlane, float FarPlane)
+void CameraComponent::SetNearPlane(float NearPlane)
 {
-	m_Camera.SetProjection(glm::perspective(glm::radians(FOV), AspectRatio, NearPlane, FarPlane));
+	if (m_ProjectionType == ECameraProjectionType::Perspective)
+	{
+		m_PersNearPlane = NearPlane;
+	}
+	else
+	{
+		m_OrthoNearPlane = NearPlane;
+	}
+
+	RecalculateProjection();
+}
+
+void CameraComponent::SetFarPlane(float FarPlane)
+{
+	if (m_ProjectionType == ECameraProjectionType::Perspective)
+	{
+		m_PersFarPlane = FarPlane;
+	}
+	else
+	{
+		m_OrthoFarPlane = FarPlane;
+	}
+
+	RecalculateProjection();
+}
+
+void CameraComponent::SetProjectionType(ECameraProjectionType Type)
+{
+	m_ProjectionType = Type;
+	RecalculateProjection();
 }
 
 void CameraComponent::OnImGuiRender()
 {
 	TransformComponent::OnImGuiRender();
+
+	if (ImGui::TreeNodeEx("Camera"))
+	{
+
+		if (ImGui::BeginCombo("Projection type", GetProjectionTypeAsString().c_str()))
+		{
+			if (ImGui::Selectable("Perspective", m_ProjectionType == ECameraProjectionType::Perspective))
+			{
+				SetProjectionType(ECameraProjectionType::Perspective);
+				ImGui::SetItemDefaultFocus();
+			}
+
+			if (ImGui::Selectable("Orthographic", m_ProjectionType == ECameraProjectionType::Orthographic))
+			{
+				SetProjectionType(ECameraProjectionType::Orthographic);
+				ImGui::SetItemDefaultFocus();
+			}
+
+			ImGui::EndCombo();
+		}
+
+		if (m_ProjectionType == ECameraProjectionType::Perspective)
+		{
+			float FOV = glm::degrees(m_FOV);
+			if (ImGui::DragFloat("Field of view", &FOV, 0.1f))
+				SetFieldOfView(glm::radians(FOV));
+
+			float NearPlane = m_PersNearPlane;
+			if (ImGui::DragFloat("Near plane", &NearPlane, 0.1f))
+				SetNearPlane(NearPlane);
+
+			float FarPlane = m_PersFarPlane;
+			if (ImGui::DragFloat("Far plane", &FarPlane, 0.1f))
+				SetFarPlane(FarPlane);
+		}
+		else
+		{
+			float OrthoWidth = m_OrthoWidth;
+			if (ImGui::DragFloat("Ortho width", &OrthoWidth, 0.1f))
+				SetOrthoWidth(OrthoWidth);
+
+			float NearPlane = m_OrthoNearPlane;
+			if (ImGui::DragFloat("Near plane", &NearPlane, 0.1f))
+				SetNearPlane(NearPlane);
+
+			float FarPlane = m_OrthoFarPlane;
+			if (ImGui::DragFloat("Far plane", &FarPlane, 0.1f))
+				SetFarPlane(FarPlane);
+		}
+
+		ImGui::TreePop();
+	}
+}
+
+void CameraComponent::RecalculateProjection()
+{
+	if(m_ProjectionType == ECameraProjectionType::Perspective)
+		m_Camera.SetProjection(glm::perspective(m_FOV, m_AspectRatio, m_PersNearPlane, m_PersFarPlane));
+	else
+		m_Camera.SetProjection(glm::ortho(-m_AspectRatio * m_OrthoWidth, m_AspectRatio * m_OrthoWidth, -m_OrthoWidth, m_OrthoWidth, m_OrthoNearPlane, m_OrthoFarPlane));
 }

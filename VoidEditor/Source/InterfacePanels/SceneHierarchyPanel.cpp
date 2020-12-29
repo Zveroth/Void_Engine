@@ -17,6 +17,27 @@ void SceneHierarchyPanel::OnImGuiRender()
 			{
 				if (ImGui::Selectable(Entities[I]->GetEntityFullName().c_str(), (m_SelectedID == *Entities[I])))
 					m_SelectedID = *Entities[I];
+
+				if (ImGui::BeginPopupContextItem(0, 1))
+				{
+					if (ImGui::MenuItem("Delete Entity"))
+					{
+						if (m_SelectedID = *Entities[I])
+							m_SelectedID = ENTITY_ID_NONE;
+
+						SceneRef->GetRegistry()->DeleteEntity(Entities[I]);
+					}
+
+					ImGui::EndPopup();
+				}
+			}
+
+			if (ImGui::BeginPopupContextWindow(0, 1, false))
+			{
+				if (ImGui::MenuItem("Create Entity"))
+					SceneRef->AddEntity<Entity>();
+
+				ImGui::EndPopup();
 			}
 		}
 		ImGui::End();

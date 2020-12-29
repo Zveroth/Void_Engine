@@ -189,6 +189,7 @@
     <ClInclude Include="Source\Void\Events\KeyboardEvent.h" />
     <ClInclude Include="Source\Void\Events\MouseEvent.h" />
     <ClInclude Include="Source\Void\Utility\CoreUtility.h" />
+    <ClInclude Include="Source\Void\Utility\UIHelpers.h" />
     <ClInclude Include="Source\Void\Utility\RandomGenerator.h" />
     <ClInclude Include="Source\vdpch.h" />
   </ItemGroup>
@@ -237,6 +238,7 @@
     <ClCompile Include="Source\Void\ECS\Entity.cpp" />
     <ClCompile Include="Source\Void\ECS\Scene.cpp" />
     <ClCompile Include="Source\Void\Utility\CoreUtility.cpp" />
+    <ClCompile Include="Source\Void\Utility\UIHelpers.cpp" />
     <ClCompile Include="Source\Void\Utility\RandomGenerator.cpp" />
     <ClCompile Include="Source\vdpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -256,4 +258,4 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-</Project> 
+</Project>

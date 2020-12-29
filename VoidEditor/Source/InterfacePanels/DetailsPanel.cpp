@@ -14,6 +14,14 @@ void DetailsPanel::OnImGuiRender(int32_t Selected)
 			if (Ref<Scene> SceneRef = m_Scene.lock())
 			{
 				Entity* Ent = SceneRef->GetRegistry()->GetEntity(Selected);
+
+				if (ImGui::BeginPopupContextWindow(0, 1, false))
+				{
+					ImGui::MenuItem("Add Component");
+
+					ImGui::EndPopup();
+				}
+
 				ImGui::Text("Selected: %s", Ent->GetEntityFullName().c_str());
 				for (Component* Comp : Ent->GetAllComponents())
 					Comp->OnImGuiRender();

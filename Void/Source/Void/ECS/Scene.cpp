@@ -77,9 +77,9 @@ bool Scene::OnMouseScrolled(MouseScrolledEvent& e)
 	if (!HasActiveCamera())
 	{
 		CameraComponent& ActiveCamera = GetActiveCamera();
-		float Zoom = ActiveCamera.GetZoomLevel();
+		float Zoom = ActiveCamera.GetOrthoWidth();
 		Zoom -= e.GetYOffset() * 0.25f;
-		GetActiveCamera().SetZoomLevel(Zoom);
+		GetActiveCamera().SetOrthoWidth(Zoom);
 	}
 
 	return false;
