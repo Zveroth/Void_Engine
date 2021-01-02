@@ -39,3 +39,9 @@ std::vector<Component*> Entity::GetAllComponents()
 
 	return Components;
 }
+
+Component& Entity::AddComponent(type_id ComponentClass)
+{
+	m_ComponentIDs.push_back(ComponentClass);
+	return GetOwningScene()->GetRegistry()->CreateComponentFromTypeID(ComponentClass, this, m_ID);
+}

@@ -15,6 +15,7 @@ class EditorLayer : public Layer
 public:
 
 	EditorLayer() : Layer("Render2DLayer")/*, m_CameraController(16.0f / 9.0f)*/ {}
+	virtual ~EditorLayer();
 
 	virtual void OnAttach() override;
 

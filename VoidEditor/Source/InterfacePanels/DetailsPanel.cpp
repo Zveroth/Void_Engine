@@ -2,6 +2,7 @@
 #include "DetailsPanel.h"
 #include "imgui.h"
 #include "Void/ECS/ECSRegistry.h"
+#include "Void/ClassManagement/ClassRegistry.h"
 
 
 
@@ -17,7 +18,13 @@ void DetailsPanel::OnImGuiRender(int32_t Selected)
 
 				if (ImGui::BeginPopupContextWindow(0, 1, false))
 				{
-					ImGui::MenuItem("Add Component");
+					ImGui::Text("Add Component:");
+
+					for (ClassHandle* Handle : ClassRegistry::GetRegisteredClasses())
+					{
+						if (ImGui::MenuItem(Handle->GetName().c_str()))
+							Ent->AddComponent(Handle->GetTypeID());
+					}
 
 					ImGui::EndPopup();
 				}

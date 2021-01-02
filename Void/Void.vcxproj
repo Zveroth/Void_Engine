@@ -162,6 +162,9 @@
     <ClInclude Include="Source\Renderer\VertexArray.h" />
     <ClInclude Include="Source\Renderer\VertexBuffer.h" />
     <ClInclude Include="Source\Void.h" />
+    <ClInclude Include="Source\Void\ClassManagement\ClassData.h" />
+    <ClInclude Include="Source\Void\ClassManagement\ClassHandle.h" />
+    <ClInclude Include="Source\Void\ClassManagement\ClassRegistry.h" />
     <ClInclude Include="Source\Void\Core\Application.h" />
     <ClInclude Include="Source\Void\Core\Core.h" />
     <ClInclude Include="Source\Void\Core\Input.h" />
@@ -222,6 +225,9 @@
     <ClCompile Include="Source\Renderer\TextureAtlas.cpp" />
     <ClCompile Include="Source\Renderer\VertexArray.cpp" />
     <ClCompile Include="Source\Renderer\VertexBuffer.cpp" />
+    <ClCompile Include="Source\Void\ClassManagement\ClassData.cpp" />
+    <ClCompile Include="Source\Void\ClassManagement\ClassHandle.cpp" />
+    <ClCompile Include="Source\Void\ClassManagement\ClassRegistry.cpp" />
     <ClCompile Include="Source\Void\Core\Application.cpp" />
     <ClCompile Include="Source\Void\Core\Layer.cpp" />
     <ClCompile Include="Source\Void\Core\LayerStack.cpp" />

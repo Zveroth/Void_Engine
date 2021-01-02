@@ -3,6 +3,11 @@
 
 
 
+EditorLayer::~EditorLayer()
+{
+
+}
+
 void EditorLayer::OnAttach()
 {
 	const Window& AppWindow = Application::GetApp().GetWindow();

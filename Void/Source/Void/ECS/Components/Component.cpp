@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "Void/ECS/Entity.h"
 #include "Void/ECS/Scene.h"
+#include "Void/ClassManagement/ClassRegistry.h"
 
 
 

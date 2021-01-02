@@ -2,6 +2,11 @@
 #include "SpriteComponent.h"
 #include "Renderer/Renderer2D.h"
 #include "imgui.h"
+#include "Void/ClassManagement/ClassRegistry.h"
+
+
+
+REGISTER_CLASS(SpriteComponent);
 
 
 

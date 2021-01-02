@@ -3,7 +3,7 @@
 #include "Renderer/Camera.h"
 
 
-//TODO: perspective camera in set aspect/zoom
+
 class CameraComponent : public TransformComponent
 {
 

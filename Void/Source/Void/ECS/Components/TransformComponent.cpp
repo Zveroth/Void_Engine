@@ -2,7 +2,11 @@
 #include "TransformComponent.h"
 #include "imgui.h"
 #include "Void/Utility/UIHelpers.h"
+#include "Void/ClassManagement/ClassRegistry.h"
 
+
+
+REGISTER_CLASS(TransformComponent);
 
 
 TransformComponent::TransformComponent() : m_Location(0.0f), m_Rotation(0.0f), m_Scale(1.0f)

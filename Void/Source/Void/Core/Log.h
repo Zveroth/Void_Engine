@@ -39,6 +39,7 @@ private:
 #define VD_ERROR(...)			Log::GetClientLogger()->error(__VA_ARGS__)
 #define VD_CRITICAL(...)		Log::GetClientLogger()->critical(__VA_ARGS__)
 
+
 #else
 
 #define VD_CORE_TRACE(...)
@@ -46,6 +47,7 @@ private:
 #define VD_CORE_WARNING(...)
 #define VD_CORE_ERROR(...)
 #define VD_CORE_CRITICAL(...)
+#define VD_CORE_PREMAIN(x)	
 
 #define VD_TRACE(...)
 #define VD_INFO(...)

@@ -2,6 +2,11 @@
 #include "CameraComponent.h"
 #include "Void/ECS/Scene.h"
 #include "imgui.h"
+#include "Void/ClassManagement/ClassRegistry.h"
+
+
+
+REGISTER_CLASS(CameraComponent);
 
 
 

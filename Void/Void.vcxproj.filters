@@ -220,6 +220,9 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\Void\Utility\UIHelpers.h" />
+    <ClInclude Include="Source\Void\ClassManagement\ClassHandle.h" />
+    <ClInclude Include="Source\Void\ClassManagement\ClassData.h" />
+    <ClInclude Include="Source\Void\ClassManagement\ClassRegistry.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3rdParty\stb_image\stb_image.cpp">
@@ -361,5 +364,8 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\Void\Utility\UIHelpers.cpp" />
+    <ClCompile Include="Source\Void\ClassManagement\ClassHandle.cpp" />
+    <ClCompile Include="Source\Void\ClassManagement\ClassData.cpp" />
+    <ClCompile Include="Source\Void\ClassManagement\ClassRegistry.cpp" />
   </ItemGroup>
 </Project>

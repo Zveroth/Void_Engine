@@ -18,15 +18,15 @@ public:
 	const std::vector<Entity*>& GetAllEntities() const { return m_Entities; }
 
 	void DeleteEntity(const Entity* Ent);
-	void DeleteComponent(Entity* Ent, size_t ComponentClass);
+	void DeleteComponent(Entity* Ent, type_id ComponentClass);
 
 	template<typename T, typename... Args>
 	T& CreateComponent(Entity* Ent, uint32_t EntID, Args &&... args)
 	{
-		size_t id = typeid(T).hash_code();
+		type_id id = typeid(T).hash_code();
 		if (m_Pools.find(id) == m_Pools.end())
 		{
-			m_Pools[id] = new ComponentPool<T>();
+			CreatePool<T>(id);
 			VD_CORE_ASSERT(m_Pools[id], "Pointer to component pool is null after creation!");
 		}
 
@@ -36,10 +36,19 @@ public:
 		return Comp;
 	}
 
+	Component& CreateComponentFromTypeID(type_id ClassID, Entity* Ent, uint32_t EntID)
+	{
+		VD_CORE_ASSERT(m_Pools.find(ClassID) != m_Pools.end(), "CreateComponentFromTypeID cannot create pools!");
+
+		Component& Comp = m_Pools[ClassID]->CreateComponentDirect(EntID);
+		Comp.Init(Ent);
+		return Comp;
+	}
+
 	template<typename T>
 	T& GetComponent(uint32_t EntID)
 	{
-		size_t id = typeid(T).hash_code();
+		type_id id = typeid(T).hash_code();
 		VD_CORE_ASSERT(m_Pools.find(id) != m_Pools.end(), "Retrieval of non existing component!");
 
 		return GetPool<T>(id)->Get(EntID);
@@ -48,7 +57,7 @@ public:
 	template<typename T>
 	void DeleteComponent(uint32_t EntID)
 	{
-		size_t id = typeid(T).hash_code();
+		type_id id = typeid(T).hash_code();
 		VD_CORE_ASSERT(m_Pools.find(id) != m_Pools.end(), "Deletion of non existing component!");
 
 		GetPool<T>(id)->Delete(EntID);
@@ -57,13 +66,25 @@ public:
 	template<typename T>
 	ComponentPool<T>& GetComponentsOfType()
 	{
-		size_t id = typeid(T).hash_code();
+		type_id id = typeid(T).hash_code();
 		VD_CORE_ASSERT(m_Pools.find(id) != m_Pools.end(), "Retrieval of non existing components!");
 
 		return *GetPool<T>(id);
 	}
 
-	Component* GetComponentOfType(Entity* Ent, size_t ComponentClass);
+	Component* GetComponentOfType(Entity* Ent, type_id ComponentClass);
+
+	template<typename T>
+	void CreatePool()
+	{
+		m_Pools[typeid(T).hash_code()] = new ComponentPool<T>();
+	}
+
+	template<typename T>
+	void CreatePool(type_id id)
+	{
+		m_Pools[id] = new ComponentPool<T>();
+	}
 
 private:
 
@@ -82,12 +103,12 @@ private:
 	}
 
 	template<typename T>
-	ComponentPool<T>* GetPool(size_t Type)
+	ComponentPool<T>* GetPool(type_id Type)
 	{
 		return (ComponentPool<T>*)m_Pools[Type];
 	}
 
-	std::unordered_map<size_t, IComponentPoolHandle*> m_Pools;
+	std::unordered_map<type_id, IComponentPoolHandle*> m_Pools;
 
 	std::vector<Entity*> m_Entities;//Vector of pointers - slow when iterating due to not being cache friendly
 	std::vector<uint32_t> m_EntIDs;

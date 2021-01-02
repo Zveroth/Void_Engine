@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Components/Component.h"
-#include "Scene.h"
 #include "ECSRegistry.h"
+#include "Scene.h"
 
 
 
@@ -30,6 +30,8 @@ public:
 
 		return CreatedComponent;
 	}
+
+	Component& AddComponent(type_id ComponentClass);
 
 	template<typename T>
 	void RemoveComponent()
@@ -70,7 +72,7 @@ protected:
 private:
 
 	Scene* m_Scene;
-	std::vector<size_t> m_ComponentIDs;
+	std::vector<type_id> m_ComponentIDs;
 	uint32_t m_ID;
 
 	std::string m_Name;
