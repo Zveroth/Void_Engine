@@ -34,11 +34,13 @@ public:
 	float GetAspectRatio() const { return m_AspectRatio; }
 	float GetOrthoWidth() const { return m_OrthoWidth; }
 
-	void SetIsActive(bool bActive) { m_bAcive = bActive; }
+	void SetIsActive(bool bActive) { m_bActive = bActive; }
 
 	void SetProjectionType(ECameraProjectionType Type);
 
 	virtual void OnImGuiRender() override;
+
+	virtual std::string GetComponentName() override { return "Camera Component"; }
 
 private:
 
@@ -59,5 +61,5 @@ private:
 
 	float m_AspectRatio = 16.0f / 9.0f;
 
-	bool m_bAcive = false;
+	bool m_bActive = false;
 };

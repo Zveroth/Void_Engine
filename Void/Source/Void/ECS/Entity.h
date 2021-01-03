@@ -17,6 +17,8 @@ public:
 	void Init(Scene* OwningScene);
 	void Destroy();
 
+	void OverrideID(uint32_t ID) { m_ID = ID; }
+
 	virtual void PostInit() {}
 	virtual void Tick(float DeltaTime) {}
 
@@ -39,6 +41,8 @@ public:
 		T& CreatedComponent = GetOwningScene()->GetRegistry()->DeleteComponent<T>(*this);
 		m_ComponentIDs.push_back(typeid(T).hash_code());
 	}
+
+	void RemoveComponent(Component& Comp);
 
 	template<typename T>
 	T& GetComponent()
@@ -68,8 +72,6 @@ protected:
 	Entity();
 
 	bool m_bCanEverTick;
-
-private:
 
 	Scene* m_Scene;
 	std::vector<type_id> m_ComponentIDs;

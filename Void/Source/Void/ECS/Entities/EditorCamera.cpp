@@ -7,7 +7,7 @@
 
 void EditorCamera::PostInit()
 {
-	AddComponent<CameraComponent>();
+	AddComponent<CameraComponent>().SetIsActive(true);
 }
 
 void EditorCamera::Tick(float DeltaTime)

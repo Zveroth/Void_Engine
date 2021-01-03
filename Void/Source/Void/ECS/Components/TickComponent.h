@@ -14,4 +14,6 @@ public:
 	}
 
 	virtual void Tick(float DeltaTime) override;
+
+	virtual std::string GetComponentName() override { return "Tick Component"; }
 };

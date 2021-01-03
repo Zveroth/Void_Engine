@@ -18,6 +18,7 @@ public:
 	const std::vector<Entity*>& GetAllEntities() const { return m_Entities; }
 
 	void DeleteEntity(const Entity* Ent);
+	void DeleteEntity(uint32_t EntID);
 	void DeleteComponent(Entity* Ent, type_id ComponentClass);
 
 	template<typename T, typename... Args>
@@ -32,7 +33,7 @@ public:
 
 		ComponentPool<T>* Pool = GetPool<T>(id);
 		T& Comp = Pool->Create(EntID, std::forward<Args>(args)...);
-		Comp.Init(Ent);
+		Comp.Init(Ent, id);
 		return Comp;
 	}
 
@@ -41,7 +42,7 @@ public:
 		VD_CORE_ASSERT(m_Pools.find(ClassID) != m_Pools.end(), "CreateComponentFromTypeID cannot create pools!");
 
 		Component& Comp = m_Pools[ClassID]->CreateComponentDirect(EntID);
-		Comp.Init(Ent);
+		Comp.Init(Ent, ClassID);
 		return Comp;
 	}
 
@@ -77,12 +78,13 @@ public:
 	template<typename T>
 	void CreatePool()
 	{
-		m_Pools[typeid(T).hash_code()] = new ComponentPool<T>();
+		CreatePool<T>(typeid(T).hash_code());
 	}
 
 	template<typename T>
 	void CreatePool(type_id id)
 	{
+		VD_CORE_ASSERT(m_Pools.find(id) == m_Pools.end(), "Attempted to create an existing pool.");
 		m_Pools[id] = new ComponentPool<T>();
 	}
 
@@ -103,9 +105,15 @@ private:
 	}
 
 	template<typename T>
-	ComponentPool<T>* GetPool(type_id Type)
+	ComponentPool<T>* GetPool(type_id id)
 	{
-		return (ComponentPool<T>*)m_Pools[Type];
+		return (ComponentPool<T>*)m_Pools[id];
+	}
+
+	template<typename T>
+	ComponentPool<T>* GetPool()
+	{
+		return (ComponentPool<T>*)m_Pools[typeid(T).hash_code()];
 	}
 
 	std::unordered_map<type_id, IComponentPoolHandle*> m_Pools;

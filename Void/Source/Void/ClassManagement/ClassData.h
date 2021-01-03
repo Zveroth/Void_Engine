@@ -19,4 +19,9 @@ public:
 
 		m_TypeID = Type.hash_code();
 	}
+
+	virtual void CreatePoolForRegistry(ECSRegistry* Reg) override
+	{
+		Reg->CreatePool<T>();
+	}
 };

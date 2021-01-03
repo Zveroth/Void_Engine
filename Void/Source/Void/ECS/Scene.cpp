@@ -4,6 +4,7 @@
 #include "Entities/EditorCamera.h"
 #include "ECSRegistry.h"
 #include "Renderer/Renderer2D.h"
+#include "Void/ClassManagement/ClassRegistry.h"
 
 
 
@@ -14,6 +15,10 @@ Scene::Scene() : m_Registry(CreateUnique<ECSRegistry>())
 
 void Scene::PostInit()
 {
+	ECSRegistry* Reg = GetRegistry();
+	for (ClassHandle* Entry : ClassRegistry::GetRegisteredClasses())
+		Entry->CreatePoolForRegistry(Reg);
+
 	AddEntity<EditorCamera>("Default_Editor_Camera");
 }
 
@@ -29,16 +34,12 @@ void Scene::Tick(float DeltaTime)
 
 CameraComponent& Scene::GetActiveCamera()
 {
-	if(HasActiveCamera())
-		return m_Registry->GetPool<CameraComponent>(typeid(CameraComponent).hash_code())->Get(m_ActiveCamera);
-	else
-		return m_Registry->GetPool<CameraComponent>(typeid(CameraComponent).hash_code())->Get(1);
+	return m_Registry->GetPool<CameraComponent>()->Get(m_ActiveCamera);
 }
 
 void Scene::SetActiveCamera(CameraComponent& ActiveCamera)
 {
-	if (HasActiveCamera())
-		GetActiveCamera().SetIsActive(false);
+	GetActiveCamera().SetIsActive(false);
 
 	m_ActiveCamera = ActiveCamera.GetOwnerID();
 	GetActiveCamera().SetIsActive(true);
@@ -48,7 +49,9 @@ void Scene::SetActiveCamera(CameraComponent& ActiveCamera)
 
 void Scene::InvalidateActiveCamera()
 {
-	m_ActiveCamera = 0;
+	GetActiveCamera().SetIsActive(false);
+	m_ActiveCamera = 1;
+	GetActiveCamera().SetIsActive(true);
 
 	GetActiveCamera().SetAspectRatio(m_ViewportAspectRatio);
 }

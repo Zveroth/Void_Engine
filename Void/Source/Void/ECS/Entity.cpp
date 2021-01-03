@@ -45,3 +45,17 @@ Component& Entity::AddComponent(type_id ComponentClass)
 	m_ComponentIDs.push_back(ComponentClass);
 	return GetOwningScene()->GetRegistry()->CreateComponentFromTypeID(ComponentClass, this, m_ID);
 }
+
+void Entity::RemoveComponent(Component& Comp)
+{
+	for(auto Index = m_ComponentIDs.begin(); Index != m_ComponentIDs.end(); Index++)
+	{
+		if (*Index == Comp.GetComponentID())
+		{
+			m_ComponentIDs.erase(Index);
+			m_Scene->GetRegistry()->DeleteComponent(this, Comp.GetComponentID());
+
+			break;
+		}
+	}
+}

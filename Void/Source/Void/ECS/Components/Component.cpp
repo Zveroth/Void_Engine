@@ -6,10 +6,11 @@
 
 
 
-void Component::Init(Entity* OwningEntity)
+void Component::Init(Entity* OwningEntity, type_id ComponentID)
 {
 	m_Owner = OwningEntity;
 	m_OwnerID = *m_Owner;
+	m_ComponentID = ComponentID;
 }
 
 Scene* Component::GetOwningScene() const

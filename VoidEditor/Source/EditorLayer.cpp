@@ -1,5 +1,6 @@
 #include "vdepch.h"
 #include "EditorLayer.h"
+#include "Void/ECS/ECSRegistry.h"
 
 
 
@@ -41,8 +42,45 @@ void EditorLayer::OnUpdate(float DeltaTime)
 	m_Framebuffer->Unbind();
 }
 
+
+//#define DRAW_COLOR_MANAGEMENT
+
 void EditorLayer::OnImGuiRender()
 {
+#ifdef DRAW_COLOR_MANAGEMENT
+#define AAAAA(A) ImGui::ColorPicker4(#A, &Style.Colors[A].x);
+
+	ImGui::Begin("A");
+	{
+		auto& Style = ImGui::GetStyle();
+		AAAAA(ImGuiCol_WindowBg);
+		AAAAA(ImGuiCol_Header);
+		AAAAA(ImGuiCol_HeaderHovered);
+		AAAAA(ImGuiCol_HeaderActive);
+		
+		AAAAA(ImGuiCol_Button);
+		AAAAA(ImGuiCol_ButtonHovered);
+		AAAAA(ImGuiCol_ButtonActive);
+		
+		AAAAA(ImGuiCol_FrameBg);
+		AAAAA(ImGuiCol_FrameBgHovered);
+		AAAAA(ImGuiCol_FrameBgActive);
+		
+		AAAAA(ImGuiCol_Tab);
+		AAAAA(ImGuiCol_TabHovered);
+		AAAAA(ImGuiCol_TabActive);
+		AAAAA(ImGuiCol_TabUnfocused);
+		AAAAA(ImGuiCol_TabUnfocusedActive);
+		
+		AAAAA(ImGuiCol_TitleBg);
+		AAAAA(ImGuiCol_TitleBgActive);
+		AAAAA(ImGuiCol_TitleBgCollapsed);
+
+		AAAAA(ImGuiCol_CheckMark);
+	}
+	ImGui::End();
+#endif // DRAW_COLOR_MANAGEMENT
+
 	static bool open = true;
 	static bool opt_fullscreen_persistant = true;
 	bool opt_fullscreen = opt_fullscreen_persistant;
@@ -112,6 +150,8 @@ void EditorLayer::OnImGuiRender()
 			ImGui::Text("Quads: %d", Stats.QuadCount);
 			ImGui::Text("Vertices: %d", Stats.GetVertexCount());
 			ImGui::Text("Indices: %d", Stats.GetIndexCount());
+
+			ImGui::Button("SomeButton");
 		}
 		ImGui::End();
 

@@ -26,6 +26,8 @@ public:
 
 	virtual void OnImGuiRender() override;
 
+	virtual std::string GetComponentName() override { return "Transform Component"; }
+
 protected:
 
 	glm::vec3 m_Location;

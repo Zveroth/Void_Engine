@@ -25,6 +25,8 @@ public:
 	void Begin();
 	void End();
 
+	void SetDarkThemeColors();
+
 private:
 
 	bool m_bConsumeEvents = true;

@@ -18,7 +18,7 @@ public:
 
 	void Tick(float DeltaTime);
 
-	bool HasActiveCamera() const { return m_ActiveCamera != 0; }
+	bool HasActiveCamera() const { return m_ActiveCamera > 1; }
 	CameraComponent& GetActiveCamera();
 	void SetActiveCamera(CameraComponent& ActiveCamera);
 	void InvalidateActiveCamera();
@@ -42,7 +42,7 @@ public:
 
 private:
 
-	uint32_t m_ActiveCamera = 0;
+	uint32_t m_ActiveCamera = 1;
 	float m_ViewportAspectRatio = 16.0f / 9.0f;
 
 	UniqueRef<ECSRegistry> m_Registry;

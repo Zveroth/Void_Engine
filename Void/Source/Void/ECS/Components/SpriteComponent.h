@@ -25,6 +25,8 @@ public:
 
 	virtual void OnImGuiRender() override;
 
+	virtual std::string GetComponentName() override { return "Sprite Component"; }
+
 protected:
 
 	glm::vec4 m_Color;

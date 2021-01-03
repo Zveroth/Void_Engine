@@ -2,6 +2,7 @@
 #include "SpriteComponent.h"
 #include "Renderer/Renderer2D.h"
 #include "imgui.h"
+#include "Void/Utility/UIHelpers.h"
 #include "Void/ClassManagement/ClassRegistry.h"
 
 
@@ -49,11 +50,7 @@ void SpriteComponent::OnImGuiRender()
 {
 	TransformComponent::OnImGuiRender();
 
-	if (ImGui::TreeNodeEx("Sprite"))
-	{
-		ImGui::ColorEdit4("Color", &m_Color[0]);
-		ImGui::TreePop();
-	}
+	ImGui::ColorEdit4("Color", &m_Color[0]);
 }
 
 void SpriteComponent::SetTexture(const std::string& TexturePath)

@@ -31,7 +31,28 @@ void DetailsPanel::OnImGuiRender(int32_t Selected)
 
 				ImGui::Text("Selected: %s", Ent->GetEntityFullName().c_str());
 				for (Component* Comp : Ent->GetAllComponents())
-					Comp->OnImGuiRender();
+				{
+					bool bOpen = ImGui::TreeNodeEx(Comp->GetComponentName().c_str(), ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Framed);
+
+					if (ImGui::BeginPopupContextItem(0))
+					{
+						if (ImGui::MenuItem("Delete component"))
+						{
+							Ent->RemoveComponent(*Comp);
+							Comp = nullptr;
+						}
+
+						ImGui::EndPopup();
+					}
+
+					if (bOpen)
+					{
+						if(Comp)
+							Comp->OnImGuiRender();
+
+						ImGui::TreePop();
+					}
+				}
 			}
 		}
 		else

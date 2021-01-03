@@ -4,7 +4,7 @@
 
 
 //There has to be a way to get file name at compile time and use it as a typename
-#define REGISTER_CLASS(Type) static ClassRegistryHelper<class Type> ClassRegistryHelper##Type
+#define REGISTER_CLASS(Type) ClassRegistryHelper<class Type> ClassRegistryHelper##Type
 
 template<typename T>
 struct ClassRegistryHelper
@@ -26,7 +26,7 @@ public:
 	{
 		ClassData<T>* RegisteredClass = new ClassData<T>();
 
-		(*GetClassRegistryMap())[typeid(T).name()] = UniqueRef<ClassData<T>>(RegisteredClass);
+		(*GetClassRegistryMap())[strrchr(typeid(T).name(), ' ') + 1] = UniqueRef<ClassData<T>>(RegisteredClass);
 	}
 
 	static ClassHandle* GetClass(const std::string& Name)

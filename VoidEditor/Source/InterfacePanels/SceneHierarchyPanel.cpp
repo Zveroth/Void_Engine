@@ -18,7 +18,7 @@ void SceneHierarchyPanel::OnImGuiRender()
 				if (ImGui::Selectable(Entities[I]->GetEntityFullName().c_str(), (m_SelectedID == *Entities[I])))
 					m_SelectedID = *Entities[I];
 
-				if (ImGui::BeginPopupContextItem(0, 1))
+				if (ImGui::BeginPopupContextItem(0))
 				{
 					if (ImGui::MenuItem("Delete Entity"))
 					{

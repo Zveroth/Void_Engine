@@ -63,15 +63,11 @@ glm::mat4 TransformComponent::GetTransform() const
 
 void TransformComponent::OnImGuiRender()
 {
-	if (ImGui::TreeNodeEx("Transform"))
-	{
-		UIHelpers::EditVec3("Position", m_Location);
+	UIHelpers::EditVec3("Position", m_Location);
 
-		glm::vec3 Rot = glm::degrees(m_Rotation);
-		UIHelpers::EditVec3("Rotation", Rot);
-		m_Rotation = glm::radians(Rot);
+	glm::vec3 Rot = glm::degrees(m_Rotation);
+	UIHelpers::EditVec3("Rotation", Rot);
+	m_Rotation = glm::radians(Rot);
 
-		UIHelpers::EditVec3("Scale", m_Scale);
-		ImGui::TreePop();
-	}
+	UIHelpers::EditVec3("Scale", m_Scale);
 }

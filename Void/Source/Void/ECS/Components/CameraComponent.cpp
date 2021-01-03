@@ -2,6 +2,7 @@
 #include "CameraComponent.h"
 #include "Void/ECS/Scene.h"
 #include "imgui.h"
+#include "Void/Utility/UIHelpers.h"
 #include "Void/ClassManagement/ClassRegistry.h"
 
 
@@ -12,7 +13,7 @@ REGISTER_CLASS(CameraComponent);
 
 void CameraComponent::OnDestroy()
 {
-	if (m_bAcive)
+	if (m_bActive)
 		GetOwningScene()->InvalidateActiveCamera();
 }
 
@@ -84,56 +85,58 @@ void CameraComponent::OnImGuiRender()
 {
 	TransformComponent::OnImGuiRender();
 
-	if (ImGui::TreeNodeEx("Camera"))
+	if (ImGui::Checkbox("Active", &m_bActive))
 	{
-
-		if (ImGui::BeginCombo("Projection type", GetProjectionTypeAsString().c_str()))
-		{
-			if (ImGui::Selectable("Perspective", m_ProjectionType == ECameraProjectionType::Perspective))
-			{
-				SetProjectionType(ECameraProjectionType::Perspective);
-				ImGui::SetItemDefaultFocus();
-			}
-
-			if (ImGui::Selectable("Orthographic", m_ProjectionType == ECameraProjectionType::Orthographic))
-			{
-				SetProjectionType(ECameraProjectionType::Orthographic);
-				ImGui::SetItemDefaultFocus();
-			}
-
-			ImGui::EndCombo();
-		}
-
-		if (m_ProjectionType == ECameraProjectionType::Perspective)
-		{
-			float FOV = glm::degrees(m_FOV);
-			if (ImGui::DragFloat("Field of view", &FOV, 0.1f))
-				SetFieldOfView(glm::radians(FOV));
-
-			float NearPlane = m_PersNearPlane;
-			if (ImGui::DragFloat("Near plane", &NearPlane, 0.1f))
-				SetNearPlane(NearPlane);
-
-			float FarPlane = m_PersFarPlane;
-			if (ImGui::DragFloat("Far plane", &FarPlane, 0.1f))
-				SetFarPlane(FarPlane);
-		}
+		if (m_bActive)
+			GetOwningScene()->SetActiveCamera(*this);
 		else
+			GetOwningScene()->InvalidateActiveCamera();
+	}
+
+	if (ImGui::BeginCombo("Projection type", GetProjectionTypeAsString().c_str()))
+	{
+		if (ImGui::Selectable("Perspective", m_ProjectionType == ECameraProjectionType::Perspective))
 		{
-			float OrthoWidth = m_OrthoWidth;
-			if (ImGui::DragFloat("Ortho width", &OrthoWidth, 0.1f))
-				SetOrthoWidth(OrthoWidth);
-
-			float NearPlane = m_OrthoNearPlane;
-			if (ImGui::DragFloat("Near plane", &NearPlane, 0.1f))
-				SetNearPlane(NearPlane);
-
-			float FarPlane = m_OrthoFarPlane;
-			if (ImGui::DragFloat("Far plane", &FarPlane, 0.1f))
-				SetFarPlane(FarPlane);
+			SetProjectionType(ECameraProjectionType::Perspective);
+			ImGui::SetItemDefaultFocus();
 		}
 
-		ImGui::TreePop();
+		if (ImGui::Selectable("Orthographic", m_ProjectionType == ECameraProjectionType::Orthographic))
+		{
+			SetProjectionType(ECameraProjectionType::Orthographic);
+			ImGui::SetItemDefaultFocus();
+		}
+
+		ImGui::EndCombo();
+	}
+
+	if (m_ProjectionType == ECameraProjectionType::Perspective)
+	{
+		float FOV = glm::degrees(m_FOV);
+		if (ImGui::DragFloat("Field of view", &FOV, 0.1f))
+			SetFieldOfView(glm::radians(FOV));
+
+		float NearPlane = m_PersNearPlane;
+		if (ImGui::DragFloat("Near plane", &NearPlane, 0.1f))
+			SetNearPlane(NearPlane);
+
+		float FarPlane = m_PersFarPlane;
+		if (ImGui::DragFloat("Far plane", &FarPlane, 0.1f))
+			SetFarPlane(FarPlane);
+	}
+	else
+	{
+		float OrthoWidth = m_OrthoWidth;
+		if (ImGui::DragFloat("Ortho width", &OrthoWidth, 0.1f))
+			SetOrthoWidth(OrthoWidth);
+
+		float NearPlane = m_OrthoNearPlane;
+		if (ImGui::DragFloat("Near plane", &NearPlane, 0.1f))
+			SetNearPlane(NearPlane);
+
+		float FarPlane = m_OrthoFarPlane;
+		if (ImGui::DragFloat("Far plane", &FarPlane, 0.1f))
+			SetFarPlane(FarPlane);
 	}
 }
 
