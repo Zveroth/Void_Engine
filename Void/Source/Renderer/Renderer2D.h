@@ -3,7 +3,6 @@
 #include "SubTexture2D.h"
 #include "VertexArray.h"
 #include "Shader.h"
-#include "Renderer/Camera.h"
 
 
 
@@ -69,7 +68,7 @@ public:
 	static void Init();
 	static void Shutdown();
 
-	static void BeginScene(Camera& Camera, const glm::mat4& View);
+	static void BeginScene(const glm::mat4& Projection, const glm::mat4& View);
 	static void EndScene();
 
 	static void DrawQuad(const glm::mat4& Transform, const glm::vec4& Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));

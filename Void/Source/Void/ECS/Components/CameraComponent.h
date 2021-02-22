@@ -15,8 +15,6 @@ public:
 		Orthographic
 	};
 
-	virtual void OnDestroy() override;
-
 	Camera& GetCamera() { return m_Camera; }
 
 	glm::mat4 GetView() const 
@@ -34,13 +32,14 @@ public:
 	float GetAspectRatio() const { return m_AspectRatio; }
 	float GetOrthoWidth() const { return m_OrthoWidth; }
 
-	void SetIsActive(bool bActive) { m_bActive = bActive; }
-
 	void SetProjectionType(ECameraProjectionType Type);
 
-	virtual void OnImGuiRender() override;
+	void Activate();
+	void SetIsActive(bool IsActive) { m_bActive = IsActive; }
 
-	virtual std::string GetComponentName() override { return "Camera Component"; }
+	virtual void OnPanelDraw(VPanelBuilder& PanelBuilder) override;
+
+	virtual std::string GetComponentName() const override { return "CameraComponent"; }
 
 private:
 

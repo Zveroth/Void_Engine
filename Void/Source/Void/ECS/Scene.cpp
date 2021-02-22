@@ -1,71 +1,57 @@
 #include "vdpch.h"
 #include "Scene.h"
-#include "Components/CameraComponent.h"
-#include "Entities/EditorCamera.h"
-#include "ECSRegistry.h"
 #include "Renderer/Renderer2D.h"
-#include "Void/ClassManagement/ClassRegistry.h"
+#include "ComponentBase.h"
+#include "EntityBase.h"
+
+#include "Void/ECS/Entities/EditorEntity.h"
+#include "Void/ECS/Components/CameraComponent.h"
 
 
 
-Scene::Scene() : m_Registry(CreateUnique<ECSRegistry>())
+Scene::Scene() : m_Registry(CreateUnique<ECSRegistry>()), m_DefaultEntity(new VEditorEntity())
 {
+	m_DefaultEntity->Init(this, "EditorEntity");
 
+	m_ActiveCamera = m_DefaultEntity->m_Camera;
+	m_ActiveCamera->SetIsActive(true);
+	m_ActiveCamera->SetAspectRatio(m_ViewportAspectRatio);
 }
 
-void Scene::PostInit()
+Scene::~Scene()
 {
-	ECSRegistry* Reg = GetRegistry();
-	for (ClassHandle* Entry : ClassRegistry::GetRegisteredClasses())
-		Entry->CreatePoolForRegistry(Reg);
-
-	AddEntity<EditorCamera>("Default_Editor_Camera");
+	delete m_DefaultEntity;
 }
 
 void Scene::Tick(float DeltaTime)
 {
-	CameraComponent& CameraComp = GetActiveCamera();
-	Renderer2D::BeginScene(CameraComp.GetCamera(), CameraComp.GetView());
+	Renderer2D::BeginScene(m_ActiveCamera->GetCamera().GetProjection(), m_ActiveCamera->GetView());
 
-	m_Registry->Tick(DeltaTime);
+	m_Registry->ForEachComponent([DeltaTime](void* Component) {((ComponentBase*)Component)->Tick(DeltaTime); });
 
 	Renderer2D::EndScene();
+
+	if (m_bReloadEntities)
+	{
+		m_EntitiesCache.Empty();
+		m_Registry->ForEachEntity([this](void* Object) { m_EntitiesCache.Emplace((EntityBase*)Object); });
+		m_bReloadEntities = false;
+	}
 }
 
-CameraComponent& Scene::GetActiveCamera()
+void Scene::DeleteEntity(EntityBase* Entity)
 {
-	return m_Registry->GetPool<CameraComponent>()->Get(m_ActiveCamera);
+	m_Registry->DeleteEntity(Entity);
 }
 
-void Scene::SetActiveCamera(CameraComponent& ActiveCamera)
+void Scene::DeleteComponent(ComponentBase* Component)
 {
-	GetActiveCamera().SetIsActive(false);
-
-	m_ActiveCamera = ActiveCamera.GetOwnerID();
-	GetActiveCamera().SetIsActive(true);
-
-	ActiveCamera.SetAspectRatio(m_ViewportAspectRatio);
+	m_Registry->DeleteComponent(Component);
 }
 
-void Scene::InvalidateActiveCamera()
+DynamicArray<EntityBase*> Scene::GetEntities() const
 {
-	GetActiveCamera().SetIsActive(false);
-	m_ActiveCamera = 1;
-	GetActiveCamera().SetIsActive(true);
-
-	GetActiveCamera().SetAspectRatio(m_ViewportAspectRatio);
-}
-
-void Scene::SetViewportAspectRatio(float AspectRatio)
-{
-	m_ViewportAspectRatio = AspectRatio;
-
-	GetActiveCamera().SetAspectRatio(AspectRatio);
-}
-
-void Scene::SetViewportAspectRatio(float Width, float Height)
-{
-	SetViewportAspectRatio(Width / Height);
+	return m_EntitiesCache;
 }
 
 void Scene::OnEvent(Event& e)
@@ -76,14 +62,37 @@ void Scene::OnEvent(Event& e)
 
 bool Scene::OnMouseScrolled(MouseScrolledEvent& e)
 {
-	//Apply zoom only to editor camera
-	if (!HasActiveCamera())
-	{
-		CameraComponent& ActiveCamera = GetActiveCamera();
-		float Zoom = ActiveCamera.GetOrthoWidth();
-		Zoom -= e.GetYOffset() * 0.25f;
-		GetActiveCamera().SetOrthoWidth(Zoom);
-	}
+	m_ActiveCamera->SetOrthoWidth(m_ActiveCamera->GetOrthoWidth() - e.GetYOffset() * 0.25f);
 
 	return false;
+}
+
+void Scene::SetActiveCamera(CameraComponent* ActivatedCamera)
+{
+	m_ActiveCamera->SetIsActive(false);
+
+	m_ActiveCamera = ActivatedCamera;
+	m_ActiveCamera->SetIsActive(true);
+	m_ActiveCamera->SetAspectRatio(m_ViewportAspectRatio);
+}
+
+void Scene::InvalidateActiveCamera()
+{
+	m_ActiveCamera->SetIsActive(false);
+
+	m_ActiveCamera = m_DefaultEntity->m_Camera;
+	m_ActiveCamera->SetIsActive(true);
+	m_ActiveCamera->SetAspectRatio(m_ViewportAspectRatio);
+}
+
+void Scene::SetViewportAspectRatio(float AspectRatio)
+{
+	m_ViewportAspectRatio = AspectRatio;
+
+	m_ActiveCamera->SetAspectRatio(AspectRatio);
+}
+
+void Scene::SetViewportAspectRatio(float Width, float Height)
+{
+	SetViewportAspectRatio(Width / Height);
 }

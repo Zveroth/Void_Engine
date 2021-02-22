@@ -21,13 +21,14 @@
 	#define VD_CORE_ASSERT(x, ...) {if(!(x)) { VD_CORE_CRITICAL("Assertion failed: {0}", __VA_ARGS__); __debugbreak(); } }
 	#define VD_CORE_ASSERT_CUSTOM(x, m) {if(!(x)) { m; __debugbreak(); } }
 #else
-	#define VD_ASSERT(x, ...) x
-	#define VD_CORE_ASSERT(x, ...) x
-#define VD_CORE_ASSERT_CUSTOM(x, m) x
+	#define VD_ASSERT(x, ...)
+	#define VD_CORE_ASSERT(x, ...)
+	#define VD_CORE_ASSERT_CUSTOM(x, m)
 #endif // VD_ENABLE_ASSERTS
 
+#include "Void/Containers/DynamicArray.h"
+
 #define INDEX_NONE -1
-#define ENTITY_ID_NONE 0
 
 #define BIT_SHIFT(x) (1 << x)
 

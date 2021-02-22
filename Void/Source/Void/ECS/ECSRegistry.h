@@ -1,125 +1,105 @@
 #pragma once
-#include "ComponentPool.h"
-#include "Entity.h"
+#include "ObjectStorage.h"
+
 
 
 class ECSRegistry
 {
-	friend class Scene;
 
 public:
 
-	~ECSRegistry();
+	~ECSRegistry()
+	{
+		VD_CORE_TRACE("Cleaning up ECS storage.");
+		for (auto& ComponentStorage : m_ComponentStorage)
+			delete ComponentStorage.second;
 
-	void Tick(float DeltaTime);
-
-	Entity* GetEntity(uint32_t ID);
-	std::vector<Entity*>& GetAllEntities() { return m_Entities; }
-	const std::vector<Entity*>& GetAllEntities() const { return m_Entities; }
-
-	void DeleteEntity(const Entity* Ent);
-	void DeleteEntity(uint32_t EntID);
-	void DeleteComponent(Entity* Ent, type_id ComponentClass);
+		for (auto& EntityStorage : m_EntityStorage)
+			delete EntityStorage.second;
+	}
 
 	template<typename T, typename... Args>
-	T& CreateComponent(Entity* Ent, uint32_t EntID, Args &&... args)
+	T* CreateComponent(Args &&... args)
 	{
 		type_id id = typeid(T).hash_code();
-		if (m_Pools.find(id) == m_Pools.end())
+		if (m_ComponentStorage.find(id) == m_ComponentStorage.end())
 		{
-			CreatePool<T>(id);
-			VD_CORE_ASSERT(m_Pools[id], "Pointer to component pool is null after creation!");
+			CreateComponentStorage<T>(id);
+			VD_CORE_ASSERT(m_ComponentStorage[id], "Pointer to component pool is null after creation!");
 		}
 
-		ComponentPool<T>* Pool = GetPool<T>(id);
-		T& Comp = Pool->Create(EntID, std::forward<Args>(args)...);
-		Comp.Init(Ent, id);
-		return Comp;
-	}
-
-	Component& CreateComponentFromTypeID(type_id ClassID, Entity* Ent, uint32_t EntID)
-	{
-		VD_CORE_ASSERT(m_Pools.find(ClassID) != m_Pools.end(), "CreateComponentFromTypeID cannot create pools!");
-
-		Component& Comp = m_Pools[ClassID]->CreateComponentDirect(EntID);
-		Comp.Init(Ent, ClassID);
-		return Comp;
+		T* Component = GetComponentStorage<T>(id)->Create(std::forward<Args>(args)...);
+		Component->SetStorageType(id);
+		return Component;
 	}
 
 	template<typename T>
-	T& GetComponent(uint32_t EntID)
+	std::vector<T*> GetComponents() const
+	{
+		VD_CORE_ASSERT(m_ComponentStorage.find(typeid(T).hash_code()) != m_ComponentStorage.end(), "Retrieval of non existing components!");
+
+		return GetComponentStorage<T>(typeid(T).hash_code())->GetAll();
+	}
+
+	void DeleteComponent(class ComponentBase* Component);
+
+	void ForEachComponent(const std::function<void(void*)>& Function);
+
+	template<typename T, typename... Args>
+	T* CreateEntity(Args &&... args)
 	{
 		type_id id = typeid(T).hash_code();
-		VD_CORE_ASSERT(m_Pools.find(id) != m_Pools.end(), "Retrieval of non existing component!");
+		if (m_EntityStorage.find(id) == m_EntityStorage.end())
+		{
+			CreateEntityStorage<T>(id);
+			VD_CORE_ASSERT(m_EntityStorage[id], "Pointer to Entity pool is null after creation!");
+		}
 
-		return GetPool<T>(id)->Get(EntID);
+		T* Entity = GetEntityStorage<T>(id)->Create(std::forward<Args>(args)...);
+		Entity->SetStorageType(id);
+		return Entity;
 	}
 
 	template<typename T>
-	void DeleteComponent(uint32_t EntID)
+	std::vector<T*> GetEntities() const
 	{
-		type_id id = typeid(T).hash_code();
-		VD_CORE_ASSERT(m_Pools.find(id) != m_Pools.end(), "Deletion of non existing component!");
+		VD_CORE_ASSERT(m_EntityStorage.find(typeid(T).hash_code()) != m_EntityStorage.end(), "Retrieval of non existing Entities!");
 
-		GetPool<T>(id)->Delete(EntID);
+		return GetEntityStorage<T>(typeid(T).hash_code())->GetAll();
 	}
 
-	template<typename T>
-	ComponentPool<T>& GetComponentsOfType()
-	{
-		type_id id = typeid(T).hash_code();
-		VD_CORE_ASSERT(m_Pools.find(id) != m_Pools.end(), "Retrieval of non existing components!");
+	void DeleteEntity(class EntityBase* Entity);
 
-		return *GetPool<T>(id);
-	}
-
-	Component* GetComponentOfType(Entity* Ent, type_id ComponentClass);
-
-	template<typename T>
-	void CreatePool()
-	{
-		CreatePool<T>(typeid(T).hash_code());
-	}
-
-	template<typename T>
-	void CreatePool(type_id id)
-	{
-		VD_CORE_ASSERT(m_Pools.find(id) == m_Pools.end(), "Attempted to create an existing pool.");
-		m_Pools[id] = new ComponentPool<T>();
-	}
+	void ForEachEntity(const std::function<void(void*)>& Function);
 
 private:
 
 	template<typename T>
-	T* AddEntity(const std::string& Name)
+	void CreateEntityStorage(type_id id)
 	{
-		m_NextID++;
-		m_EntIDs.push_back(m_NextID);
-
-		T* Ent = new T();
-		m_Entities.push_back(Ent);
-		Ent->m_ID = m_NextID;
-		Ent->m_Name = Name;
-
-		return Ent;
+		VD_CORE_ASSERT(m_EntityStorage.find(id) == m_EntityStorage.end(), "Attempted to create an existing pool.");
+		m_EntityStorage[id] = new TObjectStorage<T>();
 	}
 
 	template<typename T>
-	ComponentPool<T>* GetPool(type_id id)
+	TObjectStorage<T>* GetEntityStorage(type_id id)
 	{
-		return (ComponentPool<T>*)m_Pools[id];
+		return (TObjectStorage<T>*)m_EntityStorage[id];
 	}
 
 	template<typename T>
-	ComponentPool<T>* GetPool()
+	void CreateComponentStorage(type_id id)
 	{
-		return (ComponentPool<T>*)m_Pools[typeid(T).hash_code()];
+		VD_CORE_ASSERT(m_ComponentStorage.find(id) == m_ComponentStorage.end(), "Attempted to create an existing pool.");
+		m_ComponentStorage[id] = new TObjectStorage<T>();
 	}
 
-	std::unordered_map<type_id, IComponentPoolHandle*> m_Pools;
+	template<typename T>
+	TObjectStorage<T>* GetComponentStorage(type_id id)
+	{
+		return (TObjectStorage<T>*)m_ComponentStorage[id];
+	}
 
-	std::vector<Entity*> m_Entities;//Vector of pointers - slow when iterating due to not being cache friendly
-	std::vector<uint32_t> m_EntIDs;
-
-	uint32_t m_NextID = 0;
+	std::unordered_map<type_id, IObjectStorageHandle*> m_ComponentStorage;
+	std::unordered_map<type_id, IObjectStorageHandle*> m_EntityStorage;
 };

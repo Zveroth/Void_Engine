@@ -1,10 +1,11 @@
 #pragma once
-#include "Components/Component.h"
 #include "Void/Events/MouseEvent.h"
+#include "ECSRegistry.h"
 
 
 
-class ECSRegistry;
+class EntityBase;
+class ComponentBase;
 class CameraComponent;
 
 class Scene
@@ -13,37 +14,52 @@ class Scene
 public:
 
 	Scene();
-
-	void PostInit();
+	~Scene();
 
 	void Tick(float DeltaTime);
 
-	bool HasActiveCamera() const { return m_ActiveCamera > 1; }
-	CameraComponent& GetActiveCamera();
-	void SetActiveCamera(CameraComponent& ActiveCamera);
-	void InvalidateActiveCamera();
+	template<typename T, typename... Args>
+	T* CreateEntity(const std::string& Name = "Unnamed_Entity", Args &&... args)
+	{
+		T* Ent = m_Registry->CreateEntity<T>(std::forward<Args>(args)...);
+		m_EntitiesCache.Emplace(Ent);
+		Ent->Init(this, Name + '_' + std::to_string(m_NameModifier));
+		++m_NameModifier;
 
+		m_bReloadEntities = true;
+		return Ent;
+	}
+
+	template<typename T, typename... Args>
+	T* CreateComponent(Args &&... args)
+	{
+		return m_Registry->CreateComponent<T>(std::forward<Args>(args)...);
+	}
+
+	void DeleteEntity(EntityBase* Entity);
+	void DeleteComponent(ComponentBase* Component);
+
+	DynamicArray<EntityBase*> GetEntities() const;
+
+	CameraComponent* GetActiveCamera() const noexcept { return m_ActiveCamera; }
+	void SetActiveCamera(CameraComponent* ActivatedCamera);
+	void InvalidateActiveCamera();
 	void SetViewportAspectRatio(float AspectRatio);
 	void SetViewportAspectRatio(float Width, float Height);
 
 	void OnEvent(Event& e);
-
 	bool OnMouseScrolled(MouseScrolledEvent& e);
-
-	ECSRegistry* GetRegistry() { return m_Registry.get(); }
-
-	template<typename T>
-	T* AddEntity(const std::string& Name = "Unnamed_Entity")
-	{
-		T* Ent = m_Registry->AddEntity<T>(Name);
-		Ent->Init(this);
-		return Ent;
-	}
 
 private:
 
-	uint32_t m_ActiveCamera = 1;
-	float m_ViewportAspectRatio = 16.0f / 9.0f;
-
 	UniqueRef<ECSRegistry> m_Registry;
+	uint32_t m_NameModifier = 0;
+
+	DynamicArray<EntityBase*> m_EntitiesCache;
+	bool m_bReloadEntities = false;
+
+	class VEditorEntity* m_DefaultEntity;
+
+	CameraComponent* m_ActiveCamera = nullptr;
+	float m_ViewportAspectRatio = 16.0f / 9.0f;
 };

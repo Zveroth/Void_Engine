@@ -3,19 +3,8 @@
 #include "Void/ECS/Scene.h"
 #include "imgui.h"
 #include "Void/Utility/UIHelpers.h"
-#include "Void/ClassManagement/ClassRegistry.h"
 
 
-
-REGISTER_CLASS(CameraComponent);
-
-
-
-void CameraComponent::OnDestroy()
-{
-	if (m_bActive)
-		GetOwningScene()->InvalidateActiveCamera();
-}
 
 void CameraComponent::SetAspectRatio(float AspectRatio)
 {
@@ -81,16 +70,29 @@ void CameraComponent::SetProjectionType(ECameraProjectionType Type)
 	RecalculateProjection();
 }
 
-void CameraComponent::OnImGuiRender()
+void CameraComponent::RecalculateProjection()
 {
-	TransformComponent::OnImGuiRender();
+	if(m_ProjectionType == ECameraProjectionType::Perspective)
+		m_Camera.SetProjection(glm::perspective(m_FOV, m_AspectRatio, m_PersNearPlane, m_PersFarPlane));
+	else
+		m_Camera.SetProjection(glm::ortho(-m_AspectRatio * m_OrthoWidth, m_AspectRatio * m_OrthoWidth, -m_OrthoWidth, m_OrthoWidth, m_OrthoNearPlane, m_OrthoFarPlane));
+}
 
-	if (ImGui::Checkbox("Active", &m_bActive))
+void CameraComponent::Activate()
+{
+	//Get the scene and call setactivecamera
+}
+
+void CameraComponent::OnPanelDraw(VPanelBuilder& PanelBuilder)
+{
+	TransformComponent::OnPanelDraw(PanelBuilder);
+
+	if (PanelBuilder.DrawCheckbox("Active", &m_bActive))//ImGui::Checkbox("Active", &m_bActive))
 	{
-		if (m_bActive)
-			GetOwningScene()->SetActiveCamera(*this);
-		else
-			GetOwningScene()->InvalidateActiveCamera();
+		//if (m_bActive)
+		//	GetOwningScene()->SetActiveCamera(*this);
+		//else
+		//	GetOwningScene()->InvalidateActiveCamera();
 	}
 
 	if (ImGui::BeginCombo("Projection type", GetProjectionTypeAsString().c_str()))
@@ -112,38 +114,14 @@ void CameraComponent::OnImGuiRender()
 
 	if (m_ProjectionType == ECameraProjectionType::Perspective)
 	{
-		float FOV = glm::degrees(m_FOV);
-		if (ImGui::DragFloat("Field of view", &FOV, 0.1f))
-			SetFieldOfView(glm::radians(FOV));
-
-		float NearPlane = m_PersNearPlane;
-		if (ImGui::DragFloat("Near plane", &NearPlane, 0.1f))
-			SetNearPlane(NearPlane);
-
-		float FarPlane = m_PersFarPlane;
-		if (ImGui::DragFloat("Far plane", &FarPlane, 0.1f))
-			SetFarPlane(FarPlane);
+		PanelBuilder.DrawFloat("Field of view", glm::degrees(m_FOV), [this](float FOV) { SetFieldOfView(glm::radians(FOV)); });
+		PanelBuilder.DrawFloat("Near plane", m_PersNearPlane, [this](float NearPlane) { SetNearPlane(NearPlane); });
+		PanelBuilder.DrawFloat("Far plane", m_PersFarPlane, [this](float FarPlane) { SetNearPlane(FarPlane); });
 	}
 	else
 	{
-		float OrthoWidth = m_OrthoWidth;
-		if (ImGui::DragFloat("Ortho width", &OrthoWidth, 0.1f))
-			SetOrthoWidth(OrthoWidth);
-
-		float NearPlane = m_OrthoNearPlane;
-		if (ImGui::DragFloat("Near plane", &NearPlane, 0.1f))
-			SetNearPlane(NearPlane);
-
-		float FarPlane = m_OrthoFarPlane;
-		if (ImGui::DragFloat("Far plane", &FarPlane, 0.1f))
-			SetFarPlane(FarPlane);
+		PanelBuilder.DrawFloat("Ortho width", m_OrthoWidth, [this](float OrthoWidth) { SetOrthoWidth(OrthoWidth); });
+		PanelBuilder.DrawFloat("Near plane", m_OrthoNearPlane, [this](float NearPlane) { SetNearPlane(NearPlane); });
+		PanelBuilder.DrawFloat("Far plane", m_OrthoFarPlane, [this](float FarPlane) { SetNearPlane(FarPlane); });
 	}
-}
-
-void CameraComponent::RecalculateProjection()
-{
-	if(m_ProjectionType == ECameraProjectionType::Perspective)
-		m_Camera.SetProjection(glm::perspective(m_FOV, m_AspectRatio, m_PersNearPlane, m_PersFarPlane));
-	else
-		m_Camera.SetProjection(glm::ortho(-m_AspectRatio * m_OrthoWidth, m_AspectRatio * m_OrthoWidth, -m_OrthoWidth, m_OrthoWidth, m_OrthoNearPlane, m_OrthoFarPlane));
 }

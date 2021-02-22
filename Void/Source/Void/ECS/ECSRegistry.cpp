@@ -1,71 +1,32 @@
 #include "vdpch.h"
 #include "ECSRegistry.h"
+#include "EntityBase.h"
+#include "ComponentBase.h"
 
 
 
-ECSRegistry::~ECSRegistry()
+void ECSRegistry::DeleteComponent(ComponentBase* Component)
 {
-	for (auto It = m_Pools.begin(); It != m_Pools.end(); It++)
-		delete It->second;
+	VD_CORE_ASSERT(m_ComponentStorage.find(Component->GetStorageType()) != m_ComponentStorage.end(), "Deletion of non existing Component!");
 
-	for (Entity* Ent : m_Entities)
-		delete Ent;
+	m_ComponentStorage[Component->GetStorageType()]->DeleteObject((void*)Component);
 }
 
-void ECSRegistry::Tick(float DeltaTime)
+void ECSRegistry::ForEachComponent(const std::function<void(void*)>& Function)
 {
-	for (auto It = m_Pools.begin(); It != m_Pools.end(); It++)
-		It->second->Tick(DeltaTime);
+	for (auto& ComponentStorage : m_ComponentStorage)
+		ComponentStorage.second->Each(Function);
 }
 
-void ECSRegistry::DeleteEntity(const Entity* Ent)
+void ECSRegistry::DeleteEntity(EntityBase* Entity)
 {
-	int32_t Index = BinarySearch(m_EntIDs, Ent->m_ID);
-	VD_CORE_ASSERT(Index != INDEX_NONE, "Removing not owned entity!");
+	VD_CORE_ASSERT(m_EntityStorage.find(Entity->GetStorageType()) != m_EntityStorage.end(), "Deletion of non existing Entity!");
 
-	for (type_id Comp : m_Entities[Index]->m_ComponentIDs)
-		DeleteComponent(m_Entities[Index], Comp);
-
-	m_EntIDs.erase(m_EntIDs.begin() + Index);
-	m_Entities.erase(m_Entities.begin() + Index);
-
-	delete Ent;
+	m_EntityStorage[Entity->GetStorageType()]->DeleteObject((void*)Entity);
 }
 
-void ECSRegistry::DeleteEntity(uint32_t EntID)
+void ECSRegistry::ForEachEntity(const std::function<void(void*)>& Function)
 {
-	int32_t Index = BinarySearch(m_EntIDs, EntID);
-	VD_CORE_ASSERT(Index != INDEX_NONE, "Removing not owned entity!");
-
-	for (type_id Comp : m_Entities[Index]->m_ComponentIDs)
-		DeleteComponent(m_Entities[Index], Comp);
-
-	Entity* Ent = m_Entities[Index];
-
-	m_EntIDs.erase(m_EntIDs.begin() + Index);
-	m_Entities.erase(m_Entities.begin() + Index);
-
-	delete Ent;
-}
-
-void ECSRegistry::DeleteComponent(Entity* Ent, type_id ComponentClass)
-{
-	VD_CORE_ASSERT(m_Pools.find(ComponentClass) != m_Pools.end(), "Deletion of non existing component!");
-
-	m_Pools[ComponentClass]->DeleteDirect(Ent->m_ID);
-}
-
-Entity* ECSRegistry::GetEntity(uint32_t ID)
-{
-	int32_t Index = BinarySearch(m_EntIDs, ID);
-	VD_CORE_ASSERT(Index != INDEX_NONE, "Entity with a given ID doesn't exist!");
-
-	return m_Entities[Index];
-}
-
-Component* ECSRegistry::GetComponentOfType(Entity* Ent, type_id ComponentClass)
-{
-	VD_CORE_ASSERT(m_Pools.find(ComponentClass) != m_Pools.end(), "Retrieval of non existing component!");
-
-	return &m_Pools[ComponentClass]->GetComponentDirect(Ent->m_ID);
+	for (auto& EntityStorage : m_EntityStorage)
+		EntityStorage.second->Each(Function);
 }

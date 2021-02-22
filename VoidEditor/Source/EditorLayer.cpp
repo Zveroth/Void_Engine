@@ -1,6 +1,8 @@
 #include "vdepch.h"
 #include "EditorLayer.h"
-#include "Void/ECS/ECSRegistry.h"
+#include "Void/ECS/Components/TransformComponent.h"
+#include "Void/ECS/Components/SpriteComponent.h"
+#include "Void/ECS/Components/CameraComponent.h"
 
 
 
@@ -21,14 +23,19 @@ void EditorLayer::OnAttach()
 	m_FramebufferSize.x = Spec.Width;
 	m_FramebufferSize.y = Spec.Height;
 
-	m_Scene = CreateRef<Scene>();
-	m_Scene->PostInit();
+	m_Scene = CreateUnique<Scene>();
 
-	Entity* Ent = m_Scene->AddEntity<Entity>();
-	Ent->AddComponent<SpriteComponent>();
+	EntityBase* EntA = m_Scene->CreateEntity<EntityBase>();
+	EntA->AddComponent<SpriteComponent>();
 
-	m_SceneHierarchyPanel.SetScene(m_Scene);
-	m_DetailsPanel.SetScene(m_Scene);
+	EntityBase* EntB = m_Scene->CreateEntity<EntityBase>();
+	EntB->AddComponent<TransformComponent>();
+
+	EntityBase* EntC = m_Scene->CreateEntity<EntityBase>();
+	EntC->AddComponent<CameraComponent>();
+
+	m_SceneHierarchyPanel.SetScene(m_Scene.get());
+	m_DetailsPanel.SetScene(m_Scene.get());
 }
 
 void EditorLayer::OnUpdate(float DeltaTime)

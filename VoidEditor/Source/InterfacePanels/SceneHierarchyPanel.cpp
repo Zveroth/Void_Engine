@@ -1,31 +1,33 @@
 #include "vdepch.h"
 #include "SceneHierarchyPanel.h"
 #include "imgui.h"
-#include "Void/ECS/Entity.h"
+#include "Void/ECS/EntityBase.h"
 
 
 
 void SceneHierarchyPanel::OnImGuiRender()
 {
-	if (Ref<Scene> SceneRef = m_Scene.lock())
+	ImGui::Begin("Entity list");
 	{
-		ImGui::Begin("Entity list");
+		if (m_Scene)
 		{
-			std::vector<Entity*>& Entities = SceneRef->GetRegistry()->GetAllEntities();
+			DynamicArray<EntityBase*> Entities = m_Scene->GetEntities();
 
-			for (size_t I = 0; I < Entities.size(); I++)
+			for(EntityBase* Entity : Entities)
 			{
-				if (ImGui::Selectable(Entities[I]->GetEntityFullName().c_str(), (m_SelectedID == *Entities[I])))
-					m_SelectedID = *Entities[I];
+				if (ImGui::Selectable(Entity->GetEntityName().c_str(), (m_SelectedEntity == Entity)))
+				{
+					m_SelectedEntity = Entity;
+				}
 
 				if (ImGui::BeginPopupContextItem(0))
 				{
 					if (ImGui::MenuItem("Delete Entity"))
 					{
-						if (m_SelectedID = *Entities[I])
-							m_SelectedID = ENTITY_ID_NONE;
+						if (m_SelectedEntity == Entity)
+							m_SelectedEntity = nullptr;
 
-						SceneRef->GetRegistry()->DeleteEntity(Entities[I]);
+						m_Scene->DeleteEntity(Entity);
 					}
 
 					ImGui::EndPopup();
@@ -35,11 +37,11 @@ void SceneHierarchyPanel::OnImGuiRender()
 			if (ImGui::BeginPopupContextWindow(0, 1, false))
 			{
 				if (ImGui::MenuItem("Create Entity"))
-					SceneRef->AddEntity<Entity>();
+					m_Scene->CreateEntity<EntityBase>();
 
 				ImGui::EndPopup();
 			}
 		}
-		ImGui::End();
 	}
+	ImGui::End();
 }

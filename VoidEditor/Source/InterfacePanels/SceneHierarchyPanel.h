@@ -8,17 +8,17 @@ class SceneHierarchyPanel
 
 public:
 
-	SceneHierarchyPanel() {}
-	SceneHierarchyPanel(const Ref<Scene>& SceneRef) : m_Scene(SceneRef) {}
+	SceneHierarchyPanel() : m_Scene(nullptr), m_SelectedEntity(nullptr) {}
+	SceneHierarchyPanel(Scene* SceneRef) : m_Scene(SceneRef), m_SelectedEntity(nullptr) {}
 
-	void SetScene(const Ref<Scene>& SceneRef) { m_Scene = SceneRef; }
+	void SetScene(Scene* SceneRef) { m_Scene = SceneRef; }
 
 	void OnImGuiRender();
 
-	uint32_t GetSelected() const { return m_SelectedID; }
+	class EntityBase* GetSelected() const { return m_SelectedEntity; }
 
 private:
 
-	WeakRef<Scene> m_Scene;
-	uint32_t m_SelectedID = ENTITY_ID_NONE;
+	Scene* m_Scene;
+	class EntityBase* m_SelectedEntity;
 };

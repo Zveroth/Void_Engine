@@ -8,14 +8,14 @@ class DetailsPanel
 
 public:
 
-	DetailsPanel() {}
-	DetailsPanel(const Ref<Scene>& OwningScene) : m_Scene(OwningScene) {}
+	DetailsPanel() : m_Scene(nullptr) {}
+	DetailsPanel(Scene* OwningScene) : m_Scene(OwningScene) {}
 
-	void SetScene(const Ref<Scene>& SceneRef) { m_Scene = SceneRef; }
+	void SetScene(Scene* SceneRef) { m_Scene = SceneRef; }
 
-	void OnImGuiRender(int32_t Selected);
+	void OnImGuiRender(EntityBase* SelectedEntity);
 
 private:
 
-	WeakRef<Scene> m_Scene;
+	Scene* m_Scene;
 };

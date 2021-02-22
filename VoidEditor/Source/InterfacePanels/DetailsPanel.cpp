@@ -1,36 +1,30 @@
 #include "vdepch.h"
 #include "DetailsPanel.h"
+#include "Void/ECS/EntityBase.h"
 #include "imgui.h"
-#include "Void/ECS/ECSRegistry.h"
-#include "Void/ClassManagement/ClassRegistry.h"
+#include "Void/UI/PanelBuilder.h"
 
 
 
-void DetailsPanel::OnImGuiRender(int32_t Selected)
+void DetailsPanel::OnImGuiRender(EntityBase* SelectedEntity)
 {
 	ImGui::Begin("Details");
 	{
-		if (Selected != ENTITY_ID_NONE)
+		if (SelectedEntity)
 		{
-			if (Ref<Scene> SceneRef = m_Scene.lock())
+			if (m_Scene)
 			{
-				Entity* Ent = SceneRef->GetRegistry()->GetEntity(Selected);
-
 				if (ImGui::BeginPopupContextWindow(0, 1, false))
 				{
 					ImGui::Text("Add Component:");
 
-					for (ClassHandle* Handle : ClassRegistry::GetRegisteredClasses())
-					{
-						if (ImGui::MenuItem(Handle->GetName().c_str()))
-							Ent->AddComponent(Handle->GetTypeID());
-					}
-
 					ImGui::EndPopup();
 				}
 
-				ImGui::Text("Selected: %s", Ent->GetEntityFullName().c_str());
-				for (Component* Comp : Ent->GetAllComponents())
+				ImGui::Text("Selected: %s", SelectedEntity->GetEntityName().c_str());
+
+				VPanelBuilder PanelBuilder;
+				for (ComponentBase* Comp : SelectedEntity->GetComponents())
 				{
 					bool bOpen = ImGui::TreeNodeEx(Comp->GetComponentName().c_str(), ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Framed);
 
@@ -38,7 +32,7 @@ void DetailsPanel::OnImGuiRender(int32_t Selected)
 					{
 						if (ImGui::MenuItem("Delete component"))
 						{
-							Ent->RemoveComponent(*Comp);
+							SelectedEntity->DeleteComponent(Comp);
 							Comp = nullptr;
 						}
 
@@ -48,7 +42,7 @@ void DetailsPanel::OnImGuiRender(int32_t Selected)
 					if (bOpen)
 					{
 						if(Comp)
-							Comp->OnImGuiRender();
+							Comp->OnPanelDraw(PanelBuilder);
 
 						ImGui::TreePop();
 					}

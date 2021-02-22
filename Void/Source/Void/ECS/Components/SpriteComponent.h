@@ -14,8 +14,6 @@ public:
 	SpriteComponent(const std::string& TexturePath);
 	SpriteComponent(const std::string& TexturePath, const glm::vec4& Color);
 
-	virtual void Tick(float DeltaTime) override;
-
 	const glm::vec4& GetColor() const { return m_Color; }
 	void SetColor(const glm::vec4& Color) { m_Color = Color; }
 
@@ -23,13 +21,14 @@ public:
 	void SetTexture(const std::string& TexturePath);
 	void SetTexture(const Ref<Texture2D>& TextureRef) { m_Texture = TextureRef; }
 
-	virtual void OnImGuiRender() override;
+	virtual void Tick(float DeltaTime) override;
 
-	virtual std::string GetComponentName() override { return "Sprite Component"; }
+	virtual void OnPanelDraw(VPanelBuilder& PanelBuilder) override;
+
+	virtual std::string GetComponentName() const override { return "SpriteComponent"; }
 
 protected:
 
 	glm::vec4 m_Color;
-
 	Ref<Texture2D> m_Texture;
 };

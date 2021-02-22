@@ -71,11 +71,11 @@ void Renderer2D::Shutdown()
 	delete[] s_Data.BufferStart;
 }
 
-void Renderer2D::BeginScene(Camera& Camera, const glm::mat4& View)
+void Renderer2D::BeginScene(const glm::mat4& Projection, const glm::mat4& View)
 {
 	s_Data.Shader2D->Bind();
 	s_Data.Shader2D->SetUniform("u_View", View);
-	s_Data.Shader2D->SetUniform("u_Projection", Camera.GetProjection());
+	s_Data.Shader2D->SetUniform("u_Projection", Projection);
 
 	StartBatch();
 }
