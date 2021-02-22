@@ -24,10 +24,10 @@ void SceneHierarchyPanel::OnImGuiRender()
 				{
 					if (ImGui::MenuItem("Delete Entity"))
 					{
+						m_SelectedEntity->Destroy();
+
 						if (m_SelectedEntity == Entity)
 							m_SelectedEntity = nullptr;
-
-						m_Scene->DeleteEntity(Entity);
 					}
 
 					ImGui::EndPopup();

@@ -20,11 +20,14 @@ public:
 
 	virtual void Tick(float DeltaTime) {}
 
+	void Destroy();
+
 	template<typename T, typename... Args>
 	T* AddComponent(Args &&... args)
 	{
 		T* Comp = m_OwningScene->CreateComponent<T>(std::forward<Args>(args)...);
 		m_Components.Emplace(Comp);
+		Comp->Init(m_OwningScene, this);
 		return Comp;
 	}
 
@@ -32,6 +35,10 @@ public:
 	void DeleteComponent(ComponentBase* Component);
 
 	const std::string& GetEntityName() const { return m_Name; }
+
+protected:
+
+	virtual void OnDestroy() {}
 
 private:
 

@@ -80,19 +80,19 @@ void CameraComponent::RecalculateProjection()
 
 void CameraComponent::Activate()
 {
-	//Get the scene and call setactivecamera
+	GetOwningScene()->SetActiveCamera(this);
 }
 
 void CameraComponent::OnPanelDraw(VPanelBuilder& PanelBuilder)
 {
 	TransformComponent::OnPanelDraw(PanelBuilder);
 
-	if (PanelBuilder.DrawCheckbox("Active", &m_bActive))//ImGui::Checkbox("Active", &m_bActive))
+	if (PanelBuilder.DrawCheckbox("Active", &m_bActive))
 	{
-		//if (m_bActive)
-		//	GetOwningScene()->SetActiveCamera(*this);
-		//else
-		//	GetOwningScene()->InvalidateActiveCamera();
+		if (m_bActive)
+			GetOwningScene()->SetActiveCamera(this);
+		else
+			GetOwningScene()->InvalidateActiveCamera();
 	}
 
 	if (ImGui::BeginCombo("Projection type", GetProjectionTypeAsString().c_str()))
@@ -116,12 +116,18 @@ void CameraComponent::OnPanelDraw(VPanelBuilder& PanelBuilder)
 	{
 		PanelBuilder.DrawFloat("Field of view", glm::degrees(m_FOV), [this](float FOV) { SetFieldOfView(glm::radians(FOV)); });
 		PanelBuilder.DrawFloat("Near plane", m_PersNearPlane, [this](float NearPlane) { SetNearPlane(NearPlane); });
-		PanelBuilder.DrawFloat("Far plane", m_PersFarPlane, [this](float FarPlane) { SetNearPlane(FarPlane); });
+		PanelBuilder.DrawFloat("Far plane", m_PersFarPlane, [this](float FarPlane) { SetFarPlane(FarPlane); });
 	}
 	else
 	{
 		PanelBuilder.DrawFloat("Ortho width", m_OrthoWidth, [this](float OrthoWidth) { SetOrthoWidth(OrthoWidth); });
 		PanelBuilder.DrawFloat("Near plane", m_OrthoNearPlane, [this](float NearPlane) { SetNearPlane(NearPlane); });
-		PanelBuilder.DrawFloat("Far plane", m_OrthoFarPlane, [this](float FarPlane) { SetNearPlane(FarPlane); });
+		PanelBuilder.DrawFloat("Far plane", m_OrthoFarPlane, [this](float FarPlane) { SetFarPlane(FarPlane); });
 	}
+}
+
+void CameraComponent::OnDestroy()
+{
+	if (m_bActive)
+		GetOwningScene()->InvalidateActiveCamera();
 }

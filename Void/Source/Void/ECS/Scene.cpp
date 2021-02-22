@@ -42,6 +42,7 @@ void Scene::Tick(float DeltaTime)
 void Scene::DeleteEntity(EntityBase* Entity)
 {
 	m_Registry->DeleteEntity(Entity);
+	m_bReloadEntities = true;
 }
 
 void Scene::DeleteComponent(ComponentBase* Component)

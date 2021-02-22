@@ -41,6 +41,10 @@ public:
 
 	virtual std::string GetComponentName() const override { return "CameraComponent"; }
 
+protected:
+
+	virtual void OnDestroy() override;
+
 private:
 
 	void RecalculateProjection();
