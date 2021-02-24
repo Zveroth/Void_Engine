@@ -7,8 +7,39 @@
 template<typename T>
 class DynamicArray
 {
-	
+
 public:
+
+	DynamicArray() : m_Data() {}
+	DynamicArray(const DynamicArray<T>& Other) : m_Data(Other.m_Data) {}
+	DynamicArray(DynamicArray<T>&& TempOther) noexcept : m_Data((std::vector<T>&&)TempOther.m_Data) {}
+
+	DynamicArray(const std::vector<T>& Vector) : m_Data(Vector) {}
+	DynamicArray(std::vector<T>&& TempVector) noexcept : m_Data((std::vector<T>&&)TempVector) {}
+
+	DynamicArray& operator=(const DynamicArray<T>& Other)
+	{
+		m_Data = Other.m_Data;
+		return *this;
+	}
+
+	DynamicArray& operator=(DynamicArray<T>&& TempOther) noexcept
+	{
+		m_Data = (std::vector<T>&&)TempOther.m_Data;
+		return *this;
+	}
+
+	DynamicArray& operator=(const std::vector<T>& Vector)
+	{
+		m_Data = Vector;
+		return *this;
+	}
+
+	DynamicArray& operator=(std::vector<T>&& TempVector) noexcept
+	{
+		m_Data = (std::vector<T>&&)TempVector;
+		return *this;
+	}
 
 	void Add(const T& Item) { m_Data.push_back(Item); }
 
@@ -36,7 +67,7 @@ public:
 	int32_t Find(const T& Value) const noexcept
 	{
 		int32_t At = std::find(begin(), end(), Value) - begin();
-		return (At == Num()) -1 : At;
+		return (At == Num()) ? -1 : At;
 	}
 
 	bool Remove(const T& Value)
@@ -56,12 +87,6 @@ public:
 
 	typename std::vector<T>::const_iterator begin() const noexcept { return m_Data.begin(); }
 	typename std::vector<T>::const_iterator end() const noexcept { return m_Data.end(); }
-
-	DynamicArray& operator=(const DynamicArray<T>& Other) 
-	{
-		m_Data = Other.m_Data;
-		return *this;
-	}
 
 private:
 
