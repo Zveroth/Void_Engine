@@ -12,10 +12,10 @@ public:
 
 	DynamicArray() : m_Data() {}
 	DynamicArray(const DynamicArray<T>& Other) : m_Data(Other.m_Data) {}
-	DynamicArray(DynamicArray<T>&& TempOther) noexcept : m_Data((std::vector<T>&&)TempOther.m_Data) {}
+	DynamicArray(DynamicArray<T>&& TempOther) noexcept : m_Data(std::move(TempOther.m_Data)) {}
 
 	DynamicArray(const std::vector<T>& Vector) : m_Data(Vector) {}
-	DynamicArray(std::vector<T>&& TempVector) noexcept : m_Data((std::vector<T>&&)TempVector) {}
+	DynamicArray(std::vector<T>&& TempVector) noexcept : m_Data(std::move(TempVector)) {}
 
 	DynamicArray& operator=(const DynamicArray<T>& Other)
 	{
@@ -25,7 +25,7 @@ public:
 
 	DynamicArray& operator=(DynamicArray<T>&& TempOther) noexcept
 	{
-		m_Data = (std::vector<T>&&)TempOther.m_Data;
+		m_Data = std::move(TempOther.m_Data);
 		return *this;
 	}
 
@@ -37,7 +37,7 @@ public:
 
 	DynamicArray& operator=(std::vector<T>&& TempVector) noexcept
 	{
-		m_Data = (std::vector<T>&&)TempVector;
+		m_Data = std::move(TempVector);
 		return *this;
 	}
 
