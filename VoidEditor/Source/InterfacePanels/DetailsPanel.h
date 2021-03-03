@@ -13,9 +13,12 @@ public:
 
 	void SetScene(Scene* SceneRef) { m_Scene = SceneRef; }
 
-	void OnImGuiRender(EntityBase* SelectedEntity);
+	void OnImGuiRender(ControlledPointer<EntityBase>& SelectedEntity);
 
 private:
+
+	template<typename T>
+	void DrawAddComponent(ControlledPointer<EntityBase>& Entity);
 
 	Scene* m_Scene;
 };

@@ -9,6 +9,8 @@ class TransformComponent : public ComponentBase
 
 public:
 
+	COMPONENT_NAME(TransformComponent)
+
 	TransformComponent();
 	TransformComponent(const glm::vec3& Location, const glm::vec3& Rotation, const glm::vec3& Scale);
 
@@ -26,13 +28,18 @@ public:
 	void AddRotationOffset(const glm::vec3& Offset) { m_Rotation += Offset; }
 	void AddScaleOffset(const glm::vec3& Offset) { m_Scale += Offset; }
 
-	virtual void OnPanelDraw(VPanelBuilder& PanelBuilder) override;
+	void AttachTo(const ControlledPointer<TransformComponent>& Component);
+	void AttachTo(EntityBase* Entity);
 
-	virtual std::string GetComponentName() const override { return "TransformComponent"; }
+	virtual void OnPanelDraw(VPanelBuilder& PanelBuilder) override;
 
 protected:
 
 	glm::vec3 m_Location;
 	glm::vec3 m_Rotation;
 	glm::vec3 m_Scale;
+
+private:
+
+	ControlledPointer<TransformComponent> m_Attachment;
 };

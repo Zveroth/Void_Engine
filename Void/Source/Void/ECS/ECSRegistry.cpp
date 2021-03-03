@@ -30,3 +30,10 @@ void ECSRegistry::ForEachEntity(const std::function<void(void*)>& Function)
 	for (auto& EntityStorage : m_EntityStorage)
 		EntityStorage.second->Each(Function);
 }
+
+void ECSRegistry::GetAllEntities(DynamicArray<ControlledPointer<EntityBase>>& OutEntities) const
+{
+	OutEntities.Empty();
+	for (auto& EntityStorage : m_EntityStorage)
+		EntityStorage.second->Each([&OutEntities](void* Object, BitArray::BitRef Bit) { OutEntities.Emplace((EntityBase*)Object, Bit); });
+}

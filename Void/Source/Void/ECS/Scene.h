@@ -19,10 +19,11 @@ public:
 	void Tick(float DeltaTime);
 
 	template<typename T, typename... Args>
-	T* CreateEntity(const std::string& Name = "Unnamed_Entity", Args &&... args)
+	ControlledPointer<T> CreateEntity(const std::string& Name = "Unnamed_Entity", Args &&... args)
 	{
-		T* Ent = m_Registry->CreateEntity<T>(std::forward<Args>(args)...);
-		m_EntitiesCache.Emplace(Ent);
+		ControlledPointer<T> Ent = m_Registry->CreateEntity<T>(std::forward<Args>(args)...);
+		m_EntitiesCache.Emplace(ControlledPointer<EntityBase>((EntityBase*)Ent.Get(), Ent.GetBit()));
+		Ent->m_InternalValidationBit = Ent.GetBit();
 		Ent->Init(this, Name + '_' + std::to_string(m_NameModifier));
 		++m_NameModifier;
 
@@ -31,7 +32,7 @@ public:
 	}
 
 	template<typename T, typename... Args>
-	T* CreateComponent(Args &&... args)
+	ControlledPointer<T> CreateComponent(Args &&... args)
 	{
 		return m_Registry->CreateComponent<T>(std::forward<Args>(args)...);
 	}
@@ -39,7 +40,7 @@ public:
 	void DeleteEntity(EntityBase* Entity);
 	void DeleteComponent(ComponentBase* Component);
 
-	DynamicArray<EntityBase*> GetEntities() const;
+	const DynamicArray<ControlledPointer<EntityBase>>& GetEntities() const;
 
 	CameraComponent* GetActiveCamera() const noexcept { return m_ActiveCamera; }
 	void SetActiveCamera(CameraComponent* ActivatedCamera);
@@ -55,7 +56,7 @@ private:
 	UniqueRef<ECSRegistry> m_Registry;
 	uint32_t m_NameModifier = 0;
 
-	DynamicArray<EntityBase*> m_EntitiesCache;
+	DynamicArray<ControlledPointer<EntityBase>> m_EntitiesCache;
 	bool m_bReloadEntities = false;
 
 	class VEditorEntity* m_DefaultEntity;

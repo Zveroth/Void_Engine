@@ -9,6 +9,8 @@ class SpriteComponent : public TransformComponent
 
 public:
 
+	COMPONENT_NAME(SpriteComponent)
+
 	SpriteComponent();
 	SpriteComponent(const glm::vec4& Color);
 	SpriteComponent(const std::string& TexturePath);
@@ -24,8 +26,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void OnPanelDraw(VPanelBuilder& PanelBuilder) override;
-
-	virtual std::string GetComponentName() const override { return "SpriteComponent"; }
 
 protected:
 

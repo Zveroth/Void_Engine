@@ -162,6 +162,8 @@
     <ClInclude Include="Source\Renderer\VertexArray.h" />
     <ClInclude Include="Source\Renderer\VertexBuffer.h" />
     <ClInclude Include="Source\Void.h" />
+    <ClInclude Include="Source\Void\Containers\BitArray.h" />
+    <ClInclude Include="Source\Void\Containers\ControlledPointer.h" />
     <ClInclude Include="Source\Void\Containers\DynamicArray.h" />
     <ClInclude Include="Source\Void\Containers\SegmentedArray.h" />
     <ClInclude Include="Source\Void\Core\Application.h" />

@@ -82,6 +82,11 @@ public:
 		return false;
 	}
 
+	void RemoveAt(size_t At)
+	{
+		m_Data.erase(begin() + At);
+	}
+
 	typename std::vector<T>::iterator begin() noexcept { return m_Data.begin(); }
 	typename std::vector<T>::iterator end() noexcept { return m_Data.end(); }
 

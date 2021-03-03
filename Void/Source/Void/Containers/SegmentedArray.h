@@ -1,10 +1,14 @@
 #pragma once
+
 #include "vector"
 #include "stack"
-#include "bitset"
+
+#include "BitArray.h"
+#include "ControlledPointer.h"
 
 
-template<typename T, int32_t SegmentSize = 1000>
+
+template<typename T, int32_t SegmentSize = 512>
 class SegmentedArray
 {
 
@@ -19,10 +23,10 @@ public:
 	}
 
 	template<typename... Args>
-	T* Create(Args &&... args)
+	ControlledPointer<T> Create(Args &&... args)
 	{
 		for (Segment* Seg : m_Segments)
-			if (T* Entry = Seg->Create(std::forward<Args>(args)...))
+			if (ControlledPointer<T> Entry = Seg->Create(std::forward<Args>(args)...))
 				return Entry;
 
 		Segment* Seg = m_Segments.emplace_back(new Segment());
@@ -44,7 +48,7 @@ public:
 		return Result;
 	}
 
-	T* Get(int32_t At) const
+	ControlledPointer<T> Get(int32_t At) const
 	{
 		int32_t In = At;
 		int32_t Temp = 0;
@@ -63,13 +67,13 @@ public:
 		return m_Segments[Temp]->Get(In);
 	}
 
-	std::vector<T*> GetAll() const
+	std::vector<ControlledPointer<T>> GetAll() const
 	{
-		std::vector<T*> Data;
+		std::vector<ControlledPointer<T>> Data;
 
 		for (Segment* Seg : m_Segments)
 		{
-			std::vector<T*> Temp = Seg->GetAll();
+			std::vector<ControlledPointer<T>> Temp = Seg->GetAll();
 			Data.insert(Data.end(), Temp.begin(), Temp.end());
 		}
 
@@ -82,12 +86,11 @@ private:
 	{
 		T* Head;
 		std::stack<int32_t> FreeIndices;
-		std::bitset<SegmentSize> ValidationBits;
+		BitArray ValidationBits;
 
-		Segment()
+		Segment() : ValidationBits(SegmentSize)
 		{
 			Head = (T*)malloc(sizeof(T) * SegmentSize);
-			ValidationBits.reset();
 
 			for (int32_t I = SegmentSize - 1; I >= 0; --I)
 				FreeIndices.emplace(I);
@@ -96,25 +99,26 @@ private:
 		~Segment()
 		{
 			for (int32_t I = 0; I < SegmentSize; ++I)
-				if (ValidationBits.test(I))
+				if (ValidationBits.Check(I))
 					(Head + I)->~T();
 
 			free((void*)Head);
 		}
 
 		template<typename... Args>
-		T* Create(Args &&... args)
+		ControlledPointer<T> Create(Args &&... args)
 		{
 			if (FreeIndices.size() > 0)
 			{
 				int32_t At = FreeIndices.top();
 				FreeIndices.pop();
 
-				ValidationBits.set(At, true);
-				return new(Head + At) T(std::forward<Args>(args)...);
+				ValidationBits.Set(true, At);
+				T* Object = new(Head + At) T(std::forward<Args>(args)...);
+				return ControlledPointer<T>(Object, ValidationBits.GetBit(At));
 			}
 
-			return nullptr;
+			return ControlledPointer<T>();
 		}
 
 		bool Remove(T* Address)
@@ -122,7 +126,7 @@ private:
 			int32_t At = Address - Head;
 			if (0 <= At && At < SegmentSize)
 			{
-				ValidationBits.set(At, false);
+				ValidationBits.Set(false, At);
 				FreeIndices.emplace(At);
 				Address->~T();
 				return true;
@@ -131,14 +135,14 @@ private:
 			return false;
 		}
 
-		T* Get(int32_t At) const
+		ControlledPointer<T> Get(int32_t At) const
 		{
 			if (IsFull())
-				return Head + At;
+				return ControlledPointer<T>(Head + At, ValidationBits.GetBit(At));
 
 			for (int I = 0; I < SegmentSize; ++I)
 			{
-				if (!ValidationBits.test(I))
+				if (!ValidationBits.Check(I))
 					++At;
 
 				if (At == I || At == SegmentSize - 1)
@@ -148,17 +152,17 @@ private:
 			return nullptr;
 		}
 
-		std::vector<T*> GetAll() const
+		std::vector<ControlledPointer<T>> GetAll()
 		{
 			if (IsEmpty())
-				return std::vector<T*>();
+				return std::vector<ControlledPointer<T>>();
 
-			std::vector<T*> Data;
+			std::vector<ControlledPointer<T>> Data;
 			for (int I = 0, NumLeft = Num(); I < SegmentSize; ++I)
 			{
-				if (ValidationBits.test(I))
+				if (ValidationBits.Check(I))
 				{
-					Data.emplace_back(Head + I);
+					Data.emplace_back(Head + I, ValidationBits.GetBit(I));
 					--NumLeft;
 				}
 				else

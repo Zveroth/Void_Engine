@@ -25,15 +25,6 @@ void EditorLayer::OnAttach()
 
 	m_Scene = CreateUnique<Scene>();
 
-	EntityBase* EntA = m_Scene->CreateEntity<EntityBase>();
-	EntA->AddComponent<SpriteComponent>();
-
-	EntityBase* EntB = m_Scene->CreateEntity<EntityBase>();
-	EntB->AddComponent<TransformComponent>();
-
-	EntityBase* EntC = m_Scene->CreateEntity<EntityBase>();
-	EntC->AddComponent<CameraComponent>();
-
 	m_SceneHierarchyPanel.SetScene(m_Scene.get());
 	m_DetailsPanel.SetScene(m_Scene.get());
 }
@@ -187,7 +178,7 @@ void EditorLayer::OnImGuiRender()
 	}
 	ImGui::End();
 
-	//ImGui::ShowDemoWindow();
+//	ImGui::ShowDemoWindow();
 }
 
 void EditorLayer::OnEvent(Event& e)

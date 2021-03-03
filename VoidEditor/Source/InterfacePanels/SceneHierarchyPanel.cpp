@@ -11,9 +11,9 @@ void SceneHierarchyPanel::OnImGuiRender()
 	{
 		if (m_Scene)
 		{
-			DynamicArray<EntityBase*> Entities = m_Scene->GetEntities();
+			DynamicArray<ControlledPointer<EntityBase>> Entities = m_Scene->GetEntities();
 
-			for(EntityBase* Entity : Entities)
+			for(const ControlledPointer<EntityBase>& Entity : Entities)
 			{
 				if (ImGui::Selectable(Entity->GetEntityName().c_str(), (m_SelectedEntity == Entity)))
 				{
@@ -24,10 +24,10 @@ void SceneHierarchyPanel::OnImGuiRender()
 				{
 					if (ImGui::MenuItem("Delete Entity"))
 					{
-						m_SelectedEntity->Destroy();
+						Entity->Destroy();
 
 						if (m_SelectedEntity == Entity)
-							m_SelectedEntity = nullptr;
+							m_SelectedEntity.Clear();
 					}
 
 					ImGui::EndPopup();

@@ -4,9 +4,12 @@
 #include "imgui.h"
 #include "Void/UI/PanelBuilder.h"
 
+#include "Void/ECS/Components/TransformComponent.h"
+#include "Void/ECS/Components/SpriteComponent.h"
+#include "Void/ECS/Components/CameraComponent.h"
 
 
-void DetailsPanel::OnImGuiRender(EntityBase* SelectedEntity)
+void DetailsPanel::OnImGuiRender(ControlledPointer<EntityBase>& SelectedEntity)
 {
 	ImGui::Begin("Details");
 	{
@@ -18,22 +21,26 @@ void DetailsPanel::OnImGuiRender(EntityBase* SelectedEntity)
 				{
 					ImGui::Text("Add Component:");
 
+					DrawAddComponent<TransformComponent>(SelectedEntity);
+					DrawAddComponent<SpriteComponent>(SelectedEntity);
+					DrawAddComponent<CameraComponent>(SelectedEntity);
+
 					ImGui::EndPopup();
 				}
 
 				ImGui::Text("Selected: %s", SelectedEntity->GetEntityName().c_str());
 
 				VPanelBuilder PanelBuilder;
-				for (ComponentBase* Comp : SelectedEntity->GetComponents())
+				DynamicArray<ControlledPointer<ComponentBase>> Components = SelectedEntity->GetComponents();
+				for(const ControlledPointer<ComponentBase>& Component : Components)
 				{
-					bool bOpen = ImGui::TreeNodeEx(Comp->GetComponentName().c_str(), ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Framed);
+					bool bOpen = ImGui::TreeNodeEx(Component->GetComponentName().c_str(), ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Framed);
 
 					if (ImGui::BeginPopupContextItem(0))
 					{
 						if (ImGui::MenuItem("Delete component"))
 						{
-							SelectedEntity->DeleteComponent(Comp);
-							Comp = nullptr;
+							SelectedEntity->DeleteComponent(Component);
 						}
 
 						ImGui::EndPopup();
@@ -41,8 +48,8 @@ void DetailsPanel::OnImGuiRender(EntityBase* SelectedEntity)
 
 					if (bOpen)
 					{
-						if(Comp)
-							Comp->OnPanelDraw(PanelBuilder);
+						if(Component)
+							Component->OnPanelDraw(PanelBuilder);
 
 						ImGui::TreePop();
 					}
@@ -53,4 +60,11 @@ void DetailsPanel::OnImGuiRender(EntityBase* SelectedEntity)
 			ImGui::Text("No entity selected.");
 	}
 	ImGui::End();
+}
+
+template<typename T>
+void DetailsPanel::DrawAddComponent(ControlledPointer<EntityBase>& Entity)
+{
+	if (ImGui::MenuItem(T::GetComponentNameStatic().c_str()))
+		Entity->AddComponent<T>();
 }

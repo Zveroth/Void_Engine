@@ -193,6 +193,8 @@
     <ClInclude Include="Source\Void\ECS\ComponentBase.h" />
     <ClInclude Include="Source\Void\ECS\Entities\EditorEntity.h" />
     <ClInclude Include="Source\Void\UI\PanelBuilder.h" />
+    <ClInclude Include="Source\Void\Containers\BitArray.h" />
+    <ClInclude Include="Source\Void\Containers\ControlledPointer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3rdParty\stb_image\stb_image.cpp">

@@ -19,7 +19,7 @@ public:
 	}
 
 	template<typename T, typename... Args>
-	T* CreateComponent(Args &&... args)
+	ControlledPointer<T> CreateComponent(Args &&... args)
 	{
 		type_id id = typeid(T).hash_code();
 		if (m_ComponentStorage.find(id) == m_ComponentStorage.end())
@@ -28,13 +28,13 @@ public:
 			VD_CORE_ASSERT(m_ComponentStorage[id], "Pointer to component pool is null after creation!");
 		}
 
-		T* Component = GetComponentStorage<T>(id)->Create(std::forward<Args>(args)...);
+		ControlledPointer<T> Component = GetComponentStorage<T>(id)->Create(std::forward<Args>(args)...);
 		Component->SetStorageType(id);
 		return Component;
 	}
 
 	template<typename T>
-	std::vector<T*> GetComponents() const
+	std::vector<ControlledPointer<T>> GetComponents() const
 	{
 		VD_CORE_ASSERT(m_ComponentStorage.find(typeid(T).hash_code()) != m_ComponentStorage.end(), "Retrieval of non existing components!");
 
@@ -46,7 +46,7 @@ public:
 	void ForEachComponent(const std::function<void(void*)>& Function);
 
 	template<typename T, typename... Args>
-	T* CreateEntity(Args &&... args)
+	ControlledPointer<T> CreateEntity(Args &&... args)
 	{
 		type_id id = typeid(T).hash_code();
 		if (m_EntityStorage.find(id) == m_EntityStorage.end())
@@ -55,13 +55,13 @@ public:
 			VD_CORE_ASSERT(m_EntityStorage[id], "Pointer to Entity pool is null after creation!");
 		}
 
-		T* Entity = GetEntityStorage<T>(id)->Create(std::forward<Args>(args)...);
+		ControlledPointer<T> Entity = GetEntityStorage<T>(id)->Create(std::forward<Args>(args)...);
 		Entity->SetStorageType(id);
 		return Entity;
 	}
 
 	template<typename T>
-	std::vector<T*> GetEntities() const
+	std::vector<ControlledPointer<T>> GetEntities() const
 	{
 		VD_CORE_ASSERT(m_EntityStorage.find(typeid(T).hash_code()) != m_EntityStorage.end(), "Retrieval of non existing Entities!");
 
@@ -71,6 +71,8 @@ public:
 	void DeleteEntity(class EntityBase* Entity);
 
 	void ForEachEntity(const std::function<void(void*)>& Function);
+
+	void GetAllEntities(DynamicArray<ControlledPointer<EntityBase>>& OutEntities) const;
 
 private:
 

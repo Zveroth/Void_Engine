@@ -34,7 +34,7 @@ void Scene::Tick(float DeltaTime)
 	if (m_bReloadEntities)
 	{
 		m_EntitiesCache.Empty();
-		m_Registry->ForEachEntity([this](void* Object) { m_EntitiesCache.Emplace((EntityBase*)Object); });
+		m_Registry->GetAllEntities(m_EntitiesCache);
 		m_bReloadEntities = false;
 	}
 }
@@ -50,7 +50,7 @@ void Scene::DeleteComponent(ComponentBase* Component)
 	m_Registry->DeleteComponent(Component);
 }
 
-DynamicArray<EntityBase*> Scene::GetEntities() const
+const DynamicArray<ControlledPointer<EntityBase>>& Scene::GetEntities() const
 {
 	return m_EntitiesCache;
 }

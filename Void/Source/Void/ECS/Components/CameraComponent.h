@@ -9,6 +9,8 @@ class CameraComponent : public TransformComponent
 
 public:
 
+	COMPONENT_NAME(CameraComponent)
+
 	enum class ECameraProjectionType
 	{
 		Perspective,
@@ -38,8 +40,6 @@ public:
 	void SetIsActive(bool IsActive) { m_bActive = IsActive; }
 
 	virtual void OnPanelDraw(VPanelBuilder& PanelBuilder) override;
-
-	virtual std::string GetComponentName() const override { return "CameraComponent"; }
 
 protected:
 

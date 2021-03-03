@@ -14,7 +14,7 @@ void EntityBase::Init(Scene* OwningScene, const std::string& Name)
 
 void EntityBase::Destroy()
 {
-	for (ComponentBase* Component : m_Components)
+	for (const ControlledPointer<ComponentBase>& Component : m_Components)
 	{
 		Component->OnDestroy();
 		m_OwningScene->DeleteComponent(Component);
@@ -26,12 +26,17 @@ void EntityBase::Destroy()
 
 void EntityBase::DeleteComponent(ComponentBase* Component)
 {
-	if (m_Components.Remove(Component))
+	size_t At = 0;
+	for(const ControlledPointer<ComponentBase>& Comp : m_Components)
 	{
-		m_OwningScene->DeleteComponent(Component);
+		if (Comp.Get() == Component)
+		{
+			m_Components.RemoveAt(At);
+			m_OwningScene->DeleteComponent(Component);
+			return;
+		}
+		++At;
 	}
-	else
-	{
-		VD_WARNING("Tried to delete component not owned by called actor!");
-	}
+
+	VD_CORE_WARNING("Tried to delete component not owned by called actor!");
 }

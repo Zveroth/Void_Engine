@@ -17,5 +17,5 @@ public:
 
 private:
 
-	CameraComponent* m_Camera;
+	ControlledPointer<CameraComponent> m_Camera;
 };

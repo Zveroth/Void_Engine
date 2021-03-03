@@ -2,8 +2,12 @@
 
 #include "Void/ECS/ECSRegistryEntry.h"
 #include "Void/UI/PanelBuilder.h"
+#include "Void/Containers/ControlledPointer.h"
 
 
+
+#define COMPONENT_NAME(name) virtual std::string GetComponentName() const override { return #name + std::to_string(m_NameMod); } \
+static std::string GetComponentNameStatic() { return #name; }
 
 class Scene;
 
@@ -14,9 +18,10 @@ class ComponentBase : public ECSRegistryEntry
 
 public:
 
+	ComponentBase();
 	virtual ~ComponentBase() {}
 
-	void Init(Scene* OwningScene, EntityBase* OwningEntity);
+	void Init(Scene* OwningScene, const ControlledPointer<EntityBase>& OwningEntity);
 
 	virtual void Tick(float DeltaTime) {}
 
@@ -24,17 +29,19 @@ public:
 
 	virtual void OnPanelDraw(VPanelBuilder& PanelBuilder) {}
 
-	virtual std::string GetComponentName() const { return "ComponentBase"; }
+	virtual std::string GetComponentName() const;
 
-	EntityBase* GetOwningEntity() const { return m_OwningEntity; }
-	Scene* GetOwningScene() const { return m_OwningScene; }
+	ControlledPointer<EntityBase> GetOwningEntity() const;
+	Scene* GetOwningScene() const;
 
 protected:
 
 	virtual void OnDestroy() {}
 
+	uint32_t m_NameMod = 0;
+
 private:
 
-	EntityBase* m_OwningEntity;
+	ControlledPointer<EntityBase> m_OwningEntity;
 	Scene* m_OwningScene;
 };

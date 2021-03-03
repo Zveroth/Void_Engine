@@ -15,7 +15,7 @@ public:
 
 	virtual void Each(const std::function<void(void*)>& Function) = 0;
 
-	//virtual size_t Num() const = 0;
+	virtual void Each(const std::function<void(void*, BitArray::BitRef)>& Function) = 0;
 };
 
 template<typename T>
@@ -35,17 +35,17 @@ public:
 	}
 
 	template<typename... Args>
-	T* Create(Args &&... args)
+	ControlledPointer<T> Create(Args &&... args)
 	{
 		return m_Objects.Create(std::forward<Args>(args)...);
 	}
 
-	T* Get(int32_t At) const
+	ControlledPointer<T> Get(int32_t At) const
 	{
 		return m_Objects.Get(At);
 	}
 
-	std::vector<T*> GetAll() const
+	std::vector<ControlledPointer<T>> GetAll() const
 	{
 		return m_Objects.GetAll();
 	}
@@ -62,14 +62,16 @@ public:
 
 	virtual void Each(const std::function<void(void*)>& Function) override
 	{
-		for (T* Object : GetAll())
-			Function((void*)Object);
+		for (ControlledPointer<T> Object : GetAll())
+			if (Object)
+				Function((void*)Object.Get());
 	}
 
-	//virtual size_t Num() const override
-	//{
-	//	return m_Objects.Num();
-	//}
+	virtual void Each(const std::function<void(void*, BitArray::BitRef)>& Function) override
+	{
+		for (ControlledPointer<T> Object : GetAll())
+				Function((void*)Object.Get(), Object.GetBit());
+	}
 
 private:
 
